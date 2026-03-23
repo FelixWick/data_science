@@ -1,0 +1,2073 @@
+\documentclass[t,8pt,fleqn]{beamer}
+%\documentclass[aspectratio=1610,8pt]{beamer}
+
+%Empfehlungen aus der ct 9/2007
+%\usepackage{beamerthemesplit}
+%\usepackage[T1]{fontenc}
+%\usepackage{beamer}
+
+\usepackage{mathptmx}
+\usepackage{helvet}
+
+% Layout-Vorschläge - auswählen!
+% Siehe hierzu das Handbuch beameruserguide.pdf
+% 1. Presentation Theme
+\usetheme{Goettingen}
+% 2. Color Theme
+\usecolortheme{sidebartab}
+%\usecolortheme{dove}
+%\usecolortheme{lily}  % Inner Color Theme
+% 3. Font Theme
+\usefonttheme{professionalfonts}
+% 4. Inner Theme
+\useinnertheme{circles}
+% 5. Outer Theme
+%\useoutertheme{sidebar}
+%
+%\usepackage{extsizes} % Da 8pt in der Präsentation
+
+\usepackage{graphicx}
+%amsthm wird für styles bei Satz- und Definitionsnumerierung benötigt
+%bbm wird für die Symbole für reelle bzw. nat. Zahlen benötigt
+\usepackage{fancyhdr, amssymb, amsmath, amsthm, bbm} 
+\usepackage[ngerman]{babel}
+%\usepackage{ifpdf}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+%Umlaute
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% evtl. für Code
+\usepackage{listings}
+% links to URLs
+\usepackage{hyperref}
+
+\setbeamercovered{transparent}
+%bewirkt, dass schrittweise Einblendungen zuvor schon transparent angezeigt werden
+\setbeamertemplate{footline}[page number]
+
+\title[Data Science]{Data Science}
+%[Kurztitel] - erscheint auf allen Folien
+%{Titel} - erscheint auf der Titelseite (wird mit \titlepage dargestellt, s.u.)
+\subtitle{Chapter 1: Exploratory Data Analysis}
+%Untertitel - kommt auch auf die Titelseite
+\author{S.~Steidel \& F.~Wick}
+%Autor kommt auf den Titel und - je nach theme - auf die Übersichtsleiste
+\date{\today}
+%Datum kommt auf den Titel - hier das aktuelle Datum bei Erstellung der Folien
+
+%%%%%%%\DeclareMathOperator{\Arg}{Arg}
+%%%%%%%\DeclareMathOperator{\e}{e}
+%%%%%%%\DeclareMathOperator{\Inv}{Inv}
+%%%%%%%\DeclareMathOperator{\id}{id}
+%%%%%%%\DeclareMathOperator{\rot}{rot}
+%%%%%%%\DeclareMathOperator{\grad}{grad}
+%%%%%%%\DeclareMathOperator{\Div}{div}
+%%%%%%%\DeclareMathOperator{\Kern}{Kern}
+
+\usepackage{subfig}
+
+%\usepackage{amsmath}
+\usepackage[intlimits]{empheq}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+%\usepackage{latexsymb}
+\usepackage{pifont}
+%\usepackage[amsmath]{ntheorem}
+\usepackage{trsym}
+\usepackage{trfsigns}
+\usepackage{wasysym}
+%
+\usepackage[derivedinbase, derived, thinspace, thinqspace, squaren, binary]{SIunits} 
+\usepackage[intlimits]{empheq}
+%
+\input{Stochastik-Makros.tex}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+%
+%%%%%%%\newcommand{\R}{\mathbbm{R}}
+%%%%%%%\newcommand{\N}{\mathbbm{N}}
+%%%%%%%\newcommand{\Z}{\mathbbm{Z}}
+%%%%%%%\newcommand{\Q}{\mathbbm{Q}}
+%%%%%%%\newcommand{\C}{\mathbbm{C}}
+%%%%%%%\newcommand{\disp}{\displaystyle}
+%%%%%%%\newcommand{\bs}{\boldsymbol}
+%%%%%%%\let\oldhat\hat
+%%%%%%%\renewcommand{\vec}[1]{\boldsymbol{#1}}
+%%%%%%%\renewcommand{\hat}[1]{\oldhat{\boldsymbol{#1}}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label=Titelrahmen]
+	\titlepage
+\end{frame}
+%
+%%%\begin{frame}
+	%%%\frametitle{Standardsignale}
+%%%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Motivation \& Introduction}
+
+\begin{frame}{What is Exploratory Data Analysis (EDA)?}
+	
+	\vspace{0.2cm}
+	
+	\textbf{\large Before modeling, understand your data.}
+	
+	\vspace{0.5cm}
+	
+	\textbf{Definition}
+	\begin{itemize}
+		\item Analyze datasets and summarize their main characteristics
+		\item Use visualizations and descriptive statistics
+	\end{itemize}
+	
+	\begin{columns}
+		
+		% LEFT COLUMN
+		\column{0.5\textwidth}
+		
+		\textbf{Why is EDA important?}
+		\begin{itemize}
+			\item Detect patterns and trends
+			\item Identify outliers and missing values
+			\item Check model assumptions
+			\item Generate insights and hypotheses
+		\end{itemize}
+		
+		% RIGHT COLUMN
+		\column{0.45\textwidth}
+		
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/EDA_scalable_path.png}
+		
+	\end{columns}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Typical EDA techniques}
+	\begin{itemize}
+		\item Data visualization (histograms, boxplots, scatter plots)
+		\item Summary statistics (mean, median, variance)
+		\item Correlation analysis
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Key Message:}  
+	\emph{EDA transforms raw data into understanding and better decisions.}
+	
+\end{frame}
+
+\begin{frame}{Samples and Features in Tabular Data}
+	
+	\begin{table}
+		\centering
+		\begin{tabular}{c c c c}
+			\textbf{ID} & \textbf{Age} & \textbf{Height (cm)} & \textbf{Math Score} \\
+			\hline
+			1 & 15 & 168 & 85 \\
+			2 & 16 & 172 & 78 \\
+			3 & 15 & 165 & 92 \\
+		\end{tabular}
+	\end{table}
+	
+	\begin{itemize}
+		\item Each \textbf{row} represents one \textbf{observation} from the \textbf{sample}.
+		\item Each \textbf{column} represents a \textbf{feature} (measured \textbf{variable}).
+		\item The \textbf{population} is the complete group from which the sample was drawn 
+		(e.g., all students at Hochschule Kaiserslautern).
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\emph{In machine learning, tabular data is often represented as a matrix}:
+	
+	\[
+	X = \begin{bmatrix}
+		x_{11} & \ldots & x_{1d} \\
+		\vdots & \ddots & \vdots \\
+		x_{n1} & \ldots & x_{nd}
+	\end{bmatrix}\in \mathbb{R}^{n \times d}
+	\]
+	
+	\begin{itemize}
+		\item \(n\): number of \textbf{samples (observations)}
+		\item \(d\): number of \textbf{features (variables)}
+		\item \(x_{ij}\): value of feature \(j\) for sample \(i\)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Feature Classification}
+%
+\begin{block}{Feature Types}
+	\begin{itemize}
+		\item \alert{Qualitative (categorical)}: Describe properties or categories, e.g.
+		\begin{itemize}
+			\item Gender
+			\item Nationality
+			\item Legal form of a company
+		\end{itemize}
+		\item \alert{Quantitative}: Numerical values or measured quantities (including units), e.g.
+		\begin{itemize}
+			\item Number of children
+			\item Annual income in EUR
+			\item Wind speed in $\meter\per\second$
+		\end{itemize}
+		Distinction:
+		\begin{itemize}
+			\item \alert{Discrete}: Only specific, separated values are possible; obtained by \textbf{counting}, e.g.
+			\begin{itemize}
+				\item Number of faces in a coin or die toss experiment
+				\item Number of people waiting in a checkout line
+				\item Number of 1\,EUR coins in a wallet
+			\end{itemize}
+			\item \alert{Continuous}: Any real value within intervals is possible; obtained by \textbf{measurement}, e.g.
+			\begin{itemize}
+				\item Body height in \meter\
+				\item Deviation of a thread diameter from its target value in \micro\meter\
+				\item Arrival time of a train at the station in hh:mm:ss
+			\end{itemize}
+			Note: Measurements inevitably involve rounding (measurement accuracy, resolution). However, the better the measuring instrument, the more precise the value (e.g., the number of meaningful decimal places). This applies to both analog and digital displays.
+		\end{itemize} 
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Feature Scales}
+	\begin{block}{Measurement Levels}
+		\begin{itemize}
+			\item \alert{Nominal}: Only equality or difference can be identified; no ordering is possible; always qualitative, e.g.
+			\begin{itemize}
+				\item Gender
+				\item Postal code
+				\item Nationality
+			\end{itemize}
+			\item \alert{Ordinal}: Categories are distinguishable and can be arranged in a natural or meaningful order, e.g.
+			\begin{itemize}
+				\item School grade ("`very good"' to "`insufficient"')
+				\item Intelligence quotient (IQ)
+				\item Ranking position in the Bundesliga
+			\end{itemize}
+			\item \alert{Metric (cardinal)}: Expresses quantitative differences (not only order, but also distances); given as numbers/quantities (with units), e.g.
+			Distinction:
+			\begin{itemize}
+				\item Temperature in \kelvin\ or \celsius\
+				\item Blood pressure in {\milli\meter}{\rmfamily{HG}}
+				\item Price in EUR
+				\item Running times (start/finish time) in \hour\
+			\end{itemize}
+		\end{itemize} 
+	\end{block}
+	%
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+\section{Empirical Distributions}
+
+\subsection{Population \& Sample}
+
+\begin{frame}{Population \& Sample}
+	
+	\textbf{Population}
+	\begin{itemize}
+		\item The complete set of all individuals, objects, or observations of interest.
+		\item It represents the entire group about which we want to draw conclusions.
+		\item \emph{Example:} All students at Hochschule Kaiserslautern, population of a country, \ldots
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Sample}
+	\begin{itemize}
+		\item A subset of the population that is actually observed or measured.
+		\item It is used to estimate or infer properties of the population.
+		\item \emph{Example:} 200 students randomly selected or considered in a specific course.
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\begin{small}
+		\textbf{Example}: 
+		\par\smallskip
+		A car is selected as part of a drug-enforcement inspection sample. We speak of a \textbf{random sample} if, for example, every tenth car is checked and we assume that cars arrive in random order. A \textbf{systematic sample} would be checking all red vehicles. An \textbf{arbitrary sample} would occur if the officer selects vehicles without any criteria.
+	\end{small}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+%
+Observed feature values (Group a, Group b, Group a \& b):
+\begin{itemize}
+	\item Age $\ZVX$ in years (quantitative, discrete, metric)
+	\item Body height $\ZVY$ in \centi\meter\ (quantitative, continuous, metric)
+	\item Vocational training $\ZVB$ with values \{yes, no\} (qualitative, nominal)
+	\item Gender $\ZVG$ with values \{m, w\} (qualitative, nominal)
+\end{itemize}
+\begin{figure}%
+\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-01.pdf}%
+%\caption{}%
+%\label{}%
+\end{figure}
+\end{frame}
+
+\subsection{Frequency}
+
+\begin{frame}
+	\frametitle{Frequency}
+	%
+	Each feature value $\{x_1{,}\dots{,} x_{i}{,} \dots x_k \}$ has the \textbf{absolute frequency}
+	\begin{equation*}\label{eq:1-5}
+		n_{i} := \absH\left(\ZVX = x_{i}\right){,} \quad n_{i} > 0{,} \quad \sum_{i=1}^{k} n_{i} = n{,} \quad k \leq n
+	\end{equation*}
+	and the \textbf{relative frequency}
+	\begin{equation*}\label{eq:1-6}
+		h_{i} := \relH\left(\ZVX = x_{i}\right) = \dfrac{n_{i}}{n}{,} \quad 0 < h_{i} \leq 1{,}\quad  \sum_{{i}=1}^{k}h_{i} = 1{,} \quad k \leq n
+	\end{equation*}
+	%		
+	\begin{alertblock}{Definition: Absolute and Relative Frequency}
+		\begin{myframe}{
+				The tables %\newline
+				\begin{eqnarray*}
+					\begin{tabular}{|c|c|c|c|}
+						\hline
+						$x_1$ & $x_2$ & $\hdots$ & $x_k$ \\
+						\hline
+						$n_1$ & $n_2$ & $\hdots$ & $n_k$ \\
+						\hline
+					\end{tabular} & \text{ with } &\sum_{{i}=1}^{k}n_{i} = n \\
+					%\end{eqnarray*}
+					%%und
+					%\begin{eqnarray*}\label{eq:1-7}
+					\begin{tabular}{|c|c|c|c|}
+						\hline
+						$x_1$ & $x_2$ & $\hdots$ & $x_k$ \\
+						\hline
+						$h_1$ & $h_2$ & $\hdots$ & $h_k$ \\
+						\hline
+					\end{tabular} & \text{ with } &\sum_{{i}=1}^{k}h_{i} = 1
+				\end{eqnarray*}
+				%\newline 
+				are called the \textbf{absolute} and \textbf{relative frequency distributions}, respectively.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%		
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+%
+The frequency tables for the samples are:
+\begin{figure}%
+\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-02.pdf}%
+%\caption{}%
+%\label{}%
+\end{figure}
+For Group a \& b combined, for example:
+{\small
+	\begin{columns}
+		\begin{column}[t]{0.5\linewidth}
+			\begin{align*}
+				\ZVX \in & \{x_1 = 19, x_2 = 20, \dots, x_{10} = 28 \} \\
+				\ZVY \in & \{y_1 = 155, y_2 = 160, \dots, y_{27} = 195 \} \\
+				\ZVB \in & \{b_1 = \textrm{j}, b_2 =\textrm{n}\} \\
+				\ZVG \in & \{g_1 = \textrm{m}, g_2 = \textrm{w} \} 
+			\end{align*}
+		\end{column}
+		\begin{column}[t]{0.5\linewidth}
+			\begin{align*}
+				&\absH\left(\ZVX = x_{2} = 20 \right) = n_2 = 10 \\
+				&\relH\left(\ZVY = y_{4} = 163 \right) = h_4 = \frac{3}{70} \\
+				&\relH\left(\ZVB = b_{1} = \textrm{j} \right) = h_1 = \frac{17}{70} \\
+				&\absH\left(\ZVG = g_{2} = \textrm{w} \right) = n_2 = 23
+			\end{align*}
+		\end{column}
+	\end{columns}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+%
+Visualization of the features' frequencies as bar charts
+\begin{figure}%
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-03.pdf}%
+\hfill
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-04.pdf}%
+\\
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-05.pdf}%
+\hfill
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-06.pdf}%
+%\caption{}%
+%\label{}%
+\end{figure}
+\end{frame}
+
+\subsection{Frequency \& Distribution Function}\label{ch:1.5}
+
+\begin{frame}
+	\frametitle{Frequency \& Distribution Function}
+	%
+	For \alert{metrically scaled feature values}, distances are defined, so that on a metric scale (typically on the horizontal axis / $x$-axis) the distances between feature values can be represented. On the vertical axis / $y$-axis, the corresponding frequencies can also be plotted metrically.
+	\par\medskip
+	\begin{alertblock}{Definition: Frequency Function}
+		\begin{myframe}{
+				The function 
+				\begin{equation*}\label{eq:1-8}
+					h(x) = \begin{cases} h_i & \text{ if } x = x_i \\
+						0   & \text{ otherwise}
+					\end{cases}
+				\end{equation*}
+				is called \textbf{frequency function} of the random variable $\ZVX$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	\par\medskip
+	\begin{alertblock}{Definition: Empirical Cumulative Distribution Function (ECDF)}
+		\begin{myframe}{
+				The function 
+				\begin{equation*}\label{eq:1-9}
+					H(x) = \sum_{x_i \leq x} h(x_i)
+				\end{equation*}
+				is called \textbf{empirical cumulative distribution function} of the random variable $\ZVX$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+%
+Frequency Functions
+\begin{figure}%
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-08d.pdf}%
+\hfill
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-08c.pdf}%
+\end{figure}
+Empirical Cumulative Distribution Functions
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-08a.pdf}%
+\hfill
+\includegraphics[width=0.5\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-08b.pdf}%
+%\caption{}%
+%\label{}%
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Frequency \& Distribution Function}
+	%
+	The ECDF $H(x)$ 
+	%nach (\ref{eq:1-9}) 
+	has the following properties:
+	\begin{enumerate}
+		\item Everywhere at least right-continuous:
+		\begin{equation*}  \label{eq:1-10}
+			\limes_{\Delta x \rightarrow 0} H(x + \Delta x) = H(x){,} \quad \Delta x > 0
+		\end{equation*}
+		At the "jump points": Only right-continuous, i.e.
+		\begin{equation*}  \label{eq:1-11}
+			\limes_{\Delta x \rightarrow 0} H(x - \Delta x) \neq H(x){,} \quad \Delta x > 0
+		\end{equation*}
+		\item Monotonically increasing:
+		%  \begin{equation*}  \label{eq:1-12}
+			$H(a) \leq H(b) {,} \quad \text{if } a < b{,} \quad a{,}b \in \MRn$
+			%  \end{equation*}  
+		\item Limits:
+		\begin{equation*}  \label{eq:1-13}
+			\limes\limits_{x \rightarrow -\infty} H(x) = 0{,} \quad \limes\limits_{x \rightarrow +\infty} H(x) = 1
+		\end{equation*}
+		\item Difference:
+		%  \begin{equation*}  \label{eq:1-14}
+			$H(b) - H(a) = \relH\left(a < \ZVX \leq b \right)$
+			%  \end{equation*}
+		\item Relationships between relative frequency and ECDF:
+		\begin{eqnarray*}
+			\label{eq:1-15}
+			H(x) & = & \relH\left(\ZVX \leq x\right) \\
+			\label{eq:1-16}
+			h(x) & = & H(x) - \limes_{\Delta x \rightarrow 0} H(x - \Delta x)
+		\end{eqnarray*}
+	\end{enumerate}
+\end{frame}
+
+\subsection{Comparing Distributions \& Earth Mover's Distance}
+
+\begin{frame}{Earth Mover's Distance -- Intuition}
+	
+	\textbf{Intuitive idea:}
+	\begin{itemize}
+		\item Two distributions = two piles of earth (or sand)
+		\item Goal: reshape one pile into the other
+		\item Minimize the required work
+	\end{itemize}
+	
+	\vspace{0.5cm}
+	
+	\textbf{What defines work?}
+	\begin{itemize}
+		\item How much mass is moved?
+		\item How far is it moved?
+		\item $\Rightarrow$ Work = mass $\times$ distance
+	\end{itemize}
+	
+	\vspace{0.5cm}
+	
+	\textbf{Interpretation:}
+	\begin{itemize}
+		\item Small EMD $\Rightarrow$ distributions are similar
+		\item Large EMD $\Rightarrow$ distributions are very different
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	\textit{Also known as Wasserstein distance}
+	
+\end{frame}
+
+\begin{frame}{Earth Mover's Distance -- Formal Definition}
+	
+	\textbf{Given:}
+	\begin{itemize}
+		\item Two discrete distributions $P = (p_i)$ and $Q = (q_j)$
+		\item Distance matrix $D = (d_{ij})$ with $d_{ij} = \left|p_i-q_j\right|$
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Transport plan:}
+	\begin{itemize}
+		\item $\gamma_{ij}$ = mass moved from bin $i$ to $j$
+		\item Constraints:
+		\begin{align*}
+			\sum_j \gamma_{ij} &= p_i \\
+			\sum_i \gamma_{ij} &= q_j \\
+			\gamma_{ij} &\geq 0
+		\end{align*}
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Definition:}
+	\[
+	EMD(P, Q) = \min_{\gamma} \sum_{i,j} \gamma_{ij} \, d_{ij}
+	\]
+	
+	\vspace{0.3cm}
+	
+	\textbf{Properties:}
+	\begin{itemize}
+		\item Metric (under certain conditions)
+		\item Sensitive to distribution structure
+		\item Robust to small shifts
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Earth Mover's Distance -- Transport Plan Example}
+	
+	\textbf{Distributions with 1D Histogram Bins}
+	\begin{itemize}
+		\item $P= (0.3, 0.4, 0.3)$ with bins at positions $x = [1, 2, 3]$
+		\item $Q = (0.5, 0.5)$ with bins at positions $y = [2, 4]$
+		\item Distance: $d_{ij} = |x_i - y_j|$
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Distance Matrix}
+	\[
+	D =
+	\begin{pmatrix}
+		1 & 3 \\
+		0 & 2 \\
+		1 & 1
+	\end{pmatrix}
+	\]
+	
+	\vspace{0.4cm}
+	
+	\centering
+	\begin{tikzpicture}[scale=1]
+		
+		% Points for P
+		\foreach \x/\label in {1/$x_1$, 2/$x_2$, 3/$x_3$} {
+			\fill[blue] (\x,0) circle (2pt);
+			\node[below] at (\x,0) {\label};
+		}
+		
+		% Points for Q
+		\foreach \x/\label in {2/$y_1$, 4/$y_2$} {
+			\fill[red] (\x,2) circle (2pt);
+			\node[above] at (\x,2) {\label};
+		}
+		
+		% Lines showing distances
+		\draw[dashed] (1,0) -- (2,2);
+		\draw[dashed] (1,0) -- (4,2);
+		\draw[dashed] (2,0) -- (2,2);
+		\draw[dashed] (2,0) -- (4,2);
+		\draw[dashed] (3,0) -- (2,2);
+		\draw[dashed] (3,0) -- (4,2);
+		
+		% Labels
+		\node[left] at (0.5,0) {$P$};
+		\node[left] at (0.5,2) {$Q$};
+		
+	\end{tikzpicture}
+	
+	\vspace{0.3cm}
+	
+	\textit{Each entry $d_{ij}$ corresponds to the distance between $x_i$ and $y_j$.}
+	
+\end{frame}
+
+\begin{frame}{Earth Mover's Distance -- Transport Plan Example}
+	
+	\textbf{Optimal Transport Plan $\gamma$}
+	\[
+	\gamma =
+	\begin{pmatrix}
+		0.3 & 0 \\
+		0.2 & 0.2 \\
+		0   & 0.3
+	\end{pmatrix}
+	\]
+	
+	\vspace{0.3cm}
+	
+	\textbf{Interpretation:}
+	\begin{itemize}
+		\item $0.3$ from $x_1 \rightarrow y_1$
+		\item $0.2$ from $x_2 \rightarrow y_1$
+		\item $0.2$ from $x_2 \rightarrow y_2$
+		\item $0.3$ from $x_3 \rightarrow y_2$
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Cost (EMD):}
+	\[
+	EMD = 0.3 \cdot 1 + 0.2 \cdot 0 + 0.2 \cdot 2 + 0.3 \cdot 1 = 1.0
+	\]
+	
+\end{frame}
+
+\begin{frame}{Earth Mover's Distance -- Visualization}
+	
+	\vspace{1cm}
+	\centering
+	\begin{tikzpicture}[scale=0.9]
+		
+		% Axes left (Distribution P)
+		\draw[->] (0,0) -- (4,0);
+		\draw[->] (0,0) -- (0,3);
+		
+		% Bars P
+		\fill[blue!50] (0.5,0) rectangle (1.2,1.5);
+		\fill[blue!50] (1.5,0) rectangle (2.2,2.2);
+		\fill[blue!50] (2.5,0) rectangle (3.2,1.0);
+		
+		\node at (2,-0.5) {$P$};
+		
+		% Axes right (Distribution Q)
+		\draw[->] (6,0) -- (10,0);
+		\draw[->] (6,0) -- (6,3);
+		
+		% Bars Q
+		\fill[red!50] (6.5,0) rectangle (7.2,1.0);
+		\fill[red!50] (7.5,0) rectangle (8.2,1.8);
+		\fill[red!50] (8.5,0) rectangle (9.2,1.9);
+		
+		\node at (8,-0.5) {$Q$};
+		
+		% Transport arrows
+		\draw[->, thick] (1.0,1.5) .. controls (3,3) .. (7.0,1.0);
+		\draw[->, thick] (2.0,2.2) .. controls (4,3) .. (8.0,1.8);
+		\draw[->, thick] (3.0,1.0) .. controls (5,2.5) .. (9.0,1.9);
+		
+		% Label
+		\node at (4.8,2.9) {Mass transport};
+		
+	\end{tikzpicture}
+	
+	\vspace{0.3cm}
+	
+	\textit{Arrows indicate how probability mass is transported from $P$ to $Q$.}
+	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Frequency Density \& Histogram}\label{ch:1.6}
+
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle{Frequency Density \& Histogram}
+	%
+	It is often useful to \alert{condense} metric feature values into classes ("`classified data"'), or the data may be presented in this form from the start.
+	%
+	\par\medskip
+	\begin{alertblock}{Class Intervals} 
+		The interval of the real axis covered by the possible feature values is subdivided into $m$ different sections (intervals) by appropriately chosen class boundaries
+		\begin{equation*}
+			\xi_0 < \xi_1< \xi_2 < \hdots < \xi_m
+		\end{equation*}
+		with not necessarily equal class widths
+		\begin{equation*}	\label{eq:1-17}
+			\Delta_i = \xi_i - \xi_{i-1} > 0{,} \quad i = 1{,} \hdots{,} m
+		\end{equation*}
+	\end{alertblock}
+	%
+	\par\medskip
+	\begin{alertblock}{Relative Frequency of Class Intervals} 
+		\begin{equation*}	\label{eq:1-18}
+			h_i := \relH\left( \xi_{i-1} < \ZVX \leq \xi_i \right){,} \quad i = 1{,} \hdots, m
+		\end{equation*}
+	\end{alertblock}
+	%
+	\framebreak
+	%
+	\begin{alertblock}{Relative Frequency Distribution of Class Intervals} 
+		\begin{itemize}
+			\item Assigned to class upper boundaries (common):
+			\begin{eqnarray*}     \label{eq:1-19}
+				\begin{tabular}{|c|c|c|c|}
+					\hline
+					$\xi_1$ & $\xi_2$ & $\hdots$ & $\xi_m$ \\
+					\hline
+					$h_1$ & $h_2$ & $\hdots$ & $h_m$ \\
+					\hline
+				\end{tabular} & \text{ with } &\sum_{j=1}^{m}h_j = 1
+			\end{eqnarray*}
+			\item Assigned to class midpoints (also possible):
+			\addtocounter{equation}{-1}
+			\begin{subequations}
+				\begin{eqnarray*}
+					\label{eq:1-19a} 
+					\begin{tabular}{|c|c|c|c|}
+						\hline
+						$\frac{\xi_1+\xi_0}{2}$ & $\frac{\xi_2+\xi_1}{2}$ & $\hdots$ & $\frac{\xi_m+\xi_{m-1}}{2}$ \\
+						\hline
+						$h_1$ & $h_2$ & $\hdots$ & $h_m$ \\
+						\hline
+					\end{tabular} & \text{ with } &\sum_{j=1}^{m}h_j = 1
+				\end{eqnarray*}
+			\end{subequations}   
+		\end{itemize}
+	\end{alertblock}
+	%
+	\begin{itemize}
+		%%%From the application of (\ref{eq:1-8}) and (\ref{eq:1-9}), one obtains from (\ref{eq:1-19a}) the distribution function of the classes $H_{\mathrm{ K}}(x)$
+		\item From the relative frequency distribution of the class intervals, one obtains the distribution function of the class intervals $H_{\mathrm{C}}(x)$
+		\item If the function values of $H_{\mathrm{ C}}(x)$ are connected at the jump points by straight lines (polygons), an approximating distribution function $\overline{H}(x)$ is obtained as a polygon.
+		\item In addition to the polygon as an approximation, there are sometimes other, usually "`smooth"' curves as "`fits"', which can be calculated and displayed by the software used.
+	\end{itemize} 
+	%%%%
+	\framebreak
+	%%%%
+	\begin{alertblock}{Frequency Density of Class Intervals}
+		\begin{myframe}{
+				If $H_{\mathrm{C}}(x)$ is the distribution function of a feature grouped into class intervals with class boundaries $\xi_0 < \xi_1< \xi_2 < \hdots < \xi_m$ and $\overline{H}(x)$ is the approximating distribution function represented by a polygon, then the quotient
+				\begin{equation*}
+					\label{eq:1-20}
+					\dfrac{H_{\mathrm{C}}(\xi_i) - H_{\mathrm{C}}(\xi_{i-1})}{\xi_i - \xi_{i-1}} = \dfrac{h_i}{\Delta_i}{,} \quad i = 1{,} \hdots{,} m
+				\end{equation*}
+				is called the (average) \textbf{frequency density} of the $i$-th class interval. The first derivative
+				\begin{equation*}
+					\label{eq:1-21}
+					\overline{h}(x)= \dfrac{d\overline{H}(x)}{dx} 
+				\end{equation*}
+				%in the intervals $(\xi_{i-1},\xi_i)$ 
+				is called the \textbf{frequency density function} and its graph the \textbf{histogram}. 
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\framebreak
+	%
+	\begin{alertblock}{Remarks}
+		\begin{itemize}
+			\item The histogram is a piecewise constant function (similar to a bar chart whose bars are adjacent to each other) that is defined for all values.
+			\item In contrast to the graph of the frequency function, in a histogram it is not the height of the bar, but rather its area
+			\begin{equation*}
+				\left(\dfrac{h_i}{\Delta_i}\right)\cdot \Delta_i
+			\end{equation*}
+			that indicates the relative frequency of the class interval!
+			\item The total area of the histogram is always
+			\begin{equation*}
+				\sum_{j=1}^{m} \left(\dfrac{h_j}{\Delta_j} \right) \cdot \Delta_j = 1
+			\end{equation*}
+		\end{itemize}
+	\end{alertblock}
+	%
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+%
+The feature value \emph{age} can be condensed as follows, for example:
+%\par\smallskip
+\begin{center}{
+%\begin{figure}% trim=left bottom right top
+\includegraphics[trim=0 .25cm 0 0, width=0.3\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-07a.pdf}%
+$\quad\mapsto\quad$
+\includegraphics[trim=0 2cm 0 0, width=0.4\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-07.pdf}%
+%\caption{}%
+%\label{}%
+%\end{figure}
+}
+\end{center}
+\par\smallskip
+%Defintion von sinnvollen Größenklassen
+\begin{figure}%
+\includegraphics[width=0.85\linewidth]{Bilder/Teil-I-Kapitel-1-Bild-07b.pdf}%
+%%\caption{}%
+%%\label{}%
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary Statistics}
+
+%\subsection{Measures}
+
+\begin{frame}
+	\frametitle<presentation>{Measures}
+	%
+	A measure represents the most powerful form of condensing a statistical distribution into a single number.
+	
+	\vspace{0.3cm}
+	
+	Examples include:
+	\par\medskip
+	\begin{itemize}
+		\item \alert{Mean(s)}: Measure(s) for the "`central location"' of the feature values ("`location measure"')
+		\item \alert{Dispersion measure(s)}: Measure(s) for the variation of feature values around the location measure
+		\item \alert{Quantile(s)}: A quantile is the feature value in a sorted dataset at which a specified percentage of all values is less than or equal to it
+	\end{itemize}
+\end{frame}
+
+\subsection{Means}
+
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+\begin{frame}
+	\frametitle{Arithmetic Mean}
+	%
+	The arithmetic mean can be calculated for metrically scaled feature values.
+	%
+	\par\smallskip
+	%
+	\begin{alertblock}{Definition: Arithmetic Mean}
+		\begin{myframe}{
+				The quantity
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{eqnarray*}
+					\overline{x} &=& \dfrac{1}{n} \sum_{j=1}^{n} x_j\rule{\widthof{$n_j \cdot$}}{0pt}           \quad\quad\quad\text{Raw data list} \label{eq:2-1} \\
+					&=& \dfrac{1}{n} \sum_{j=1}^{k} n_j \cdot x_j                                  \quad\quad\quad\text{Abs. frequency}\label{eq:2-2} \\
+					&=& \rule{\widthof{$\dfrac{1}{n}$}}{0pt}\sum_{j=1}^{k} h_j \cdot x_j           \quad\quad\quad\text{Rel. frequency}\label{eq:2-3}
+				\end{eqnarray*}
+				is called the \textbf{arithmetic mean} or \textbf{mean value} of a statistical distribution.
+			}
+		\end{myframe}
+		%
+	\end{alertblock}
+	%
+	\par\smallskip
+	\begin{alertblock}{Remark}
+		Strictly speaking, the overline $\overline{\rule[\heightof{$x$}]{\widthof{$x$}}{0pt}}$ is a kind of "`operator notation"' in the sense that the result of averaging a quantity receives this overline. In this sense, $\overline{x^2}$ is the arithmetic mean of the squared feature values.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	%
+	For Group a \& b together it follows for the feature value \emph{age} ($n = 70, k = 10$):
+	%\begin{small}%{
+	{\small
+		\begin{eqnarray*}
+			\overline{x}_{\mathrm{a \& b}} &=& \dfrac{1}{70} \sum_{j=1}^{70} x_j           = \dfrac{1}{70} \left( 22 + 21 + \dots + 22 + 23 \right) = \dfrac{1.586}{70} \approx 22,657\\
+			&=& \dfrac{1}{70} \sum_{j=1}^{10} n_j \cdot x_j = \dfrac{1}{70} \left( 3 \cdot 19 + 10 \cdot 20 + \dots 2 \cdot 28 \right) =\dfrac{1.586}{70}  \approx 22,657 \\
+			&=& \sum_{j=1}^{10} h_j \cdot x_j  =  \dfrac{3}{70}\cdot 19 +  \dfrac{10}{70}\cdot 20 \dots + \dfrac{2}{70}\cdot 28 = \dfrac{1.586}{70} \approx 22,657
+		\end{eqnarray*}
+		%}
+	%\end{small}
+}
+%
+For both metric features \emph{age} $\ZVX$ and \emph{body height} $\ZVY$ it follows:
+%
+\begin{figure}%
+	\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-01.pdf}% 
+	%%\caption{}%
+	%%\label{}%
+\end{figure}
+%
+\begin{columns}
+	\begin{column}[t]{0.71\linewidth}
+		One can also compute the mean based on the means of the class intervals, e.g.\,($k = 5$)\par\smallskip
+		\begin{small}{
+				%\begin{equation*}
+				$
+				\overline{x} = \sum\limits_{j=1}^{5} h_j \cdot \overline{x}_j  =  \dfrac{13}{70}\cdot 19,769 +   \dots + \dfrac{17}{70}\cdot 25,824 \approx 22,657
+				%\label{eq:}
+				%\end{equation*}
+				$
+			}
+		\end{small}
+	\end{column}
+	\begin{column}[t]{0.25\linewidth}
+		\begin{figure}%
+			%\begin{figure}% trim=left bottom right top
+			\includegraphics[trim=0 0 0 2.25cm,width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-01a.pdf}%
+			%%\caption{}%
+			%%\label{}%
+		\end{figure}
+	\end{column}
+\end{columns}
+%\par\smallskip
+Note: Deviations may arise due to roundings.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Properties of the Arithmetic Mean}
+	%
+	\begin{enumerate}
+		\item Central property:
+		\begin{equation*}\label{eq:2-4}
+			\sum_{j=1}^{n} \left( x_j - \overline{x}\right) = 0
+		\end{equation*}
+		\item Shift by $a = \text{const.}$:
+		\begin{equation*}\label{eq:2-5}
+			y_j = x_j + a \Rightarrow \overline{y} =  \overline{x} + a
+		\end{equation*}
+		\item Scaling by $b = \text{const.}$:
+		\begin{equation*}\label{eq:2-6}
+			z_j = b \cdot x_j \Rightarrow \overline{z} =  b \cdot \overline{x}
+		\end{equation*}
+		\item Calculation from sub-series: The statistical series $\ZVX$ is decomposed into $m$ disjoint sub-series $\ZVX_j$, $j=1,\ldots,m$, each with $n_j$ elements and corresponding arithmetic means $\overline{x}_j$. Then we have
+		\begin{equation*}\label{eq:2-7}
+			\overline{x} = \dfrac{1}{n} \sum_{j=1}^{m} n_j \cdot \overline{x}_j
+		\end{equation*}
+		e.g. $n = 70$, $m = 2$ (Group a \& b), $n_1 = 41$, $n_2 = 29$: \par\smallskip
+		$\overline{x} = \dfrac{41}{70} \cdot 22{,}488 + \dfrac{29}{70} \cdot 22{,}897 \approx 22{,}656$ (rounding inaccuracy)
+	\end{enumerate}
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle{Median}
+	%
+	The median can be determined for metrically or ordinally scaled feature values.
+	%
+	\par\medskip
+	%
+	\begin{alertblock}{Definition: Median}
+		{\setlength{\fboxrule}{2pt}\setlength{\fboxsep}{8pt}\fbox{\begin{minipage}[c]{0.95\textwidth}
+					For a raw data list \textbf{sorted in ascending order}, the number $x_{\mathrm{ Med}}$ with
+					%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+					\begin{equation*}
+						\begin{matrix*}[l]
+							x_{\mathrm{ Med}} &=& x_{\frac{n+1}{2}}           & n  \text{ odd}  \\
+							&=& \dfrac{1}{2}\left( x_{\frac{n}{2}} + x_{\frac{n}{2}+1} \right)          &n  \text{ even and } \ZVX \text{ metrically scaled} \\
+							x_{\frac{n}{2}}  \leq   &x_{\mathrm{ Med}} & \leq   x_{\frac{n}{2}+1}  &n  \text{ even and } \ZVX \text{ not metrically scaled} \\
+						\end{matrix*}
+					\end{equation*}
+					is called the \textbf{median} of the statistical series $\ZVX$.
+		\end{minipage}}}
+		%
+	\end{alertblock}
+	%
+	\par\medskip
+	The median divides a raw data list sorted in ascending order in the middle, i.e.\,an equal number of observations lies to the left and right of the median, so it represents the ``50\% value''.
+	\par\medskip
+	For the features \emph{age} and \emph{body height} (Group a \& b, $n = 70$), the following holds (see next slide):
+	\begin{align*}
+		x_{\mathrm{ Med}} &= \dfrac{1}{2}\left( x_{\frac{70}{2}} + x_{\frac{70}{2}+1} \right) = \dfrac{1}{2}\left( x_{35} + x_{36}\right)  = \dfrac{1}{2}\left( 22 + 22\right) = 22 \\
+		y_{\mathrm{ Med}} &= \dfrac{1}{2}\left( y_{\frac{70}{2}} + y_{\frac{70}{2}+1} \right) = \dfrac{1}{2}\left( y_{35} + y_{36}\right)  = \dfrac{1}{2}\left( 176 + 176\right) = 176
+		%\label{eq:}
+	\end{align*} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	\begin{figure}%
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02.pdf}%
+		\par\medskip
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Measures of Dispersion}
+
+\begin{frame}
+	\frametitle{Variance and Standard Deviation}
+	%
+	\begin{alertblock}{Definition: Variance and Standard Deviation}
+		\begin{myframe}{
+				The mean squared deviation from the arithmetic mean $\overline{x}$ %according to (\ref{eq:2-1})
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{eqnarray*}
+					s^2_{\mathrm{ X}} &=& \dfrac{1}{n}\sum_{j=1}^{n}\left( x_j - \overline{x} \right)^2    \quad\quad\quad\quad\quad\text{Raw data list} \label{eq:2-15} \\
+					&=& \dfrac{1}{n}\sum_{j=1}^{k} n_j \cdot \left( x_j - \overline{x} \right)^2      \quad\quad\quad\text{Absolute frequency}\label{eq:2-15b} \\
+					&=& \rule{\widthof{$\dfrac{1}{n}$}}{0pt}\sum_{j=1}^{k} h_j \cdot \left( x_j - \overline{x} \right)^2      \quad\quad\quad\text{Relative frequency}\label{eq:2-15a} 
+				\end{eqnarray*}
+				is called the \textbf{empirical variance}, or simply the \textbf{variance}, of the statistical series $\ZVX$. The positive root of $s^2_{\mathrm{ X}}$ %according to (\ref{eq:2-15})
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{equation*}\label{eq:2-16}
+					s_{\mathrm{ X}} := +\sqrt{s^2_{\mathrm{ X}}}
+				\end{equation*}
+				is called the \textbf{empirical standard deviation}, or simply the \textbf{standard deviation}, of the statistical series $\ZVX$.
+			}
+		\end{myframe}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle{Properties of Variance}
+	%
+	\begin{enumerate}
+		\item Non-negative:
+		\begin{equation*}
+			s^2_{\mathrm{ X}} \geq 0
+		\end{equation*}
+		\item Shift by $a = \text{const.}$:
+		\begin{equation*}
+			y_j = x_j + a \;\Longrightarrow\; s^2_{\mathrm{ Y}} =  s^2_{\mathrm{ X}}
+		\end{equation*}
+		\item Scaling by $b = \text{const.}$:
+		\begin{equation*}\label{eq:2-17}
+			z_j = b \cdot x_j \;\Longrightarrow\; s^2_{\mathrm{ Z}} =  b^2 \cdot s^2_{\mathrm{ X}}
+			\;\text{ and }\; s_{\mathrm{ Z}} =  |b| \cdot s_{\mathrm{ X}}
+		\end{equation*}
+%		and accordingly
+%		\begin{equation*}\label{eq:2-18}
+%			z_j = b \cdot x_j \Rightarrow s_{\mathrm{ Z}} =  |b| \cdot s_{\mathrm{ X}}
+%		\end{equation*}
+		\item Simplified computation: 
+		\begin{equation*}
+			\label{eq:2-19}
+			s^2_{\mathrm{ X}} = \dfrac{1}{n}\sum_{j=1}^{n}\left( x_j - \overline{x} \right)^2 = \dfrac{1}{n}\left(\sum_{j=1}^{n} x^2_j\right) - \overline{x}^2  = \overline{ x^2 } - \overline{x}^2
+		\end{equation*}
+%		\item \textbf{Steiner's translation theorem}: For $d = \text{const.}$:
+%		\begin{equation*}\label{eq:2-20}
+%			\dfrac{1}{n}\sum_{j=1}^{n}\left( x_j - \overline{x} \right)^2 
+%			=
+%			\dfrac{1}{n}\sum_{j=1}^{n}\left( x_j - d \right)^2 - \left( \overline{x} -d \right)^2 
+%		\end{equation*}
+%		The simplified computation $s^2_{\mathrm{ X}} =\overline{ x^2 } - \overline{x}^2$ is a special case
+%		of Steiner's translation theorem for $d=0$.
+%		%		\item \textbf{Minimaleigenschaft}: Die Summe der quadrierten Abweichungen der Merkmalsausprägungen $x_j$ von irgendeinem $d = \text{const.}$, $(x_j - d)^2$, wird minimal für $d = \overline{x}$.
+		%		%; dies folgt unmittelbar aus (\ref{eq:2-20}). 
+		%		Die Varianz $s^2_{\mathrm{ X}}$ %nach (\ref{eq:2-15}) 
+		%		minimiert  die Summe der quadrierten Abweichungen ("`Prinzip der kleinsten Quadrate"', "`Least Mean Square"')
+		\item Computation from sub-series: The statistical series $\ZVX$ is decomposed into $m$ disjoint sub-series $\ZVX_j$, $j=1{,}\ldots{,}m$, each with $n_j$ elements and corresponding arithmetic means $\overline{x}_j$ and variances $s^2_j$. Then
+		\begin{equation*}\label{eq:2-21}
+			s^2_{\mathrm{ X}} = \underbrace{\dfrac{1}{n} \sum_{j=1}^{m} n_j \cdot s^2_j}_{\text{Inner variance}} + 
+			\underbrace{\dfrac{1}{n} \sum_{j=1}^{m} n_j \left( \overline{x}_j - \overline{x} \right)^2}_{\text{Outer variance}}
+		\end{equation*}
+	\end{enumerate}
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	%
+	Variance calculations
+	\begin{figure}%
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-03.pdf}%
+	\end{figure}
+	%
+	\par\bigskip
+	Combining outer and inner variance, $n = 70, m = 2$ (Group a \& b), $n_1 = 41, n_2 = 29$, e.g. for \emph{body height}:
+	\par\smallskip
+	\begin{columns}
+		\begin{column}[t]{0.7\linewidth}
+			\par\medskip
+			{\small
+				\begin{align*}
+					%\rule{\widthof{$\dfrac{1}{n}$}}{0pt}
+					s^2_{\mathrm{ Y}} =&  \rule{\widthof{\,$+$\,}}{0pt} \underbrace{\dfrac{1}{70} \left( 41\cdot 94{,}005 + 29\cdot 82{,}685\right)}_{\text{Inner variance, $89{,}315$}} \\
+					&+                              \underbrace{\dfrac{1}{70} \left( 41 \cdot (175{,}463 - 176{,}071)^2 + 29 \cdot (176{,}931 - 176{,}071)^2 \right)}_{\text{Outer variance, $0{,}523$}} \\
+					=& \rule{\widthof{\,$+$\,}}{0pt} 89{,}315 + 0{,}523 = 89{,}838
+				\end{align*}
+			}
+			%\begin{small}{
+			%%\begin{equation*}
+			%$
+			%\overline{x} = \sum\limits_{j=1}^{5} h_j \cdot x_j  =  \dfrac{13}{70}\cdot 19,769 +   \dots + \dfrac{17}{70}\cdot 25,824 \approx 22,657
+			%%\label{eq:}
+			%%\end{equation*}
+			%$
+			%}
+		%\end{small}
+	\end{column}
+	\begin{column}[t]{0.3\linewidth}
+		\begin{figure}%
+			%\begin{figure}% trim=left bottom right top
+			\includegraphics[trim=4cm -0cm -3.8cm 1cm,width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-03a.pdf}%
+			%%\caption{}%
+			%%\label{}%
+		\end{figure}
+	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Note on Variance: The Normalization Question}
+	%
+	There is a \alert{second definition of variance}, namely
+	%\par\medskip
+	\begin{eqnarray*}
+		s^2_{\mathrm{ X}} &=& \dfrac{1}{n-1}\sum_{j=1}^{n}\left( x_j - \overline{x} \right)^2    \quad\quad\quad\quad\quad\text{Raw data list} \label{eq:2-15n} \\
+		&=& \dfrac{1}{n-1}\sum_{j=1}^{k} n_j \cdot \left( x_j - \overline{x} \right)^2      \quad\quad\quad\text{Absolute frequency}\label{eq:2-15bn} 
+	\end{eqnarray*}
+	%
+	This definition normalizes by $n-1$ instead of $n$ and provides, via $s^2_{\mathrm{ X}}$, a "`best possible"' estimate for the true, unknown variance of the unknown population from which the sample was taken. \\
+	\par\medskip	
+	For inferential statistics, this second definition is therefore the "`better"' choice (unbiased point estimation).\\
+	\par\medskip	
+	However, both definitions can easily be converted into each other because they differ by the normalization ratio $\frac{n}{n-1}$.
+	%	\par\medskip
+	%	Excel bietet beide Funktionen: {\ttfamily{STABWNA}} (Normierung mit $n$) und {\ttfamily{STABWA}} (Normierung mit $n-1$). 
+	%	Andere Statistik-Programme, \zB R, bietet mit {\ttfamily{var}} nur die Normierung mit $n-1$.
+	%	In MatLab entscheidet der optionale Parameter {\ttfamily{w}} der Funktion {\ttfamily{var}}, welche Normierung genutzt wird.
+	\par\medskip
+	\alert{Conclusion}:
+	\par\smallskip
+	When reporting $s^2_{\mathrm{ X}}$ or $s_{\mathrm{ X}}$, it must be clear which normalization was used.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Further Dispersion Measures}
+	%
+	There are additional dispersion measures that are not discussed further here:
+	\par\bigskip
+	\begin{itemize}
+		\item \alert{Range}: Difference between the largest and smallest feature value:
+		\begin{equation*}
+			\text{Range }:= x_{\mathrm{ max}} - x_{\mathrm{ min}}
+		\end{equation*}
+		Applicable to metrically scaled feature values.
+		\item \alert{Mean absolute deviation}: Arithmetic mean of the absolute deviations of the feature values from the arithmetic mean $\overline{x}$  
+		\begin{equation*}
+			\text{MAD }:= \dfrac{1}{n}\sum_{j=1}^{n} \left| x_j - \overline{x}\right|
+		\end{equation*}
+		Applicable to metrically scaled feature values.
+		\item \alert{Coefficient of variation}: \par\smallskip
+		\begin{equation*}\label{eq:2-22}
+			\text{VC}_{\mathrm{ X}} := \dfrac{s_{\mathrm{ X}}}{|\overline{x}|}, \quad \overline{x} \neq 0
+		\end{equation*}
+		Applicable to metrically scaled feature values.
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Quantiles}
+
+\begin{frame}
+	\frametitle{Quantiles}
+	%
+	\begin{alertblock}{Definition: Quantile}
+		\begin{myframe}{
+				A number $x_{[q]}$ with $0 < q < 1$ is called the \textbf{\textit{q}-quantile} if it partitions the statistical series $\ZVX$ such that at least $100 \cdot q \%$ of its feature values are less than or equal to $x_{[q]}$, and at the same time at least $100 \cdot (1-q) \%$ are greater than or equal to $x_{[q]}$, i.e.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{equation*} \label{eq:2-23}
+					\relH\left(\ZVX \leq x_{[q]} \right) \geq q \quad \text{and} \quad \relH\left(\ZVX \geq x_{[q]} \right) \geq 1-q 
+				\end{equation*}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\bigskip
+	\begin{itemize}
+		\item Typical, frequently used quantiles: 
+		\begin{itemize}
+			\item \alert{Quartiles}
+			\begin{itemize}
+				\item Lower quartile: $Q_1 = x_{[0,25]}$
+				\item Middle quartile: $Q_2 = x_{[0,50]} = x_{\mathrm{ Med}}$ (median)
+				\item Upper quartile: $Q_3 = x_{[0,75]}$
+			\end{itemize}
+			From the quartiles, the \alert{five-number summary} is obtained:
+			\begin{enumerate}
+				\item Dividing the data set into the four sections
+				\begin{equation*}
+					\left( x_{\mathrm{ min}}, x_{[0,25]}, x_{\mathrm{ Med}}, x_{[0,75]} , x_{\mathrm{ max}} \right)
+				\end{equation*}
+				\item Plotting them as a box plot (\emph{Box-Plot, Box-Whisker-Plot})
+			\end{enumerate}
+			\item \alert{Deciles}: $x_{[0,1]}, x_{[0,2]}, \ldots, x_{[0,9]}$ 
+			\item \alert{Percentiles}: $x_{[0,01]}, x_{[0,02]}, \ldots, x_{[0,99]}$ 
+		\end{itemize}
+	\end{itemize}
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	%
+	\par\medskip
+	Box plots of \emph{body height} vs.\,\emph{age classes}
+	\par\medskip
+	\begin{figure}%
+		%\begin{figure}% trim=left bottom right top
+		\includegraphics[trim=0cm -2cm 0cm 0cm,width=.3\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-04.pdf}
+		\includegraphics[trim=0cm -0cm -0cm 0cm,width=.64\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-04a.pdf}
+		%%\caption{}%
+		%%\label{}%
+	\end{figure}
+	\par\medskip
+	\alert{Note}: The data are \emph{not} sorted in ascending order.
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	%
+	\par\medskip
+	Box plots of \emph{body height} vs.\,\emph{age}, created with \url{http://plot.ly}
+	\par\medskip
+	\begin{figure}%
+		%\begin{figure}% trim=left bottom right top
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-05.pdf}
+		%%\caption{}%
+		%%\label{}%
+	\end{figure}
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	%
+	\par\medskip
+	Box plots of \emph{body height} vs.\,\emph{gender}, created with R
+	\par\medskip
+	\begin{figure}%
+		%\begin{figure}% trim=left bottom right top
+		\includegraphics[width=\linewidth]{Bilder/Boxplot_Laenge_Geschlecht_cm_embed.pdf}
+		%%\caption{}%
+		%%\label{}%
+	\end{figure}
+	
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	%
+	\par\medskip
+	Box plots of \emph{age} vs.\,\emph{gender}, created with R
+	\par\medskip
+	\begin{figure}%
+		%\begin{figure}% trim=left bottom right top
+		\includegraphics[width=\linewidth]{Bilder/Boxplot_Alter_Geschlecht_cm_embed.pdf}
+		%%\caption{}%
+		%%\label{}%
+	\end{figure}
+	
+	%
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Multivariate Data}
+
+\begin{frame}
+	Bisher: jedes Feature einzeln betrachtet \ldots
+	Jetzt: Gemeinsame Eigenschaften unterschiedlicher Features \ldots
+\end{frame}
+
+\subsection{Streudiagramm und gemeinsame Verteilung}
+
+\begin{frame}
+	\frametitle<presentation>{Streudiagramm und gemeinsame Verteilung}
+	%
+	\begin{alertblock}{Grundsätzliches}
+		\begin{itemize}
+			\item Jede Zeile einer Datenmatrix \ldots Jede statistische Einheit $\omega_i$, $i = 1,\ldots,n$, einer Teil-/Grundgesamtheit $\Omega$ oder Stichprobe kann Träger mehrerer Merkmale 
+			$\ZVX_1, \ZVX_2, \ldots, \ZVX_m$ sein, z.B.: Statistische Einheit oder Merkmalsträger: alle WI-Studierende, Merkmal $\ZVX_1$: Körperlänge, Merkmal 
+			$\ZVX_2$: Gewicht, Merkmal $\ZVX_3$: Alter, ... 
+			\item Multivariate Statistik: Jede statistische Einheit $\omega_i$, $i = 1,\ldots,n$, einer Teil-/ Grundgesamtheit $\Omega$ oder Stichprobe kann Träger mehrerer Merkmale sein:
+			\begin{equation*}
+				\label{eq:3-1}
+				\ZVX_1(\omega_i), \ZVX_2(\omega_i), \ldots, \ZVX_m(\omega_i), \quad i = 1,2,\ldots,n
+			\end{equation*}
+			\item Nachfolgend betrachtet: Zweidimensionale Statistik mit den zwei statistischen Variablen
+			\begin{equation*}
+				\ZVX(\omega_i), \ZVY(\omega_i), \quad i = 1,2,\ldots,n
+			\end{equation*}
+			verkürzt $(\ZVX, \ZVY)$ geschrieben. Die  beobachteten Merkmalsausprägungen sind $(\ZVX=x_i, \ZVY=y_i)$, verkürzt  $(x_i, y_i)$ geschrieben.
+		\end{itemize}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Definition Streudiagramm}
+		Im Streudiagramm werden die beobachteten Merkmalsausprägungen $(x_i, y_i)$ als Punkte $P_i$ interpretiert und in ein $y$-$x$-Koordinatensystem eingezeichnet.
+	\end{alertblock}
+	%
+\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
+	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\begin{figure}%
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-00.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Kontingenztabelle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Kontingenz- oder Korrelationstabelle}
+	%
+	\begin{alertblock}{Definition Kontingenz- oder Korrelationstabelle}
+		Die Kontingenz- oder Korrelationtabelle ist die Erweiterung eindimensionaler Häufigkeitstabellen auf zwei Dimensionen. 
+	\end{alertblock}
+	\par\bigskip
+	Absolute Häufigkeit, mit der die Wertekombination $(x_i, y_j)$ entsprechend den gebildeten Größenklassen vorkommt:
+	%
+	\begin{equation*}
+		\label{eq:3-2}
+		\absH(\ZVX = x_i \cap  \ZVY = y_j) = \absH(x_i \cap  y_j) = n_{i j}, \;\; i = 1,\ldots,k, \;\; j = 1,\ldots,l 
+	\end{equation*}
+	%
+	\begin{table}[!h]
+		\centering
+		\begin{tabular}{|c|cccccc|c|}
+			\hline
+			$\absH(x_i \cap  y_j)$  & $y_1$           & $y_2$           & $\cdots$ & $y_j$           & $\cdots$ & $y_l$    & Zeilensummen   \\ \hline
+			$x_1$                                 & $n_{11}$        & $n_{12}$        & $\cdots$ & $n_{1j}$        & $\cdots$ & $n_{1l}$ & $n_{1\bullet}$ \\
+			$x_2$                                 & $n_{21}$        & $n_{22}$        & $\cdots$ & $n_{2j}$        & $\cdots$ & $n_{2l}$ & $n_{2\bullet}$ \\
+			$\vdots$                              & $\vdots$        & $\vdots$        & $\vdots$ & $\vdots$        & $\vdots$ & $\vdots$ & $\vdots$       \\
+			$x_i$                                 & $n_{i1}$        & $n_{i2}$        & $\cdots$ & $n_{ij}$        & $\cdots$ & $n_{il}$ & $n_{i\bullet}$ \\
+			$\vdots$                              & $\vdots$        & $\vdots$        & $\vdots$ & $\vdots$        & $\vdots$ & $\vdots$ & $\vdots$       \\
+			$x_k$                                 & $n_{k1}$        & $n_{k2}$        & $\cdots$ & $n_{kj}$        & $\cdots$ & $n_{kl}$ & $n_{k\bullet}$ \\ \hline
+			Spaltensummen                         & $n_{\bullet 1}$ & $n_{\bullet 2}$ & $\cdots$ & $n_{\bullet j}$ & $\cdots$ & $n_{\bullet l}$ & $n$ \\ \hline
+		\end{tabular}
+	\end{table}
+	%
+	\framebreak
+	\begin{itemize}
+		\item Absolute Häufigkeit, mit der $x_i$ und $y_j$ beobachtet wurden, aus Zeilen- bzw.~Spaltensumme:
+		%
+		%\begin{subequations}
+		\begin{align*}
+			\absH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= n_{i \bullet} = \sum_{j=1}^{l} n_{i j}, \quad i = 1,\ldots,k \\
+			\intertext{bzw.} 
+			\absH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= n_{\bullet j} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,\ldots,l 
+		\end{align*}
+		%\end{subequations}
+		%
+		\item Gesamtanzahl an Beobachtungen:
+		\begin{equation*}
+			n =  \sum_{j=1}^{l} \sum_{i=1}^{k} n_{i j} = \sum_{i=1}^{k} n_{i \bullet} = \sum_{j=1}^{l} n_{\bullet j} 
+		\end{equation*}
+		%
+		\item Selbstverständlich kann die Kontingenztabelle auch für die relativen Häufigkeiten erstellt werden, und dann gilt entsprechend:
+		%
+		\begin{align*}
+			\relH(\ZVX = x_i \cap  \ZVY = y_j) &= h_{i j} = \dfrac{n_{i j}}{n}, \;\; i = 1,2,\cdots,k, \;\; j = 1,\ldots,l \\
+			\relH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= h_{i \bullet} = \dfrac{n_{i \bullet}}{n} = \sum_{j=1}^{l} h_{i j}, \quad i = 1,\ldots,k \\
+			\relH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= h_{\bullet j} = \dfrac{n_{\bullet j}}{n} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,\ldots,l \\
+			1 &=  \sum_{j=1}^{l} \sum_{i=1}^{k} h_{i j} = \sum_{i=1}^{k} h_{i \bullet} = \sum_{j=1}^{l} h_{\bullet j} 
+		\end{align*}
+		%
+	\end{itemize}
+	%
+\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
+	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\begin{figure}%
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-01.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+	Die $(k \times l)$--Matrix ist eine $( 10 \times 27)$--Matrix, \dh $i = 1,2,\dots,10$ und $j = 1,2,\dots,27$. Der Übersichtlichkeit halber sind keine Nullen eingetragen, \zB ist der Eintrag $n_{53} = 0$ und daher leer.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Randverteilung}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+\begin{frame}
+	\frametitle<presentation>{Randverteilungen}
+	%
+	\begin{alertblock}{Definition Randverteilungen}
+		\begin{myframe}{
+				Die eindimensionalen Verteilungen 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{align*}
+					\absH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= n_{i \bullet} = \sum_{j=1}^{l} n_{i j}, \quad i = 1,2,\cdots,k \\
+					%\label{eq:3-5*}
+					\absH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= n_{\bullet j} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,2,\cdots,l \\
+					%\label{eq:3-4}
+					\relH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= h_{i \bullet} = \dfrac{n_{i \bullet}}{n} = \sum_{j=1}^{l} h_{i j}, \quad i = 1,2,\cdots,k \\
+					%\label{eq:3-5*}
+					\relH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= h_{\bullet j} = \dfrac{n_{\bullet j}}{n} = \sum_{i=1}^{k} h_{i j}, \quad j = 1,2,\cdots,l 
+				\end{align*}
+				%
+				heißen \alert{Randverteilungen} der statistischen Variablen $\ZVX$ bzw.~$\ZVY$.
+			}
+		\end{myframe}
+		%%
+		\par\smallskip
+		\begin{alertblock}{Anmerkung} 
+			Aus den Randverteilungen lassen sich natürlich arithmetisches Mittel $\overline{x}$ bzw.~$\overline{y}$ und Varianz $s^2_{\mathrm{ X}}$ bzw.~$s^2_{\mathrm{ Y}}$ errechnen.
+		\end{alertblock}
+		%
+		
+	\end{alertblock}
+	%
+\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
+	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\begin{figure}%
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-01b.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+	\par\bigskip
+	Die Randverteilungen sind in rot dargestellt. 
+	\par\medskip
+	Selbstverständlich sind diese identisch mit denen in Teil I, Kapitel 1 angebenenen Verteilungen für $\ZVX$ und $\ZVY$.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bedingte Verteilungen}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Bedingte Verteilungen}
+	%
+	Interessiert man sich für die Verteilung eines Merkmals unter der \alert{Bedingung}, dass das andere einen ganz bestimmen (festen) Wert hat, dann erhält man die \sog \alert{bedingte Verteilung}, \zB Verteilung der Körperlänge $\ZVY$ unter der Bedingung Alter $\ZVX = 24$. 
+	\par\medskip
+	\alert{Schreibweise}: Das Vorliegen der Bedingung wird durch einen senkrechten Strich, "`|"', symbolisiert, z.B. $\ZVY | \ZVX = 24$
+	\par\bigskip
+	%
+	\begin{alertblock}{Definition der bedingten Verteilung}
+		\begin{myframe}{
+				Die $j = 1,2,\cdots,l$ eindimensionalen Verteilungen 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{equation*}\label{eq:3-8}
+					\relH(\ZVX = x_i | \ZVY = y_j) = h_{i | y_{j}} = \dfrac{h_{i j}}{h_{\bullet j}} = \dfrac{n_{i j}}{n_{\bullet j}} , \quad i = 1,\ldots,k 
+				\end{equation*}
+				und die $i = 1,2,\cdots,k$ eindimensionalen Verteilungen
+				\begin{equation*}\label{eq:3-9}
+					\relH(\ZVY = y_j | \ZVX = x_i) = h_{j | x_{i}} = \dfrac{h_{i j}}{h_{i \bullet}} = \dfrac{n_{i j}}{n_{i \bullet}} , \quad j = 1,\ldots,l 
+				\end{equation*}
+				%
+				heißen \textbf{bedingte Verteilungen}.
+			}
+		\end{myframe}
+	\end{alertblock}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
+	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\begin{figure}%
+		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-02.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+	\par\smallskip
+	Es gibt 
+	\begin{itemize}
+		\item $k=10$ bedingte Verteilungen $\relH(\ZVY = y_j | \ZVX = x_i)$ (oben)
+		\item $l=27$ bedingte Verteilungen $\relH(\ZVX = x_i | \ZVY = y_j)$ (unten)
+	\end{itemize}
+	\par\smallskip
+	Auffällig ist, dass die Wahl einer Bedingung für eine Variable anscheinend die Möglichkeiten der anderen Variablen einschränken kann, \zB ist durch die Bedingung $\ZVY = 155$ die Variable $\ZVX$ nicht nur eingeschränkt, sondern sogar eindeutig auf $\ZVX = 23$ festgelegt.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Statistische Unabhängigkeit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Statistische Unabhängigkeit}
+	%
+	\begin{alertblock}{Definition statistischer Unabhängigkeit}
+		\begin{myframe}{
+				Ist die gemeinsame Verteilung $h_{i j}$ gleich dem Produkt der Randverteilungen, \dh gilt 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{equation*}\label{eq:3-10}
+					h_{i j} = h_{i \bullet} \cdot h_{\bullet j}, \quad i = 1,\ldots,k, \quad j = 1,\ldots,l
+				\end{equation*}
+				so heißen $\ZVX$ und $\ZVY$ \textbf{statistisch unabhängig}.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Anmerkungen:}
+		%
+		\begin{enumerate}
+			\item Bei statistischer Unabhängigkeit ist jeder Eintrag der Kontingenztabelle $h_{i j}$ 
+			%(bzw.~$n_{i j}$) 
+			gleich dem Produkt aus Zeilensumme $h_{i \bullet}$ und Spaltensumme $h_{\bullet j}$: 
+			%(\bzw Zeilensumme $n_{i \bullet}$ und Spaltensumme $n_{\bullet j}$)
+			{\small
+				\begin{eqnarray*}
+					h_{i | y_{j}} &=& \dfrac{h_{i j}}{h_{\bullet j}} = \dfrac{h_{i \bullet} \cdot h_{\bullet j}}{h_{\bullet j}} = h_{i \bullet}, \quad i = 1,2,\ldots,k \\
+					h_{j | x_{i}} &=& \dfrac{h_{i j}}{h_{i \bullet}} = \dfrac{h_{i \bullet} \cdot h_{\bullet j}}{h_{i \bullet}} = h_{\bullet j}, \quad j = 1,2,\ldots,l 
+				\end{eqnarray*}
+			}
+			%
+			\item Anschaulich heißt statistische Unabhängigkeit, dass die Ausprägung des Merkmals $\ZVX$ keinen Rückschluss auf diejenige des Merkmals $\ZVY$ (und umgekehrt) erlaubt
+			\item Sind $\ZVX$ und $\ZVY$ statistisch abhängig, dann sagt dies nichts über eine physikalische Abhängigkeit (Ursache--Wirkung) aus!
+		\end{enumerate}
+	\end{alertblock}
+	%
+	
+	%
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Abhängigkeitsmaße}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle{Metrische Variablen: Kovarianz}
+	%
+	\begin{alertblock}{Definition Kovarianz}
+		\begin{myframe}{
+				Die Größe 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{align*}%\label{eq:3-15}
+					c_{\mathrm{XY}} &= \dfrac{1}{n}\sum_{i=1}^{n} \left( x_i - \overline{x} \right)\cdot \left( y_i - \overline{y} \right) \\
+					&= \dfrac{1}{n}\sum_{i=1}^{k} \sum_{j=1}^{l} n_{ij} \cdot \left( x_i - \overline{x} \right)\cdot \left( y_i - \overline{y} \right) %\label{eq:3-15b} 
+					\\
+					&= \sum_{i=1}^{k} \sum_{j=1}^{l} h_{ij} \cdot \left( x_i - \overline{x} \right)\cdot \left( y_i - \overline{y} \right) %\label{eq:3-15c} 
+					\\
+					&= \overline{x\cdot y} - \overline{x}\cdot\overline{y} \label{eq:3-15a}
+				\end{align*}
+				heißt \textbf{empirische Kovarianz} oder kurz \textbf{Kovarianz} zwischen den statistischen Variablen $\ZVX$ und $\ZVY$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	%
+	\begin{alertblock}{Anmerkung:}
+		%
+		Die Kovarianz $c_{\mathrm{XY}}$ wird null, sofern die statistischen Variablen $\ZVX$ und $\ZVY$ unabhängig sind. Die Kovarianz $c_{\mathrm{XY}}$ sagt demnach etwas über die statistische Gemeinsamkeit zwischen $\ZVX$ und $\ZVY$ aus! \textbf{Abbildung aus Schira}
+		%
+	\end{alertblock}
+	%
+\end{frame}
+
+\subsubsection{Principal Component Analysis}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Data Science Workflow: PCA Visualization}
+	
+	\textbf{Step 1: Tabular Data}
+	\begin{center}
+		\begin{tabular}{c c c}
+			\textbf{Height} & \textbf{Weight} & \textbf{Age} \\
+			170 & 65 & 15 \\
+			180 & 75 & 16 \\
+			175 & 70 & 15 \\
+		\end{tabular}
+	\end{center}
+	
+	\vspace{0.3cm}
+	\textbf{Step 2: Matrix Representation}
+	
+	\[
+	X = 
+	\begin{bmatrix}
+		170 & 65 & 15 \\
+		180 & 75 & 16 \\
+		175 & 70 & 15
+	\end{bmatrix} \in \mathbb{R}^{3 \times 3}
+	\]
+	
+	\vspace{0.3cm}
+	\textbf{Step 3: Center the Data}
+	
+	Compute the mean of each feature: $\mu = 
+	\begin{bmatrix}
+	175 & 70 & 15.33
+	\end{bmatrix} \in \mathbb{R}^{1 \times 3}$
+	
+	Center the data by subtracting the mean:
+	
+	\[
+	X_c = X - \begin{bmatrix}
+		\mu \\ \mu \\ \mu
+	\end{bmatrix} =
+	\begin{bmatrix}
+	-5 & -5 & -0.33 \\
+	5 & 5 & 0.67 \\
+	0 & 0 & -0.33
+	\end{bmatrix}
+	\]
+	
+	$\Longrightarrow$ Centering ensures that each feature has mean 0
+
+\framebreak
+	
+	\textbf{Step 4: Covariance Matrix}
+	
+	\vspace{0.3cm}
+	
+	Covariance matrix of centered data:
+	
+	\[
+	\Sigma = \frac{1}{n} X_c^T X_c \approx
+	\begin{bmatrix}
+	16.67 & 16.67 & 0.67 \\
+	16.67 & 16.67 & 0.67 \\
+	0.67 & 0.67 & 0.33
+	\end{bmatrix}
+	\]
+	
+	\begin{itemize}
+	\item Variance of Height $= 16.67$
+	\item Variance of Weight $= 16.67$
+	\item Variance of Age $= 0.33$
+	\item Covariance Height-Weight $= 16.67$ (strong correlation)
+	\item Age contributes very little
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	Summary:
+	\begin{align*}
+		s^2_\text{Height} = 16.67, \; s^2_\text{Weight} = 16.67, \; s^2_\text{Age} = 0.33
+	\end{align*}
+	\begin{align*}
+		c_\text{Height,Weight} = 16.67, \; c_\text{Height,Age} = 0.67, \; c_\text{Weight,Age} = 0.67
+	\end{align*}
+	
+\framebreak
+	
+	\textbf{Step 5: Eigenvalues and Principal Components}
+	
+	\vspace{0.3cm}
+	
+	Solve the eigenvakue problem \(\Sigma v_i = \lambda_i v_i\):
+	
+	\begin{itemize}
+	\item \(\lambda_1 \approx 33\) $\to$ PC1 (largest variance)
+	\item \(\lambda_2 \approx 0.33\) $\to$ PC2
+	\item \(\lambda_3 \approx 0\) $\to$ PC3 (almost no variance)
+	\item PC1 vector \(\approx [0.71, 0.71, \varepsilon]\), $\varepsilon$ small
+	\end{itemize}
+	
+	\begin{block}{Interpretation}
+	Height and Weight dominate PC1 $\to$ almost all variance captured  \\
+	Age has very little contribution $\to$ nearly PC3
+	\end{block}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Step 6: Project Data onto Principal Components}
+	%$Z = X_c V$
+	\begin{center}
+		\begin{tikzpicture}[scale=1.1]
+			% Data points
+			\foreach \x/\y in {1.0/1.2, 1.5/1.8, 2.0/2.0, 2.2/1.7, 1.8/2.1, 1.0/2.0, 1.2/1.5, 2.0/1.5} {
+				\fill[gray] (\x,\y) circle (2pt);
+			}
+			
+			% Ellipse
+			\draw[blue, thick, rotate around={30:(1.7,1.7)}] (1.7,1.7) ellipse (0.8cm and 0.4cm);
+			
+			% Principal Components
+			\draw[->, red, very thick] (1.7,1.7) -- (2.6,2.3) node[above] {PC1};
+			\draw[->, green!70!black, very thick] (1.7,1.7) -- (1.2,2.2) node[left] {PC2};
+			
+			% Projection example
+			\draw[dashed, gray] (2.0,2.0) -- (2.42,2.12);
+			\fill[orange] (2.42,2.12) circle (2pt) node[right]{Projection on PC1};
+		\end{tikzpicture}
+	\end{center}
+	
+	\begin{itemize}
+		\item PC1: direction of \textbf{maximum variance} (red)
+		\item PC2: orthogonal to PC1 (green)
+		\item Projecting data onto PCs reduces dimensionality while retaining most variance
+	\end{itemize}	
+	
+\framebreak
+
+    \textbf{Explained Variance of Principal Components}
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=1.2]
+			% Axes
+			\draw[->] (0,0) -- (5,0) node[right]{Principal Comp.};
+			\draw[->] (0,0) -- (0,3) node[above]{Explained Variance (\%)};
+			
+			% Bars (example values)
+			\fill[red!70] (0.5,0) rectangle (1.5,2.4); % PC1 ? 80%
+			\fill[green!70] (1.7,0) rectangle (2.7,0.5); % PC2 ? 16%
+			\fill[blue!70] (2.9,0) rectangle (3.9,0.1); % PC3 ? 4%
+			
+			% Labels
+			\node at (1,2.6) {PC1};
+			\node at (2.2,0.7) {PC2};
+			\node at (3.4,0.2) {PC3};
+			
+			% Percentages
+			\node at (1,2.2) {80\%};
+			\node at (2.2,0.3) {16\%};
+			\node at (3.4,-0.2) {4\%};
+		\end{tikzpicture}
+	\end{center}
+	
+	\begin{itemize}
+		\item PC1, captures largest variation
+		\item PC2, some variation, contributes moderately
+		\item PC3, contributes very little, negligible
+		\item Choosing first 1-2 PCs effectively reduces dimensionality
+		\item This shows why PCA can \textbf{reduce dimensions without losing much information}
+	\end{itemize}
+	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Korrelationskoeffizient}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle{Metrische Variablen: Korrelationskoeffizient}
+	%
+	\begin{alertblock}{Definition Korrelationskoeffizient}
+		\begin{myframe}{
+				Der Quotient 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{equation*}\label{eq:3-16}
+					r_{\mathrm{ XY}} = \dfrac{c_{\mathrm{ XY}}}{s_{\mathrm{ X}} \cdot s_{\mathrm{ Y}}}, \quad s_{\mathrm{ X}} > 0 , s_{\mathrm{ Y}} > 0
+				\end{equation*}
+				heißt \textbf{empirischer Korrelationskoeffizient} zwischen den statistischen Variablen $\ZVX$ und $\ZVY$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\bigskip
+	\alert{Anmerkungen}:
+	%
+	\begin{enumerate}%
+		\item Die Größe $r_{\mathrm{ XY}}$ hat das gleiche Vorzeichen wie $c_{\mathrm{ XY}}$, so dass gilt
+		\begin{equation*}
+			-1 \leq r_{\mathrm{ XY}} \leq +1
+		\end{equation*}
+		mit Interpretation
+		\begin{eqnarray*}
+			-1 \leq r_{\mathrm{ XY}} < 0 & \Leftrightarrow & \text{negative lineare Korrelation} \\
+			r_{\mathrm{ XY}} = 0 & \Leftrightarrow &  \text{keine lineare Korrelation} \\
+			0 < r_{\mathrm{ XY}} \leq +1 & \Leftrightarrow & \text{positive lineare Korrelation} \\
+		\end{eqnarray*}
+		%\end{enumerate}%
+		%\framebreak
+		%\setcounter{enumi}{2}
+		%\begin{enumerate}%
+		\item Maßstabsänderungen (genauer: lineare Transformationen) beeinflussen $r_{\mathrm{ XY}}$ nicht
+		\item Vertauschen von $\ZVX$ und $\ZVY$ verändert $r_{\mathrm{ XY}}$ nicht, \dh es gilt
+		\begin{equation*}
+			r_{\mathrm{ XY}} = r_{\mathrm{ YX}}
+		\end{equation*}
+		\item $r_{\mathrm{ XY}}$ gibt lediglich eine \emph{statistische Tendenz} an. Eine \emph{kausale Beziehung} (im Sinne von Ursache--Wirkung) zwischen den Merkmalen $\ZVX$ und $\ZVY$ muss es deshalb nicht geben, sie könnte auch rein zufällig sein. 
+		
+		Beispiel:
+		%
+		\begin{figure}%
+			\includegraphics[width=0.4\linewidth]{Bilder/Geburten_Stoerche.pdf}%
+			%\hspace{0.1\linewidth}
+			%\includegraphics[width=0.35\linewidth, trim=0 0 42 42]{Bilder/Auslaender_Kriminalitaet.pdf}%
+			%\par\medskip
+			%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+			%\caption{}%
+			%\label{}%
+		\end{figure}
+		%
+		\item $r_{\mathrm{ XY}}$ kann nur für metrisch skalierte Merkmale $\ZVX$ und $\ZVY$ errechnet werden.
+		\item $r_{\mathrm{ XY}}$ wird oft als \alert{Korrelationskoeffizient nach Breavais-Pearson} bezeichnet.
+	\end{enumerate}%
+	%\end{alertblock}
+	%
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
+	Für die Stichprobe ergibt sich \zB (Zug a \& b) folgende Arbeitstabelle $x_i \cdot y_j \cdot h_{i j}$
+	zur Berechnung von $\overline{x\cdot y}$ :
+	\begin{figure}%
+		\includegraphics[width=0.8\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-03.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+	%{\small
+		Alle Einträge summiert ergibt $\overline{x\cdot y} = \frac{279.508}{70}$. Mit $\overline{x} = \frac{1.586}{70}$ und $\overline{y} = \frac{12.325}{70}$ folgt $c_{\mathrm{XY}} = \overline{x\cdot y} - \overline{x} \cdot \overline{y} 
+		%= \frac{279.508}{70} -\frac{1.586}{70} \frac{12.325}{70} 
+		= \frac{18.110}{4.900}$. Mit $\sigma_{\mathrm{X}}^2 = \frac{24.204}{4.900}$ und $\sigma_{\mathrm{Y}}^2 = \frac{440.205}{4.900}$ ist der Korrelationskoeffizient
+		\begin{equation*}
+			r_{\mathrm{ XY}} = \dfrac{c_{\mathrm{ XY}}}{s_{\mathrm{ X}} \cdot s_{\mathrm{ Y}}}
+			= \dfrac{18.110/4.900}{\sqrt{\frac{24.204}{4.900}}\sqrt{\frac{440.205}{4.900}}}
+			= \dfrac{18.110}{\sqrt{24.204 \cdot 440.205}} \approx 0,175
+		\end{equation*}
+		was eine schwache positive Korrelation (einen schwachen positiven linearen Zusammenhang) bedeutet.
+		%}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	Correlation Matrices and Heatmaps
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Example: Load Data Analysis}
+	\begin{figure}%
+		\includegraphics[width=1.03\linewidth]{Bilder/Load_Data_1a.png}%
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{Example: Load Data Analysis}
+	\begin{figure}%
+		\includegraphics[width=1.03\linewidth]{Bilder/Load_Data_2a.png}%
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{Example: Load Data Analysis}
+	\begin{figure}%
+		\includegraphics[width=1.03\linewidth]{Bilder/Load_Data_3a.png}%
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsubsection{Rangkorrelationskoeffizient}
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+%\frametitle{Ordinal skalierte  Variablen: Rangkorrelationskoeffizient}
+%%
+%Der Korrelationskoeffizient $r_{\mathrm{ XY}}$ kann auf \textbf{ordinal} skalierte Merkmalsausprägung angewendet werden, wenn man hilfsweise anstelle der Wertepaare $(x_i, y_i)$ deren Rangplätze $[{\mathrm{ rg}}(x_i), {\mathrm{ rg}}(y_i)]$ verwendet.
+%%
+%\begin{alertblock}{Definition Rangkorrelationskoeffizient}
+%\begin{myframe}{ 
+%%
+%Die Größe
+%\begin{equation*}
+%\label{eq:3-17}
+%r^{\mathrm{ SP}}_{\mathrm{ XY}} = \left| r_{{\mathrm{ rg}}(\ZVX), {\mathrm{ rg}}(\ZVY)} \right|, \quad 0 \leq r^{\mathrm{ SP}}_{\mathrm{ XY}} \leq 1
+%\end{equation*}
+%%
+%heißt \textbf{Rangkorrelationskoeffizient} (nach Spearman).
+%\par\medskip
+%Dabei sind die Rangplätze die Indizes, nachdem die Beobachtungswerte der Größe nach sortiert wurden. Treten dabei zwei oder mehrere gleich große Werte auf, so indiziert man die Rangplätze zunächst einfach durch, ordnet aber danach den gleichen Werten das arithmetische Mittel ihrer Rangplätze (also der Indizes) zu.
+%}
+%\end{myframe}
+%\end{alertblock}
+%%
+%\par\medskip
+%Man wird im Einzelfall dann lieber die Rangkorrelation berechnen, wenn man der Qualität einer der beiden Skalen (oder beiden Skalen) nicht recht traut, also nicht weiss, ob diese wirklich abstandstreu (also metrisch) ist (sind). Ein Beispiel hierfür sind Noten (Schulnoten, MSS-Noten, Klausurnoten).
+%%
+%\end{frame}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{Beispiel: MSS--Noten}
+%Es soll bewertet werden, ob eine Abhängigkeit zwischen den im Fach Deutsch erzielten MSS--Punkten und den im Fach Geschichte erzielten MSS-Punkten besteht.
+%\begin{columns}
+%\begin{column}{0.55\linewidth}
+%\begin{figure}%
+%%\begin{figure}% trim=left bottom right top
+%\includegraphics[trim=-1cm 0cm 0 2cm, width=1.6\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-04.pdf}%
+%%\par\medskip
+%%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+%%\caption{}%
+%%\label{}%
+%\end{figure}
+%\end{column}
+%\begin{column}[t]{0.45\linewidth}
+%\rule[-1.9cm]{0mm}{1.9cm}\par\medskip
+%{\small
+%\begin{align*}
+%\overline{x} &= \frac{55,0}{10} = 5,5 \\
+%\overline{y} &= \frac{55,0}{10} = 5,5 \\
+%\sigma_{\mathrm{X}}^2 &= \frac{384,5}{10}-5,5^2 = 8,2 \\
+%\sigma_{\mathrm{Y}}^2 &= \frac{382,5}{10}-5,5^2 = 8,0 \\
+%c_{\mathrm{Y}} &= \frac{372,0}{10}-5,5 \cdot 5,5 = 6,95 
+%\end{align*}
+%}
+%\end{column}
+%\end{columns}
+%\par\smallskip
+%Der Rangkorrelationskoeffizient beträgt daher $r^{\mathrm{ SP}}_{\mathrm{ XY}} = \frac{6,95}{\sqrt{8,2}\cdot\sqrt{8}} \approx 0,86$, was eine recht hohe Abhängigkeit der erzielten MSS-Punkte nahe legt.
+%%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsubsection{Kontingenzkoeffizient}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+%\frametitle{Nominal skalierte  Variablen: Kontingenzkoeffizient}
+%
+%Mit nominal skalierten Merkmalsausprägungen kann man nicht rechnen, wohl aber mit den Häufigkeiten, mit denen sie beobachtet werden. Die Kontingenztabelle enthält eben genau diese als Einträge. Im Falle der Unabhängigkeit der Merkmale muss auch bei nominal skalierten Merkmalen gelten, dass deren gemeinsame Häufigkeit gleich dem Produkt der Einzelhäufigkeiten ist. Bei angenommener Unabhängigkeit ergäben sich daher in der Kontingenztabelle die \emph{hypothetischen} (nicht notwendigerweise ganzzahligen) Werte
+%%
+%%\setcounter{equation}{18}
+%\begin{equation*}
+%	\label{eq:3-19}
+%	E_{i j} = n \cdot h_{i \bullet} \cdot h_{\bullet j} = \frac{n_{i \bullet} \cdot n_{\bullet j}}{n}
+%\end{equation*}
+%%
+%als absolute Häufigkeit der Beobachtung.
+%\par
+%%
+%\begin{alertblock}{Definition Quadratische Kontingenz}
+%	\begin{myframe}{
+%			Die Summe der relativen quadratischen Abweichungen
+%			\begin{equation*}
+%				\label{eq:3-20}
+%				QK = \sum_{i=1}^{k} \sum_{j=1}^{l} \dfrac{\left( n_{i j} - E_{i j} \right)^2}{E_{i j}}
+%			\end{equation*}
+%			heißt \textbf{quadratische Kontingenz} oder \textbf{Chi-Quadrat-Koeffizient}.
+%		}
+%	\end{myframe}
+%\end{alertblock}
+%%
+%Die Größe $QK$ ist also ein Maß für die Abweichung der \alert{tatsächlichen} von der bei Unabhängigkeit zu \alert{erwartenden} Häufigkeit. 
+%\par
+%\framebreak
+%%
+%\alert{Anmerkungen}:
+%\begin{itemize}
+%	\item Im Falle vollkommener statistischer Unabhängigkeit ist $QK=0$.
+%	\item In allen anderen Fällen ist $QK$ positiv und kann -- wenn statistische Abhängigkeit vorliegt -- für große $n$ sehr groß werden.
+%	\item Als Zusammenhangsmaß ist die Größe $QK$ nicht geeignet und muss noch normiert werden.
+%\end{itemize}
+%\par\medskip
+%\begin{alertblock}{Definition Korrigierter Kontingenzkoeffizient}
+%	\begin{myframe}{
+%			Die Größe
+%			\begin{equation*}
+%				\label{eq:3-21}
+%				K^{\ast} = \sqrt{\dfrac{QK \cdot \min(k,l)}{(QK+n)\cdot(\min(k,l)-1)}}, \quad 0 \leq K^{\ast} \leq 1
+%			\end{equation*}
+%			heißt \textbf{korrigierter Kontingenzkoeffizient}.
+%		}
+%	\end{myframe}
+%\end{alertblock} 
+%\par\medskip
+%\alert{Hinweis}:
+%\begin{itemize}
+%	\item Kontingenzkoeffizient kann natürlich auch für \emph{ordinale} und \emph{metrische Merkmale} berechnet und sinnvoll interpretiert werden.
+%	\item \textbf{Aber} er gibt nur an, \emph{wie stark} der Zusammenhang ist, er sagt jedoch nichts über die \emph{Richtung} des Zusammenhangs aus wie der Korrelationskoeffizient.
+%\end{itemize}
+%\end{frame}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{Beispiel: Zusammenhang Ausbildungsbereich und Geschlecht}
+%Es soll bewertet werden, ob im Jahr 2005 eine Abhängigkeit zwischen dem Ausbildungsbereich $\ZVX \in \{\text{Industrie und Handel}, \text{Handwerk},\text{Öffentl.\ Dienst} \}$ und dem Geschlecht $\ZVY \in \{\text{Männlich}, \text{Weiblich}\}$ besteht.
+%\begin{figure}%
+%	%\begin{figure}% trim=left bottom right top
+%	\includegraphics[trim=0cm 0cm 0 0cm, width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-05.pdf}%
+%	%\par\medskip
+%	%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+%	%\caption{}%
+%	%\label{}%
+%\end{figure}
+%\par\smallskip
+%Hier gilt $k = 3, l = 2$ und $n = 1.368{,}8$ (in [1000] Personen, \dh es wurden insgesamt 1.368.800 Personen betrachtet).
+%\par\smallskip
+%Der korrigierte Kontingenzkoeffizient ist demnach 
+%\begin{equation*}
+%	K^{\ast} = \sqrt{\dfrac{53{,}892 \cdot \min(3,2)}{(53{,}892+1.368{,}8)\cdot(\min(3,2)-1)}} \approx 0{,}275
+%\end{equation*}
+%was auf eine geringe Abhängigkeit hindeutet. Jedoch ist die Berufswahl auch durchaus nicht unabhängig vom Geschlecht.
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%\frametitle{Beispiel: "`Light, Life oder Original -- welche Coke ist am besten?"'}
+%In der Ausgabe 2+3/2016 der Rundschau der Hochschule Kaiserslautern (Seiten 32-34) wurde gefragt: "`Light, Life oder Original -- welche Coke ist am besten?"'. Dazu machten $n = 65$ Probanden zwei Testreihen, einen Blindtest ($\ZVX$) und einen offenen Test ($\ZVY$), in dem Sie jeweils (unter anderem) dasjenige Getränk angaben, welches ihnen am besten schmeckte, siehe Tabelle [A].
+%\begin{figure}%
+%	%\begin{figure}% trim=left bottom right top
+%	\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.69\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-06.pdf}
+%	%\hspace{.10cm}
+%	\includegraphics[trim=0cm .2cm 0 0cm, width=0.29\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-06b.pdf}%
+%	%\par\medskip
+%	%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+%	%\caption{}%
+%	%\label{}%
+%\end{figure}
+%\par\smallskip
+%Hier gilt $k = 3, l = 3$ und $n = 65$.
+%\par\smallskip
+%Der korrigierte Kontingenzkoeffizient ist demnach 
+%\begin{equation*}
+%	K^{\ast} = \sqrt{\dfrac{25{,}48 \cdot \min(3,3)}{(25{,}48+65)\cdot(\min(3,3)-1)}} \approx 0{,}65
+%\end{equation*}
+%was auf eine deutliche Abhängigkeit hindeutet. 
+%$\rightarrow$ \glqq Das Auge schmeckt vermutlich doch nicht mit.\grqq
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+%\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
+%Der Boxplot Körperlänge vs.\ Geschlecht legt nahe, dass es eine Abhängigkeit zwischen Körperlänge und Geschlecht gibt.
+%Um dies zu bewerten wird die Körperlänge beispielhaft in $k = 6$ Klassen eingeteilt.
+%\par\bigskip
+%\begin{figure}%
+%	%\begin{figure}% trim=left bottom right top
+%	\includegraphics[trim=0cm 0cm 0cm 0cm, width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-07.pdf}
+%	%\hspace{.10cm}
+%	%\par\medskip
+%	%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+%	%\caption{}%
+%	%\label{}%
+%\end{figure}
+%%\par\smallskip
+%\framebreak
+%\par\smallskip
+%Hier gilt $k = 6, l = 2$ und $n = 70$.
+%\par\smallskip
+%Der korrigierte Kontingenzkoeffizient ist demnach 
+%\begin{equation*}
+%	K^{\ast} = \sqrt{\dfrac{33{,}481 \cdot \min(6,2)}{(33{,}481+70)\cdot(\min(6,2)-1)}} \approx 0{,}8
+%\end{equation*}
+%was auf eine deutliche Abhängigkeit hindeutet.
+%\par\bigskip
+%Frauen sind demnach im Mittel kleiner als Männer. Wer hätte das gedacht?
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
+
+
