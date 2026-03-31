@@ -30,7 +30,7 @@
 %amsthm wird für styles bei Satz- und Definitionsnumerierung benötigt
 %bbm wird für die Symbole für reelle bzw. nat. Zahlen benötigt
 \usepackage{fancyhdr, amssymb, amsmath, amsthm, bbm} 
-\usepackage[ngerman]{babel}
+%\usepackage[ngerman]{babel}
 %\usepackage{ifpdf}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -1297,44 +1297,79 @@ Note: Deviations may arise due to roundings.
 
 \section{Multivariate Data}
 
-\begin{frame}
-	Bisher: jedes Feature einzeln betrachtet \ldots
-	Jetzt: Gemeinsame Eigenschaften unterschiedlicher Features \ldots
+\begin{frame}{Motivation: Multivariate Data}
+	
+	\textbf{Up to now (\emph{univariate}):}
+	\begin{itemize}
+		\item Each feature considered \textbf{individually}
+		\item Analysis of distributions, means, variances
+		\item Relationships between features \textbf{ignored}
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Problem:}
+	\begin{itemize}
+		\item Important information is lost
+		\item Dependencies and interactions remain hidden
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Now (\emph{multivariate}):}
+	\begin{itemize}
+		\item Consider \textbf{multiple features simultaneously}
+		\item Analyze \textbf{joint properties and relationships}
+		\item Identify:
+		\begin{itemize}
+			\item Correlations
+			\item Patterns and structures
+			\item Dependencies between features
+		\end{itemize}
+	\end{itemize}
+	
+	\vspace{0.2cm}
+	
+	\textbf{Goal:}
+	\begin{itemize}
+		\item Gain a \textbf{holistic understanding} of the data
+		\item Enable better models and more informed decisions
+	\end{itemize}
+	
 \end{frame}
 
-\subsection{Streudiagramm und gemeinsame Verteilung}
+\subsection{Scatter Plot \& Joint Distribution}
 
 \begin{frame}
-	\frametitle<presentation>{Streudiagramm und gemeinsame Verteilung}
+	\frametitle<presentation>{Scatter Plot \& Joint Distribution}
 	%
-	\begin{alertblock}{Grundsätzliches}
+	\begin{alertblock}{General Principles}
 		\begin{itemize}
-			\item Jede Zeile einer Datenmatrix \ldots Jede statistische Einheit $\omega_i$, $i = 1,\ldots,n$, einer Teil-/Grundgesamtheit $\Omega$ oder Stichprobe kann Träger mehrerer Merkmale 
-			$\ZVX_1, \ZVX_2, \ldots, \ZVX_m$ sein, z.B.: Statistische Einheit oder Merkmalsträger: alle WI-Studierende, Merkmal $\ZVX_1$: Körperlänge, Merkmal 
-			$\ZVX_2$: Gewicht, Merkmal $\ZVX_3$: Alter, ... 
-			\item Multivariate Statistik: Jede statistische Einheit $\omega_i$, $i = 1,\ldots,n$, einer Teil-/ Grundgesamtheit $\Omega$ oder Stichprobe kann Träger mehrerer Merkmale sein:
+			\item Each row of a data matrix (from a population) can carry multiple features 
+			$\ZVX_1, \ZVX_2, \ldots, \ZVX_m$, e.g.: all students of HSKL with feature $\ZVX_1$: body height, feature 
+			$\ZVX_2$: weight, feature $\ZVX_3$: age, ... 
+%			\item Multivariate statistics: Each statistical unit $\omega_i$, $i = 1,\ldots,n$, from a population/subpopulation $\Omega$ or sample can carry multiple features:
+%			\begin{equation*}
+%				\label{eq:3-1}
+%				\ZVX_1(\omega_i), \ZVX_2(\omega_i), \ldots, \ZVX_m(\omega_i), \quad i = 1,2,\ldots,n
+%			\end{equation*}
+			\item Considered below: two-dimensional statistics with the two features
 			\begin{equation*}
-				\label{eq:3-1}
-				\ZVX_1(\omega_i), \ZVX_2(\omega_i), \ldots, \ZVX_m(\omega_i), \quad i = 1,2,\ldots,n
+				\ZVX, \ZVY.
 			\end{equation*}
-			\item Nachfolgend betrachtet: Zweidimensionale Statistik mit den zwei statistischen Variablen
-			\begin{equation*}
-				\ZVX(\omega_i), \ZVY(\omega_i), \quad i = 1,2,\ldots,n
-			\end{equation*}
-			verkürzt $(\ZVX, \ZVY)$ geschrieben. Die  beobachteten Merkmalsausprägungen sind $(\ZVX=x_i, \ZVY=y_i)$, verkürzt  $(x_i, y_i)$ geschrieben.
+			The observed feature values are $(\ZVX=x_i, \ZVY=y_i)$, written in short as $(x_i, y_i)$.
 		\end{itemize}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Definition Streudiagramm}
-		Im Streudiagramm werden die beobachteten Merkmalsausprägungen $(x_i, y_i)$ als Punkte $P_i$ interpretiert und in ein $y$-$x$-Koordinatensystem eingezeichnet.
+	\begin{alertblock}{Definition: Scatter Plot}
+		In a scatter plot, the observed feature values $(x_i, y_i)$ are interpreted as points $P_i$ and plotted in a $y$-$x$ coordinate system.
 	\end{alertblock}
 	%
 \end{frame}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
-	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	For this sample, e.g. (Group a \& b):
 	\begin{figure}%
 		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-00.pdf}%
 		%\par\medskip
@@ -1343,72 +1378,72 @@ Note: Deviations may arise due to roundings.
 		%\label{}%
 	\end{figure}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Kontingenztabelle}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Contingency Table}
+
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Kontingenz- oder Korrelationstabelle}
+	\frametitle<presentation>{Contingency or Correlation Table}
 	%
-	\begin{alertblock}{Definition Kontingenz- oder Korrelationstabelle}
-		Die Kontingenz- oder Korrelationtabelle ist die Erweiterung eindimensionaler Häufigkeitstabellen auf zwei Dimensionen. 
+	\begin{alertblock}{Definition: Contingency or Correlation Table}
+		The contingency or correlation table is the extension of one-dimensional frequency tables to two dimensions.
 	\end{alertblock}
 	\par\bigskip
-	Absolute Häufigkeit, mit der die Wertekombination $(x_i, y_j)$ entsprechend den gebildeten Größenklassen vorkommt:
+	Absolute frequency with which the feature value combination $(x_i, y_j)$ occurs according to the formed classes:
 	%
 	\begin{equation*}
 		\label{eq:3-2}
-		\absH(\ZVX = x_i \cap  \ZVY = y_j) = \absH(x_i \cap  y_j) = n_{i j}, \;\; i = 1,\ldots,k, \;\; j = 1,\ldots,l 
+		\absH(\ZVX = x_i \cap  \ZVY = y_j) = n_{i j}, \;\; i = 1,\ldots,k, \;\; j = 1,\ldots,l 
 	\end{equation*}
 	%
 	\begin{table}[!h]
 		\centering
 		\begin{tabular}{|c|cccccc|c|}
 			\hline
-			$\absH(x_i \cap  y_j)$  & $y_1$           & $y_2$           & $\cdots$ & $y_j$           & $\cdots$ & $y_l$    & Zeilensummen   \\ \hline
+			$\absH(x_i \cap  y_j)$  & $y_1$           & $y_2$           & $\cdots$ & $y_j$           & $\cdots$ & $y_l$    & Row sums   \\ \hline
 			$x_1$                                 & $n_{11}$        & $n_{12}$        & $\cdots$ & $n_{1j}$        & $\cdots$ & $n_{1l}$ & $n_{1\bullet}$ \\
 			$x_2$                                 & $n_{21}$        & $n_{22}$        & $\cdots$ & $n_{2j}$        & $\cdots$ & $n_{2l}$ & $n_{2\bullet}$ \\
 			$\vdots$                              & $\vdots$        & $\vdots$        & $\vdots$ & $\vdots$        & $\vdots$ & $\vdots$ & $\vdots$       \\
 			$x_i$                                 & $n_{i1}$        & $n_{i2}$        & $\cdots$ & $n_{ij}$        & $\cdots$ & $n_{il}$ & $n_{i\bullet}$ \\
 			$\vdots$                              & $\vdots$        & $\vdots$        & $\vdots$ & $\vdots$        & $\vdots$ & $\vdots$ & $\vdots$       \\
 			$x_k$                                 & $n_{k1}$        & $n_{k2}$        & $\cdots$ & $n_{kj}$        & $\cdots$ & $n_{kl}$ & $n_{k\bullet}$ \\ \hline
-			Spaltensummen                         & $n_{\bullet 1}$ & $n_{\bullet 2}$ & $\cdots$ & $n_{\bullet j}$ & $\cdots$ & $n_{\bullet l}$ & $n$ \\ \hline
+			Column sums                         & $n_{\bullet 1}$ & $n_{\bullet 2}$ & $\cdots$ & $n_{\bullet j}$ & $\cdots$ & $n_{\bullet l}$ & $n$ \\ \hline
 		\end{tabular}
 	\end{table}
 	%
 	\framebreak
 	\begin{itemize}
-		\item Absolute Häufigkeit, mit der $x_i$ und $y_j$ beobachtet wurden, aus Zeilen- bzw.~Spaltensumme:
+		\item Absolute frequency with which $x_i$ and $y_j$ were observed, from row and column sums:
 		%
 		%\begin{subequations}
 		\begin{align*}
-			\absH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= n_{i \bullet} = \sum_{j=1}^{l} n_{i j}, \quad i = 1,\ldots,k \\
-			\intertext{bzw.} 
-			\absH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= n_{\bullet j} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,\ldots,l 
+			\absH(\ZVX = x_i \cap \ZVY \text{ arbitrary}) &= n_{i \bullet} = \sum_{j=1}^{l} n_{i j}, \quad i = 1,\ldots,k \\
+			\intertext{respectively} 
+			\absH(\ZVX \text{ arbitrary} \cap \ZVY = y_j) &= n_{\bullet j} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,\ldots,l 
 		\end{align*}
 		%\end{subequations}
 		%
-		\item Gesamtanzahl an Beobachtungen:
+		\item Total number of observations:
 		\begin{equation*}
 			n =  \sum_{j=1}^{l} \sum_{i=1}^{k} n_{i j} = \sum_{i=1}^{k} n_{i \bullet} = \sum_{j=1}^{l} n_{\bullet j} 
 		\end{equation*}
 		%
-		\item Selbstverständlich kann die Kontingenztabelle auch für die relativen Häufigkeiten erstellt werden, und dann gilt entsprechend:
+		\item Of course, the contingency table can also be created for relative frequencies; then the following applies:
 		%
 		\begin{align*}
 			\relH(\ZVX = x_i \cap  \ZVY = y_j) &= h_{i j} = \dfrac{n_{i j}}{n}, \;\; i = 1,2,\cdots,k, \;\; j = 1,\ldots,l \\
-			\relH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= h_{i \bullet} = \dfrac{n_{i \bullet}}{n} = \sum_{j=1}^{l} h_{i j}, \quad i = 1,\ldots,k \\
-			\relH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= h_{\bullet j} = \dfrac{n_{\bullet j}}{n} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,\ldots,l \\
+			\relH(\ZVX = x_i \cap \ZVY \text{ arbitrary}) &= h_{i \bullet} = \dfrac{n_{i \bullet}}{n} = \sum_{j=1}^{l} h_{i j}, \quad i = 1,\ldots,k \\
+			\relH(\ZVX \text{ arbitrary} \cap \ZVY = y_j) &= h_{\bullet j} = \dfrac{n_{\bullet j}}{n} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,\ldots,l \\
 			1 &=  \sum_{j=1}^{l} \sum_{i=1}^{k} h_{i j} = \sum_{i=1}^{k} h_{i \bullet} = \sum_{j=1}^{l} h_{\bullet j} 
 		\end{align*}
 		%
 	\end{itemize}
 	%
 \end{frame}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
-	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	For this sample, e.g. (Group a \& b):
 	\begin{figure}%
 		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-01.pdf}%
 		%\par\medskip
@@ -1416,47 +1451,51 @@ Note: Deviations may arise due to roundings.
 		%\caption{}%
 		%\label{}%
 	\end{figure}
-	Die $(k \times l)$--Matrix ist eine $( 10 \times 27)$--Matrix, \dh $i = 1,2,\dots,10$ und $j = 1,2,\dots,27$. Der Übersichtlichkeit halber sind keine Nullen eingetragen, \zB ist der Eintrag $n_{53} = 0$ und daher leer.
+	The $(k \times l)$ matrix is a $(10 \times 27)$ matrix, i.e. $i = 1,2,\dots,10$ and $j = 1,2,\dots,27$. 
+	
+	\vspace{0.1cm}
+	
+	For the sake of clarity, zeros are not shown; for example, the entry $n_{53} = 0$ is therefore left blank.
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Randverteilung}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Marginal Distributions}
+
 %\begin{frame}[allowframebreaks,allowdisplaybreaks]
 \begin{frame}
-	\frametitle<presentation>{Randverteilungen}
+	\frametitle<presentation>{Marginal Distributions}
 	%
-	\begin{alertblock}{Definition Randverteilungen}
+	\begin{alertblock}{Definition: Marginal Distributions}
 		\begin{myframe}{
-				Die eindimensionalen Verteilungen 
+				The one-dimensional distributions
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 				\begin{align*}
-					\absH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= n_{i \bullet} = \sum_{j=1}^{l} n_{i j}, \quad i = 1,2,\cdots,k \\
+					\absH(\ZVX = x_i \cap \ZVY \text{ arbitrary}) &= n_{i \bullet} = \sum_{j=1}^{l} n_{i j}, \quad i = 1,2,\cdots,k \\
 					%\label{eq:3-5*}
-					\absH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= n_{\bullet j} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,2,\cdots,l \\
+					\absH(\ZVX \text{ arbitrary} \cap \ZVY = y_j) &= n_{\bullet j} = \sum_{i=1}^{k} n_{i j}, \quad j = 1,2,\cdots,l \\
 					%\label{eq:3-4}
-					\relH(\ZVX = x_i \cap \ZVY \text{ beliebig}) &= h_{i \bullet} = \dfrac{n_{i \bullet}}{n} = \sum_{j=1}^{l} h_{i j}, \quad i = 1,2,\cdots,k \\
+					\relH(\ZVX = x_i \cap \ZVY \text{ arbitrary}) &= h_{i \bullet} = \dfrac{n_{i \bullet}}{n} = \sum_{j=1}^{l} h_{i j}, \quad i = 1,2,\cdots,k \\
 					%\label{eq:3-5*}
-					\relH(\ZVX \text{ beliebig} \cap \ZVY = y_j) &= h_{\bullet j} = \dfrac{n_{\bullet j}}{n} = \sum_{i=1}^{k} h_{i j}, \quad j = 1,2,\cdots,l 
+					\relH(\ZVX \text{ arbitrary} \cap \ZVY = y_j) &= h_{\bullet j} = \dfrac{n_{\bullet j}}{n} = \sum_{i=1}^{k} h_{i j}, \quad j = 1,2,\cdots,l 
 				\end{align*}
 				%
-				heißen \alert{Randverteilungen} der statistischen Variablen $\ZVX$ bzw.~$\ZVY$.
+				are called the \alert{marginal distributions} of the features $\ZVX$ and $\ZVY$, respectively.
 			}
 		\end{myframe}
 		%%
 		\par\smallskip
-		\begin{alertblock}{Anmerkung} 
-			Aus den Randverteilungen lassen sich natürlich arithmetisches Mittel $\overline{x}$ bzw.~$\overline{y}$ und Varianz $s^2_{\mathrm{ X}}$ bzw.~$s^2_{\mathrm{ Y}}$ errechnen.
+		\begin{alertblock}{Remark} 
+			From the marginal distributions, the arithmetic means $\overline{x}$ and $\overline{y}$ as well as the variances $s^2_{\mathrm{ X}}$ and $s^2_{\mathrm{ Y}}$ can of course be computed.
 		\end{alertblock}
 		%
 		
 	\end{alertblock}
 	%
 \end{frame}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
-	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	For this sample, e.g. (Group a \& b):
 	\begin{figure}%
 		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-01b.pdf}%
 		%\par\medskip
@@ -1464,43 +1503,42 @@ Note: Deviations may arise due to roundings.
 		%\caption{}%
 		%\label{}%
 	\end{figure}
-	\par\bigskip
-	Die Randverteilungen sind in rot dargestellt. 
 	\par\medskip
-	Selbstverständlich sind diese identisch mit denen in Teil I, Kapitel 1 angebenenen Verteilungen für $\ZVX$ und $\ZVY$.
+	The marginal distributions are shown in \alert{red}.
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bedingte Verteilungen}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Conditional Distributions}
+
 \begin{frame}
-	\frametitle{Bedingte Verteilungen}
+	\frametitle{Conditional Distributions}
 	%
-	Interessiert man sich für die Verteilung eines Merkmals unter der \alert{Bedingung}, dass das andere einen ganz bestimmen (festen) Wert hat, dann erhält man die \sog \alert{bedingte Verteilung}, \zB Verteilung der Körperlänge $\ZVY$ unter der Bedingung Alter $\ZVX = 24$. 
+	If one is interested in the distribution of one feature under the \alert{condition} that the other has a specific fixed value, one obtains the so-called \alert{conditional distribution}, e.g. the distribution of body height $\ZVY$ under the condition age $\ZVX = 24$.
 	\par\medskip
-	\alert{Schreibweise}: Das Vorliegen der Bedingung wird durch einen senkrechten Strich, "`|"', symbolisiert, z.B. $\ZVY | \ZVX = 24$
+	\alert{Notation}: The presence of a condition is denoted by a vertical bar, "`|"', e.g. $\ZVY | \ZVX = 24$.
 	\par\bigskip
 	%
-	\begin{alertblock}{Definition der bedingten Verteilung}
+	\begin{alertblock}{Definition: Conditional Distribution}
 		\begin{myframe}{
-				Die $j = 1,2,\cdots,l$ eindimensionalen Verteilungen 
+				The $j = 1,2,\cdots,l$ one-dimensional distributions
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 				\begin{equation*}\label{eq:3-8}
 					\relH(\ZVX = x_i | \ZVY = y_j) = h_{i | y_{j}} = \dfrac{h_{i j}}{h_{\bullet j}} = \dfrac{n_{i j}}{n_{\bullet j}} , \quad i = 1,\ldots,k 
 				\end{equation*}
-				und die $i = 1,2,\cdots,k$ eindimensionalen Verteilungen
+				and the $i = 1,2,\cdots,k$ one-dimensional distributions
 				\begin{equation*}\label{eq:3-9}
 					\relH(\ZVY = y_j | \ZVX = x_i) = h_{j | x_{i}} = \dfrac{h_{i j}}{h_{i \bullet}} = \dfrac{n_{i j}}{n_{i \bullet}} , \quad j = 1,\ldots,l 
 				\end{equation*}
 				%
-				heißen \textbf{bedingte Verteilungen}.
+				are called \textbf{conditional distributions}.
 			}
 		\end{myframe}
 	\end{alertblock}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
-	Für die Stichprobe ergibt sich \zB (Zug a \& b):
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	For this sample, e.g. (Group a \& b):
 	\begin{figure}%
 		\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-02.pdf}%
 		%\par\medskip
@@ -1509,38 +1547,39 @@ Note: Deviations may arise due to roundings.
 		%\label{}%
 	\end{figure}
 	\par\smallskip
-	Es gibt 
+	There are
 	\begin{itemize}
-		\item $k=10$ bedingte Verteilungen $\relH(\ZVY = y_j | \ZVX = x_i)$ (oben)
-		\item $l=27$ bedingte Verteilungen $\relH(\ZVX = x_i | \ZVY = y_j)$ (unten)
+		\item $k=10$ conditional distributions $\relH(\ZVY = y_j | \ZVX = x_i)$ (top)
+		\item $l=27$ conditional distributions $\relH(\ZVX = x_i | \ZVY = y_j)$ (bottom)
 	\end{itemize}
 	\par\smallskip
-	Auffällig ist, dass die Wahl einer Bedingung für eine Variable anscheinend die Möglichkeiten der anderen Variablen einschränken kann, \zB ist durch die Bedingung $\ZVY = 155$ die Variable $\ZVX$ nicht nur eingeschränkt, sondern sogar eindeutig auf $\ZVX = 23$ festgelegt.
+	Notably, choosing a condition for one variable can apparently restrict the possible values of the other variable; for example, under the condition $\ZVY = 155$, the feature $\ZVX$ is not only restricted but even uniquely determined as $\ZVX = 23$.
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Statistische Unabhängigkeit}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Statistical Independence}
+
 \begin{frame}
-	\frametitle{Statistische Unabhängigkeit}
+	\frametitle{Statistical Independence}
 	%
-	\begin{alertblock}{Definition statistischer Unabhängigkeit}
+	\begin{alertblock}{Definition: Statistical Independence}
 		\begin{myframe}{
-				Ist die gemeinsame Verteilung $h_{i j}$ gleich dem Produkt der Randverteilungen, \dh gilt 
+				If the joint distribution $h_{i j}$ equals the product of the marginal distributions, i.e.
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 				\begin{equation*}\label{eq:3-10}
 					h_{i j} = h_{i \bullet} \cdot h_{\bullet j}, \quad i = 1,\ldots,k, \quad j = 1,\ldots,l
 				\end{equation*}
-				so heißen $\ZVX$ und $\ZVY$ \textbf{statistisch unabhängig}.
+				then $\ZVX$ and $\ZVY$ are called \textbf{statistically independent}.
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Anmerkungen:}
+	\begin{alertblock}{Remarks:}
 		%
 		\begin{enumerate}
-			\item Bei statistischer Unabhängigkeit ist jeder Eintrag der Kontingenztabelle $h_{i j}$ 
+			\item Under statistical independence, every entry of the contingency table $h_{i j}$
 			%(bzw.~$n_{i j}$) 
-			gleich dem Produkt aus Zeilensumme $h_{i \bullet}$ und Spaltensumme $h_{\bullet j}$: 
+			equals the product of the row sum $h_{i \bullet}$ and the column sum $h_{\bullet j}$:
 			%(\bzw Zeilensumme $n_{i \bullet}$ und Spaltensumme $n_{\bullet j}$)
 			{\small
 				\begin{eqnarray*}
@@ -1549,24 +1588,24 @@ Note: Deviations may arise due to roundings.
 				\end{eqnarray*}
 			}
 			%
-			\item Anschaulich heißt statistische Unabhängigkeit, dass die Ausprägung des Merkmals $\ZVX$ keinen Rückschluss auf diejenige des Merkmals $\ZVY$ (und umgekehrt) erlaubt
-			\item Sind $\ZVX$ und $\ZVY$ statistisch abhängig, dann sagt dies nichts über eine physikalische Abhängigkeit (Ursache--Wirkung) aus!
+			\item Intuitively, statistical independence means that the value of feature $\ZVX$ does not allow any conclusion about the value of feature $\ZVY$ (and vice versa).
+			\item If $\ZVX$ and $\ZVY$ are statistically dependent, this says nothing about a physical dependency (cause and effect).
 		\end{enumerate}
 	\end{alertblock}
 	%
 	
 	%
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Abhängigkeitsmaße}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Covariance}
+
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle{Metrische Variablen: Kovarianz}
+	\frametitle{Covariance}
 	%
-	\begin{alertblock}{Definition Kovarianz}
+	\begin{alertblock}{Definition: Covariance}
 		\begin{myframe}{
-				Die Größe 
+				The quantity
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 				\begin{align*}%\label{eq:3-15}
 					c_{\mathrm{XY}} &= \dfrac{1}{n}\sum_{i=1}^{n} \left( x_i - \overline{x} \right)\cdot \left( y_i - \overline{y} \right) \\
@@ -1576,23 +1615,40 @@ Note: Deviations may arise due to roundings.
 					\\
 					&= \overline{x\cdot y} - \overline{x}\cdot\overline{y} \label{eq:3-15a}
 				\end{align*}
-				heißt \textbf{empirische Kovarianz} oder kurz \textbf{Kovarianz} zwischen den statistischen Variablen $\ZVX$ und $\ZVY$.
+				is called the \textbf{empirical covariance}, or simply \textbf{covariance}, between the features $\ZVX$ and $\ZVY$.
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
 	%
-	\begin{alertblock}{Anmerkung:}
+	\begin{alertblock}{Remark:}
 		%
-		Die Kovarianz $c_{\mathrm{XY}}$ wird null, sofern die statistischen Variablen $\ZVX$ und $\ZVY$ unabhängig sind. Die Kovarianz $c_{\mathrm{XY}}$ sagt demnach etwas über die statistische Gemeinsamkeit zwischen $\ZVX$ und $\ZVY$ aus! \textbf{Abbildung aus Schira}
+		The covariance $c_{\mathrm{XY}}$ is zero if the features $\ZVX$ and $\ZVY$ are (statistically) independent. Therefore, the covariance $c_{\mathrm{XY}}$ indicates statistical association between $\ZVX$ and $\ZVY$.
 		%
 	\end{alertblock}
 	%
 \end{frame}
 
-\subsubsection{Principal Component Analysis}
+\begin{frame}
+	\frametitle{Covariance}
+	\begin{alertblock}{Interpretation:}
+		\begin{figure}
+			\includegraphics[width=0.6\textwidth]{Bilder/Covariance.png}
+			\caption{Illustration of covariance [\footnotesize{Schira, Statistische Methoden der VWL und BWL, Pearson}]}
+		\end{figure}
+		\vspace{-0.3cm}
+		\begin{itemize}
+			\item Covariance is visualized using deviations from the mean, where each point forms a rectangle representing the product of deviations.
+			\item Positive covariance arises when same-sign deviations dominate; opposite-sign deviations lead to negative covariance.
+			\item Positive covariance means variables increase together, while negative covariance means one increases as the other decreases.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+
+\subsection{Principal Component Analysis}
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Data Science Workflow: PCA Visualization}
+	\frametitle<presentation>{Principal Component Analysis (PCA)}
 	
 	\textbf{Step 1: Tabular Data}
 	\begin{center}
@@ -1668,10 +1724,10 @@ Note: Deviations may arise due to roundings.
 	
 	Summary:
 	\begin{align*}
-		s^2_\text{Height} = 16.67, \; s^2_\text{Weight} = 16.67, \; s^2_\text{Age} = 0.33
-	\end{align*}
-	\begin{align*}
-		c_\text{Height,Weight} = 16.67, \; c_\text{Height,Age} = 0.67, \; c_\text{Weight,Age} = 0.67
+		s^2_\text{Height} = 16.67, \; s^2_\text{Weight} & = 16.67, \; s^2_\text{Age} = 0.33 \\
+%	\end{align*}
+%	\begin{align*}
+		c_\text{Height,Weight} = 16.67, \; c_\text{Height,Age} & = 0.67, \; c_\text{Weight,Age} = 0.67
 	\end{align*}
 	
 \framebreak
@@ -1761,49 +1817,57 @@ Note: Deviations may arise due to roundings.
 	
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Korrelationskoeffizient}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Correlation Coefficient}
+
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle{Metrische Variablen: Korrelationskoeffizient}
+	\frametitle{Correlation Coefficient}
 	%
-	\begin{alertblock}{Definition Korrelationskoeffizient}
+	\begin{alertblock}{Definition: Correlation Coefficient}
 		\begin{myframe}{
-				Der Quotient 
+				The quotient
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 				\begin{equation*}\label{eq:3-16}
 					r_{\mathrm{ XY}} = \dfrac{c_{\mathrm{ XY}}}{s_{\mathrm{ X}} \cdot s_{\mathrm{ Y}}}, \quad s_{\mathrm{ X}} > 0 , s_{\mathrm{ Y}} > 0
 				\end{equation*}
-				heißt \textbf{empirischer Korrelationskoeffizient} zwischen den statistischen Variablen $\ZVX$ und $\ZVY$.
+				is called the \textbf{empirical correlation coefficient} between the features $\ZVX$ and $\ZVY$.
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	\par\bigskip
-	\alert{Anmerkungen}:
+	\par\medskip
+	\alert{Remarks:}
 	%
 	\begin{enumerate}%
-		\item Die Größe $r_{\mathrm{ XY}}$ hat das gleiche Vorzeichen wie $c_{\mathrm{ XY}}$, so dass gilt
+		\item $r_{\mathrm{ XY}}$ can only be computed for metrically scaled features $\ZVX$ and $\ZVY$.
+		\item The quantity $r_{\mathrm{ XY}}$ has the same sign as $c_{\mathrm{ XY}}$, so that it holds
 		\begin{equation*}
 			-1 \leq r_{\mathrm{ XY}} \leq +1
 		\end{equation*}
-		mit Interpretation
+		with the interpretation
 		\begin{eqnarray*}
-			-1 \leq r_{\mathrm{ XY}} < 0 & \Leftrightarrow & \text{negative lineare Korrelation} \\
-			r_{\mathrm{ XY}} = 0 & \Leftrightarrow &  \text{keine lineare Korrelation} \\
-			0 < r_{\mathrm{ XY}} \leq +1 & \Leftrightarrow & \text{positive lineare Korrelation} \\
+			-1 \leq r_{\mathrm{ XY}} < 0 & \Leftrightarrow & \text{negative linear correlation} \\
+			r_{\mathrm{ XY}} = 0 & \Leftrightarrow &  \text{no linear correlation} \\
+			0 < r_{\mathrm{ XY}} \leq +1 & \Leftrightarrow & \text{positive linear correlation} \\
 		\end{eqnarray*}
 		%\end{enumerate}%
 		%\framebreak
 		%\setcounter{enumi}{2}
 		%\begin{enumerate}%
-		\item Maßstabsänderungen (genauer: lineare Transformationen) beeinflussen $r_{\mathrm{ XY}}$ nicht
-		\item Vertauschen von $\ZVX$ und $\ZVY$ verändert $r_{\mathrm{ XY}}$ nicht, \dh es gilt
+		\item Changes of scale (more precisely: linear transformations) do not affect $r_{\mathrm{ XY}}$.
+		\item Permutation of $\ZVX$ and $\ZVY$ does not change $r_{\mathrm{ XY}}$, i.e.
 		\begin{equation*}
 			r_{\mathrm{ XY}} = r_{\mathrm{ YX}}
 		\end{equation*}
-		\item $r_{\mathrm{ XY}}$ gibt lediglich eine \emph{statistische Tendenz} an. Eine \emph{kausale Beziehung} (im Sinne von Ursache--Wirkung) zwischen den Merkmalen $\ZVX$ und $\ZVY$ muss es deshalb nicht geben, sie könnte auch rein zufällig sein. 
+		\item The correlation coefficient of the feature $\ZVX$ with itself yields: 
+		\begin{equation*}
+			r_{\mathrm{ XX}} = \dfrac{c_{\mathrm{ XX}}}{s_{\mathrm{ X}} \cdot s_{\mathrm{ X}}} = \dfrac{s^2_{\mathrm{ X}}}{s^2_{\mathrm{ X}}} = 1
+		\end{equation*}
+		\item $r_{\mathrm{ XY}}$ only indicates a \emph{statistical tendency}. A \emph{causal relationship} (in the sense of cause and effect) between the features $\ZVX$ and $\ZVY$ does not necessarily exist; it may also be purely coincidental.
 		
-		Beispiel:
+		\smallskip
+		Example (Störche = storks \& Geburten = births):
 		%
 		\begin{figure}%
 			\includegraphics[width=0.4\linewidth]{Bilder/Geburten_Stoerche.pdf}%
@@ -1814,18 +1878,17 @@ Note: Deviations may arise due to roundings.
 			%\caption{}%
 			%\label{}%
 		\end{figure}
+	
 		%
-		\item $r_{\mathrm{ XY}}$ kann nur für metrisch skalierte Merkmale $\ZVX$ und $\ZVY$ errechnet werden.
-		\item $r_{\mathrm{ XY}}$ wird oft als \alert{Korrelationskoeffizient nach Breavais-Pearson} bezeichnet.
+		\item $r_{\mathrm{ XY}}$ is often referred to as the \alert{Bravais-Pearson correlation coefficient}.
 	\end{enumerate}%
 	%\end{alertblock}
 	%
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-	\frametitle{Beispiel: Stichprobe in der Vorlesung Statistik im WS 1718}
-	Für die Stichprobe ergibt sich \zB (Zug a \& b) folgende Arbeitstabelle $x_i \cdot y_j \cdot h_{i j}$
-	zur Berechnung von $\overline{x\cdot y}$ :
+	\frametitle{Example: Sample from Statistics Course (WT 17/18)}
+	For this sample, for example (Group a \& b), the following working table $x_i \cdot y_j \cdot h_{i j}$ is used to compute $\overline{x\cdot y}$:
 	\begin{figure}%
 		\includegraphics[width=0.8\linewidth]{Bilder/Teil-I-Kapitel-3-Bild-03.pdf}%
 		%\par\medskip
@@ -1834,22 +1897,79 @@ Note: Deviations may arise due to roundings.
 		%\label{}%
 	\end{figure}
 	%{\small
-		Alle Einträge summiert ergibt $\overline{x\cdot y} = \frac{279.508}{70}$. Mit $\overline{x} = \frac{1.586}{70}$ und $\overline{y} = \frac{12.325}{70}$ folgt $c_{\mathrm{XY}} = \overline{x\cdot y} - \overline{x} \cdot \overline{y} 
+		Summing all entries yields $\overline{x\cdot y} = \frac{279.508}{70}$. With $\overline{x} = \frac{1.586}{70}$ and $\overline{y} = \frac{12.325}{70}$, it follows that $c_{\mathrm{XY}} = \overline{x\cdot y} - \overline{x} \cdot \overline{y}
 		%= \frac{279.508}{70} -\frac{1.586}{70} \frac{12.325}{70} 
-		= \frac{18.110}{4.900}$. Mit $\sigma_{\mathrm{X}}^2 = \frac{24.204}{4.900}$ und $\sigma_{\mathrm{Y}}^2 = \frac{440.205}{4.900}$ ist der Korrelationskoeffizient
+		= \frac{18.110}{4.900}$. With $\sigma_{\mathrm{X}}^2 = \frac{24.204}{4.900}$ and $\sigma_{\mathrm{Y}}^2 = \frac{440.205}{4.900}$, the correlation coefficient is
 		\begin{equation*}
 			r_{\mathrm{ XY}} = \dfrac{c_{\mathrm{ XY}}}{s_{\mathrm{ X}} \cdot s_{\mathrm{ Y}}}
 			= \dfrac{18.110/4.900}{\sqrt{\frac{24.204}{4.900}}\sqrt{\frac{440.205}{4.900}}}
 			= \dfrac{18.110}{\sqrt{24.204 \cdot 440.205}} \approx 0,175
 		\end{equation*}
-		was eine schwache positive Korrelation (einen schwachen positiven linearen Zusammenhang) bedeutet.
+		which indicates a weak positive correlation (a weak positive linear relationship).
 		%}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Correlation Matrix and Heatmap}
+
 \begin{frame}
-	Correlation Matrices and Heatmaps
+	\frametitle{Correlation Matrix and Heatmap}
+	
+	\bigskip
+	\alert{Correlation Matrix:}
+	\begin{itemize}
+		\item A \textbf{correlation matrix} shows pairwise linear relationships.
+		\item Values range from $-1$ (negative) to $1$ (positive).
+		\item Symmetric with ones on the diagonal.
+	\end{itemize}
+	
+	\bigskip
+	\alert{Heatmap Visualization:}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.9]
+			
+			% Draw manually (row 1 = TOP row!)
+			% Format: x, y, value, color
+			
+			% Row 1 (top)
+			\fill[green!80!yellow] (0,3) rectangle (1,4); \node at (0.5,3.5) {\small 1};
+			\fill[green!60!yellow] (1,3) rectangle (2,4); \node at (1.5,3.5) {\small 0.8};
+			\fill[blue!40]         (2,3) rectangle (3,4); \node at (2.5,3.5) {\small -0.3};
+			\fill[green!50]        (3,3) rectangle (4,4); \node at (3.5,3.5) {\small 0.5};
+			
+			% Row 2
+			\fill[green!60!yellow] (0,2) rectangle (1,3); \node at (0.5,2.5) {\small 0.8};
+			\fill[green!80!yellow] (1,2) rectangle (2,3); \node at (1.5,2.5) {\small 1};
+			\fill[blue!70]         (2,2) rectangle (3,3); \node at (2.5,2.5) {\small -0.6};
+			\fill[green!40]        (3,2) rectangle (4,3); \node at (3.5,2.5) {\small 0.2};
+			
+			% Row 3
+			\fill[blue!40]         (0,1) rectangle (1,2); \node at (0.5,1.5) {\small -0.3};
+			\fill[blue!70]         (1,1) rectangle (2,2); \node at (1.5,1.5) {\small -0.6};
+			\fill[green!80!yellow] (2,1) rectangle (3,2); \node at (2.5,1.5) {\small 1};
+			\fill[blue!50]         (3,1) rectangle (4,2); \node at (3.5,1.5) {\small -0.4};
+			
+			% Row 4 (bottom)
+			\fill[green!50]        (0,0) rectangle (1,1); \node at (0.5,0.5) {\small 0.5};
+			\fill[green!40]        (1,0) rectangle (2,1); \node at (1.5,0.5) {\small 0.2};
+			\fill[blue!50]         (2,0) rectangle (3,1); \node at (2.5,0.5) {\small -0.4};
+			\fill[green!80!yellow] (3,0) rectangle (4,1); \node at (3.5,0.5) {\small 1};
+			
+			% Labels
+			\node[below] at (0.5,0) {$X_1$};
+			\node[below] at (1.5,0) {$X_2$};
+			\node[below] at (2.5,0) {$X_3$};
+			\node[below] at (3.5,0) {$X_4$};
+			
+			\node[left] at (0,3.5) {$X_1$};
+			\node[left] at (0,2.5) {$X_2$};
+			\node[left] at (0,1.5) {$X_3$};
+			\node[left] at (0,0.5) {$X_4$};
+			
+		\end{tikzpicture}
+	\end{center}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
 	\frametitle{Example: Load Data Analysis}
 	\begin{figure}%

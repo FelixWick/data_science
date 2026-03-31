@@ -1,0 +1,1952 @@
+ \documentclass[xcolor=dvipsnames,t,8pt,fleqn]{beamer}
+%\documentclass[aspectratio=1610,8pt]{beamer}
+
+%Empfehlungen aus der ct 9/2007
+%\usepackage{beamerthemesplit}
+%\usepackage[T1]{fontenc}
+%\usepackage{beamer}
+
+\usepackage{mathptmx}
+\usepackage{helvet}
+\usepackage{hyperref}
+
+% Layout-Vorschläge - auswählen!
+% Siehe hierzu das Handbuch beameruserguide.pdf
+% 1. Presentation Theme
+\usetheme{Goettingen}
+% 2. Color Theme
+\usecolortheme{sidebartab}
+%\usecolortheme{dove}
+%\usecolortheme{lily}  % Inner Color Theme
+% 3. Font Theme
+\usefonttheme{professionalfonts}
+% 4. Inner Theme
+\useinnertheme{circles}
+% 5. Outer Theme
+%\useoutertheme{sidebar}
+%
+%\usepackage{extsizes} % Da 8pt in der Präsentation
+
+\usepackage{graphicx}
+%amsthm wird für styles bei Satz- und Definitionsnumerierung benötigt
+%bbm wird für die Symbole für reelle bzw. nat. Zahlen benötigt
+\usepackage{fancyhdr, amssymb, amsmath, amsthm, bbm} 
+\usepackage[ngerman]{babel}
+%\usepackage{ifpdf}
+
+%Umlaute
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% evtl. für Code
+\usepackage{listings}
+% links to URLs
+\usepackage{hyperref}
+%
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{backgrounds}
+%\usetikzlibrary{intersections}
+%\usetikzlibrary{calc}
+%
+\usepackage{pgfplots}
+%
+\usepackage{venndiagram}
+%
+\pgfplotsset{compat=1.15}
+%
+\setbeamercovered{transparent}
+%bewirkt, dass schrittweise Einblendungen zuvor schon transparent angezeigt werden
+\setbeamertemplate{footline}[page number]
+
+\title[Data Science]{Data Science}
+%[Kurztitel] - erscheint auf allen Folien
+%{Titel} - erscheint auf der Titelseite (wird mit \titlepage dargestellt, s.u.)
+\subtitle{Chapter 3: Probabilistic Models}
+%Untertitel - kommt auch auf die Titelseite
+\author{S.~Steidel \& F.~Wick}
+%Autor kommt auf den Titel und - je nach theme - auf die Übersichtsleiste
+\date{\today}
+%Datum kommt auf den Titel - hier das aktuelle Datum bei Erstellung der Folien
+
+%%%%%%%\DeclareMathOperator{\Arg}{Arg}
+%%%%%%%\DeclareMathOperator{\e}{e}
+%%%%%%%\DeclareMathOperator{\Inv}{Inv}
+%%%%%%%\DeclareMathOperator{\id}{id}
+%%%%%%%\DeclareMathOperator{\rot}{rot}
+%%%%%%%\DeclareMathOperator{\grad}{grad}
+%%%%%%%\DeclareMathOperator{\Div}{div}
+%%%%%%%\DeclareMathOperator{\Kern}{Kern}
+
+\usepackage{subfig}
+
+%\usepackage{amsmath}
+\usepackage[intlimits]{empheq}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+%\usepackage{latexsymb}
+\usepackage{pifont}
+%\usepackage[amsmath]{ntheorem}
+\usepackage{trsym}
+\usepackage{trfsigns}
+\usepackage{wasysym}
+%
+\usepackage[derivedinbase, derived, thinspace, thinqspace, squaren, binary]{SIunits} 
+\usepackage[intlimits]{empheq}
+%
+\input{Stochastik-Makros.tex}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+%
+%%%%%%%\newcommand{\R}{\mathbbm{R}}
+%%%%%%%\newcommand{\N}{\mathbbm{N}}
+%%%%%%%\newcommand{\Z}{\mathbbm{Z}}
+%%%%%%%\newcommand{\Q}{\mathbbm{Q}}
+%%%%%%%\newcommand{\C}{\mathbbm{C}}
+%%%%%%%\newcommand{\disp}{\displaystyle}
+%%%%%%%\newcommand{\bs}{\boldsymbol}
+%%%%%%%\let\oldhat\hat
+%%%%%%%\renewcommand{\vec}[1]{\boldsymbol{#1}}
+%%%%%%%\renewcommand{\hat}[1]{\oldhat{\boldsymbol{#1}}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label=Titelrahmen]
+	\titlepage
+\end{frame}
+%
+%%%\begin{frame}
+	%%%\frametitle{Standardsignale}
+%%%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}{3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Combinatorics}
+
+\subsection{Introduction}
+
+\begin{frame}
+\frametitle<presentation>{Introduction}
+%
+\begin{itemize}
+	\item \alert{Counting Combinatorics:} A branch of combinatorics that deals with forming possible arrangements from $n$ elements.
+	\item \alert{Combinatorial Models:} Determine the number of possible arrangements. 
+	\item \alert{Important considerations:}
+	\begin{itemize}
+		\item Are all elements ($k=n$) or only some ($k<n$) of the elements used?
+		\item Are the elements distinguishable?
+		\item Is the order of elements relevant?
+	\end{itemize}
+	\item There is the classical \alert{urn model} in which all $n$ elements are placed in one urn and $k$ elements are drawn from it (a \alert{sample}), and a generalized \alert{balls-and-boxes} model, in which $k$ balls are distributed among $n$ boxes.
+	\item Counting combinatorics forms the basis for calculating with \alert{classical probabilities} (see later).
+\end{itemize}
+%
+\end{frame}
+
+
+\subsection{Overview}
+
+\begin{frame}
+\frametitle<presentation>{Overview}
+%
+For the classical urn model, the numbers of possible arrangements can be determined according to the following overview:
+\par\bigskip
+\begin{figure}%
+\includegraphics[width=\linewidth]{Bilder/Uebersicht.jpg}%
+%\caption{}%
+%\label{}%
+\end{figure}
+%
+\end{frame}
+
+%
+%\subsection{Beispiel}
+%
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+%\frametitle<presentation>{Beispiel: $n = 6$ Eier und $k$ Körbe}
+%%
+%\begin{alertblock}{Permutation ohne Wiederholung (ohne Zurücklegen)}
+%\begin{itemize}
+%	\item Die $n = 6$ Körbe werden alle unterschieden, \zB durch eindeutige Nummerierung, eindeutige Farbe o.ä.
+%	\item Es werden $k = 6$ Eier auf die Körbe verteilt, wobei jeder Korb nur ein Ei enthalten darf (\dh ein gewählter Korb darf nicht noch einmal ausgewählt werden (ohne Wiederholung, ohne Zurücklegen [in die Auswahl])
+%	\item Es gibt $_6P = 6! = 720$ mögliche Anordnungen der Eier in die unterscheidbaren Körbe unter Beachtung der Reihenfolge des Verteilens
+%\end{itemize}
+%\end{alertblock}
+%
+%\begin{alertblock}{Permutation mit Wiederholung (mit Zurücklegen)}
+%\begin{itemize}
+%	\item Die $n = 6$ Körbe sind nicht eindeutig unterscheidbar, sie lassen sich in $m$ unterscheidbare Gruppen einteilen, \zB $m = 3$ mit $k_1 = 2$ roten, $k_2 = 3$ blauen und $k_3 = 1$ weißen Körben
+%	\item Es werden $k = 6$ Eier auf die Korbgruppen verteilt, wobei jedem Ei alle Körbe zur Auswahl stehen (mit Wiederholung, mit Zurücklegen [in die Auswahl])
+%	\item Es gibt $_6P_{2,3,1} = \frac{6!}{2! \cdot 3! \cdot 1!} = 60$ mögliche Anordnungen der Eier in die unterscheidbaren Korbgruppen unter Beachtung der Reihenfolge des Verteilens
+%\end{itemize}
+%\end{alertblock}
+%
+%\framebreak
+%
+%\begin{alertblock}{Variation ohne Wiederholung (ohne Zurücklegen)}
+%\begin{itemize}
+%	\item Die $n = 6$ Körbe werden alle unterschieden, \zB durch eindeutige Nummerierung, eindeutige Farbe o.ä.
+%	\item Es werden $k = 3$ Eier auf die Körbe verteilt, wobei jeder Korb nur ein Ei enthalten darf (\dh ein gewählter Korb darf nicht noch einmal ausgewählt werden (ohne Wiederholung, ohne Zurücklegen [in die Auswahl])
+%	\item Es gibt $_6V_3 = \frac{6!}{(6-3)!} = 60$ mögliche Anordnungen der Eier in die unterscheidbaren Körbe unter  Beachtung der Reihenfolge des Verteilens
+%\end{itemize}
+%\end{alertblock}
+%
+%\begin{alertblock}{Variation mit Wiederholung (mit Zurücklegen)}
+%\begin{itemize}
+%	\item Die $n = 6$ Körbe sind nicht unterscheidbar
+%	\item Es werden $k = 3$ Eier auf die Korbgruppen verteilt, wobei jedem Ei alle Körbe zur Auswahl stehen (mit Wiederholung, mit Zurücklegen [in die Auswahl])
+%	\item Es gibt $6^3 = 216$ mögliche Anordnungen der Eier unter Beachtung der Reihenfolge  des Verteilens
+%\end{itemize}
+%\end{alertblock}
+%
+%\framebreak
+%
+%\begin{alertblock}{Kombination ohne Wiederholung (ohne Zurücklegen)}
+%\begin{itemize}
+%	\item Die $n = 6$ Körbe werden alle unterschieden, \zB durch eindeutige Nummerierung, eindeutige Farbe o.ä.
+%	\item Es werden $k = 3$ Eier auf die Körbe verteilt, wobei jeder Korb nur ein Ei enthalten darf (\dh ein gewählter Korb darf nicht noch einmal ausgewählt werden (ohne Wiederholung, ohne Zurücklegen [in die Auswahl])
+%	\item Es gibt $_6C_3 = \binom{6}{3} = 10$ mögliche Anordnungen der Eier in die unterscheidbaren Körbe sofern die Reihenfolge des Verteilens in die Körbe keine Rolle spielt (ohne Beachtung der Reihenfolge)
+%\end{itemize}
+%\end{alertblock}
+%
+%\begin{alertblock}{Kombination mit Wiederholung (mit Zurücklegen)}
+%\begin{itemize}
+%	\item Die $n = 6$ Körbe sind nicht unterscheidbar
+%	\item Es werden $k = 3$ Eier auf die Korbgruppen verteilt, wobei jedem Ei alle Körbe zur Auswahl stehen (mit Wiederholung, mit Zurücklegen [in die Auswahl])
+%	\item Es gibt $\binom{6+3-1}{3} = 56$ mögliche Anordnungen der Eier sofern die Reihenfolge des Verteilens in die Körbe keine Rolle spielt (ohne Beachtung der Reihenfolge)
+%\end{itemize}
+%\end{alertblock}
+%
+%\end{frame}
+
+\subsection{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle<presentation>{Summary}
+\glqq Musical\grqq\,summary of the topic \textbf{Combinatorics (Maths-Song)}:
+\par\bigskip
+\begin{figure}%
+\includegraphics[width=\linewidth]{Bilder/DorFuchs.png}%
+%\caption{}%
+%\label{}%
+\end{figure}
+\begin{center}
+\url{https://youtu.be/JoETgJS1oWE?si=YasBb9rD-8_q-GuH}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Basics of Probability Theory}
+
+\subsection{Events, Sample Space \& Event Set}
+
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Events, Sample Space \& Event Set}
+	%
+	The starting point for probability theory is the concept of a \alert{random experiment}.
+	It is also referred to as a \alert{random process} or a \alert{random observation}.
+	
+	\smallskip
+	%
+	\begin{alertblock}{Definition: Random Experiment}
+		\begin{myframe}{
+				An experiment is called a \textbf{random experiment} if it
+				\begin{enumerate}
+					\item is carried out according to a well-defined procedure,
+					\item can be repeated arbitrarily often under the same conditions,
+					\item has an outcome that is uncertain in advance and cannot be predicted.
+				\end{enumerate}
+			}
+		\end{myframe}
+	\end{alertblock}
+	
+	\begin{alertblock}{Examples}
+	\begin{itemize}
+		\item Classical random experiments: rolling a die, flipping a coin, drawing a card, spinning a roulette or wheel
+		\item Even physical measurements can be seen as random experiments, e.g.
+		\begin{itemize}
+			\item current $I$ with voltage $U=230\,\text{V}$ and resistance $R=800\,\Omega$
+			\item expected value from Ohm's law: 
+			$I=U/R=0.2875\,\text{A}$
+			\item exact outcome cannot be predicted precisely
+			since it is influenced by environmental factors (e.g., temperature, humidity)
+			\item measurement and reading errors introduce additional uncertainty
+		\end{itemize}
+	\end{itemize}
+    \end{alertblock}
+	%
+	\begin{alertblock}{Definition: Elementary Event}
+		\begin{myframe}{
+				The individual outcomes of a random experiment that cannot be decomposed further and are mutually exclusive are called \textbf{elementary events}.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	
+	\alert{Example}
+	In a \emph{die roll}, elementary outcomes are given by the number of pips on the top face.
+	The experiment has six possible elementary events: $1, 2, 3, 4, 5, 6$.
+	
+	\smallskip
+	
+	\begin{alertblock}{Definition: Sample Space}
+		\begin{myframe}{
+				The set $\Omega$ of all elementary events of a random experiment is called the \textbf{event space}, \textbf{sample space}, or \textbf{basic set} of the random experiment.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	
+	\alert{Example}
+	In the random experiment \emph{rolling a die} the sample space is $\Omega=\{1,2,3,4,5,6\}$. The sample space contains a finite number of elements.
+	
+	\smallskip
+	%
+	%\framebreak
+	%
+	\begin{alertblock}{Definition: Random Event}
+		\begin{myframe}{
+				A \textbf{random event} $A$ is a subset of the sample space $\Omega$. The (concrete) event $A$ has occurred if the outcome of the random experiment is an element of this subset $A$.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	
+	\alert{Example}
+	In the experiment \emph{rolling two dice}, consider the random event $A = \{\text{sum of pips is greater than } 10\}$. This event consists of three elementary outcomes: 
+	$A=\{(5,6),(6,5),(6,6)\}$.
+	%
+	\begin{alertblock}{Notation} 
+		The individual elementary events are often written in set notation $\{\ast\}$ as follows:
+		\begin{equation*}
+			\label{eq:8-1}
+			\Omega = \left\{ e_1, e_2, \ldots, e_m, \ldots \right\}
+		\end{equation*}
+		This notation can also be used for any (concrete) event $A$, e.g., $A = \left\{ e_1, e_2, e_5\right\}$: $A$ contains the three elementary events $e_1$, $e_2$, and $e_5$. 
+		
+	\end{alertblock}
+	
+	\begin{alertblock}{Definition: Event Set}
+		\begin{myframe}{
+				All events of a random experiment with sample space $\Omega$ form the corresponding \textbf{event set} ${E(\Omega)}$.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\framebreak
+	%
+	\begin{alertblock}{Remarks on the Event Set $E(\Omega)$}
+		All events means "the set of all subsets of the sample space $\Omega$". In set theory, this is the power set of a base set (here, the sample space $\Omega$)\footnote{Also denoted by $\mathcal P(\Omega)$}, i.e., a set whose elements are themselves sets.
+		\par\smallskip
+		Note that
+		\begin{itemize}
+			\item the \textbf{certain event}, the base set $\Omega$, belongs to $E(\Omega)$: $\Omega \subseteq \Omega$. Since it contains all elementary events, it always occurs whenever the random experiment is performed.
+			\item the \textbf{impossible event} $\emptyset$ belongs to $E(\Omega)$: $\emptyset \subset \Omega$. Since the empty set has no elements, this event never occurs.
+		\end{itemize}
+		For finite sample spaces $\Omega$, i.e., $|\Omega| = n \in \mathbb{N}_0$, we have $|E(\Omega)| = 2^n$; in general, $|\Omega| <|E(\Omega)|$ (Cantor's theorem).
+		\par\bigskip
+		Examples:
+		\begin{itemize}
+			\item $\Omega = \emptyset \Rightarrow E(\Omega) = \{ \emptyset \}$
+			\item $\Omega = \{ e \} \Rightarrow E(\Omega) = \bigl\{ \emptyset, \{ e \}\bigr\}$
+			\item $\Omega = \{ e_1, e_2 \} \Rightarrow E(\Omega) = \bigl\{ \emptyset, \{ e_1 \}, \{ e_2 \}, \{ e_1, e_2 \} \bigr\}$
+			\item $\Omega = \{ e_1, e_2, e_3 \}$ \par $\Rightarrow E(\Omega) = \bigl\{ \emptyset, \{ e_1 \}, \{ e_2 \}, \{ e_3 \}, \{ e_1, e_2 \}, \{ e_1, e_3 \}, \{ e_2, e_3 \}, \{ e_1, e_2, e_3 \}\bigr\}$
+		\end{itemize}
+	\end{alertblock}
+	%
+	%%%\begin{columns}
+	%%%\begin{column}{0.6\linewidth}
+	%%%Text
+	%%%\end{column}
+	%%%\begin{column}{0.4\linewidth}
+	%%%\resizebox{\linewidth}{!}{
+		%%%\begin{venndiagram2sets}
+		%%%\fillA \fillB
+		%%%\end{venndiagram2sets}
+		%%%}
+	%%%\end{column}
+	%%%\end{columns}
+	%
+\end{frame}
+
+%\begin{frame}[allowframebreaks,allowdisplaybreaks]
+\begin{frame}
+	\frametitle<presentation>{Illustrative Examples}
+	%
+	%\begin{figure}%%\begin{figure}% trim=left bottom right top
+	\begin{itemize}
+		% 271 px breit
+		\item Coin toss (heads, tails): \includegraphics[trim=0cm +.25cm 0cm 0cm, width=0.2\linewidth]{Bilder/Teil-II-Kapitel-5-Bild-01.jpg}
+		% 556 px breit -> 556/271 * 0.2 \linewidth
+		\item Die (number of pips): \includegraphics[trim=0cm +.2cm 0cm 0cm,width=0.41\linewidth]{Bilder/Teil-II-Kapitel-5-Bild-02.jpg}
+		% 556 px breit -> 556/271 * 0.2 \linewidth
+		\item Coin \& die: \includegraphics[trim=0cm +2.95cm 0cm 0cm,width=0.65\linewidth]{Bilder/Teil-II-Kapitel-5-Bild-03.jpg}
+	\end{itemize}
+	%
+	\rule[-1cm]{0mm}{1cm}\par\smallskip
+	%
+	Examples of defining concrete events (from the subsets that can be formed from $E(\Omega_{\mathrm{M}\times\mathrm{W}})$ with $| E(\Omega_{\mathrm{M}\times\mathrm{W}})| = 2^{12} = 4.096$):
+	\par\medskip
+	%
+	\begin{itemize}
+		\item $A = \left\{ \textrm{number of pips} > 3 \right\} = \left\{ e_{4},e_{5},e_{6},e_{10},e_{11},e_{12}  \right\}$
+		\item $B = \left\{ \textrm{number of pips} < 6  \;\cap\; \textrm{heads}\right\} = \left\{ e_{7},e_{8},e_{9},e_{10},e_{11}  \right\}$
+		\item $C = \left\{ \textrm{number of pips} \leq 3  \;\cap\; \textrm{tails}\right\} = \left\{ e_{1},e_{2},e_{3} \right\}$
+	\end{itemize}
+	%
+	\par\bigskip
+	Clearly, $C = \overline{A \cup B} = \overline{A} \cap \overline{B}$ and $A \cap C = \emptyset$.
+	%\par\medskip
+	%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+	%\caption{}%
+	%\label{}%
+	%\end{figure}
+	%
+\end{frame}
+
+
+\subsection{Operations with Events}\label{ch:8.2}
+ 
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Operations with Events}
+	Events are handled mathematically like sets:
+	%
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{0.7\linewidth}
+			\begin{itemize}
+				\item \textbf{Union} $A \cup B$: The event \glqq\textbf{\textit{A} or \textit{B}}\grqq\,occurs exactly when $A$, or $B$, or both occur.
+				\rule[-0.6cm]{0mm}{0.6cm}\par\smallskip
+				\item \textbf{Intersection} $A \cap B$: The event "\textbf{\textit{A} and \textit{B}}" occurs exactly when $A$ and $B$ occur simultaneously.
+				\rule[-0.9cm]{0mm}{0.9cm}\par\smallskip
+				\item \textbf{Difference} $A \backslash B$: The event "\textbf{\textit{A} without \textit{B}}" occurs exactly when $A$ occurs but $B$ does not.
+				\rule[-0.9cm]{0mm}{0.9cm}\par\smallskip
+				\item \textbf{Complement} $\overline{A}$: The event "\textbf{not \textit{A}}" occurs exactly when $A$ does not occur.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.25\linewidth}
+			\resizebox{\linewidth}{!}{
+				\begin{venndiagram2sets}[
+					shade=blue!25,
+					hgap=.2cm, vgap=.2cm, overlap=0.75cm,
+					labelA={$A$}, labelB={$B$}, labelAB={},
+					labelOnlyA={},labelOnlyB={},labelNotAB={$\Omega$},
+					showframe=true,
+					tikzoptions={}
+					]
+					\fillA \fillB
+					\setpostvennhook
+					{
+						\node[anchor=south] at (current bounding box.north) {$A \cup B$};
+					}
+				\end{venndiagram2sets}
+			}
+			\resizebox{\linewidth}{!}{
+				%
+				\begin{venndiagram2sets}[
+					shade=blue!25,
+					hgap=.2cm, vgap=.2cm, overlap=0.75cm,
+					labelA={$A$}, labelB={$B$}, labelAB={},
+					labelOnlyA={},labelOnlyB={},labelNotAB={$\Omega$},
+					showframe=true,
+					tikzoptions={}
+					]
+					\fillACapB
+					\setpostvennhook
+					{
+						\node[anchor=south] at (current bounding box.north) {$A \cap B$};
+					}
+				\end{venndiagram2sets}
+			}
+			\resizebox{\linewidth}{!}{
+				\begin{venndiagram2sets}[
+					shade=blue!25,
+					hgap=.2cm, vgap=.2cm, overlap=0.75cm,
+					labelA={$A$}, labelB={$B$}, labelAB={},
+					labelOnlyA={},labelOnlyB={},labelNotAB={$\Omega$},
+					showframe=true,
+					tikzoptions={}
+					]
+					\fillOnlyA
+					\setpostvennhook
+					{
+						\node[anchor=south] at (current bounding box.north) {$A\backslash B$};
+					}
+				\end{venndiagram2sets}
+			}
+			%
+			\resizebox{\linewidth}{!}{
+				\begin{venndiagram2sets}[
+					shade=blue!25,
+					hgap=.2cm, vgap=.2cm, overlap=0.75cm,
+					labelA={$A$}, labelB={$B$}, labelAB={},
+					labelOnlyA={},labelOnlyB={},labelNotAB={$\Omega$},
+					showframe=true,
+					tikzoptions={}
+					]
+					\fillNotA
+					\setpostvennhook
+					{
+						\node[anchor=south] at (current bounding box.north) {$\overline{A}$};
+					}
+				\end{venndiagram2sets}
+			}
+		\end{column}
+	\end{columns}
+	%
+	\framebreak
+	\begin{alertblock}{Definition: Disjoint Events}
+		\begin{myframe}{
+				Two events $A$ and $B$ are called \textbf{disjoint} or \textbf{mutually exclusive} if
+				\begin{equation*}
+					\label{eq:8-2}
+					A \cap  B = \emptyset
+				\end{equation*}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Definition: Complementary Event}
+		\begin{myframe}{
+				The event 
+				\begin{equation*}
+					\label{eq:8-3}
+					\overline{A} = \Omega \backslash A
+				\end{equation*}
+				is called the \textbf{complementary event} of $A$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Definition: Implied Event}
+		\begin{myframe}{
+				If event $A$ always occurs whenever event $B$ occurs, i.e., $A \subset B$, then we say that \textbf{event \textit{B} implies event \textit{A}}.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\bigskip
+	\alert{Note:} The cardinality $|A|$ of a set is the number of elements contained in $A$.
+	%
+\end{frame}
+
+
+\subsection{Wahrscheinlichkeit}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Wahrscheinlichkeit}
+	Die möglichen Ereignisse des Zufallsexperiments haben eine gewisse Chance einzutreten. Es ist nur folgerichtig, jedem Element der Ereignismenge $E(\Omega)$ eine relle Zahl zuzuordnen, die eben die Höhe dieser Chance \alert{bemaßt} (quantifiziert). Eine solche Abbildung $P$ ist eine reellwertige Funktion mit
+	%
+	\begin{eqnarray*}
+		P \; : \; E &\to & \MRn  \\
+		A &\mapsto & P(A)
+	\end{eqnarray*}  
+	Damit ist die Wahrscheinlichkeit $P(A)$ des Ereignisses $A$ rein "`formal"' definiert, aber wie genau lässt sich Wahrscheinlichkeit messen oder angeben und welchen Regeln gehorcht sie?
+	\par\bigskip
+	Die Antwort auf diese Frage ist nicht ganz einfach, es gibt den 
+	\begin{enumerate}
+		\item "`klassischen"' Wahrscheinlichkeitsbegriff
+		\item "`statistischen"' Wahrscheinlichkeitsbegriff
+		\item "`axiomatischen"' Wahrscheinlichkeitsbegriff 
+	\end{enumerate}
+	%
+	\par\bigskip
+	Der axiomatische Wahrscheinlichkeitsbegriff bildet das Fundament der Wahrscheinlichkeitsrechnung, er schließt den klassischen und den statistischen Wahrscheinlichkeitsbegriff mit ein.
+	%
+\end{frame}
+%\subsubsection{Klassische Wahrscheinlichkeit}\label{ch:8.3}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Klassische Wahrscheinlichkeit}
+	Laplace'sche Sicht: "`Wenn ein Experiment eine Anzahl verschiedener und gleich möglicher Ausgänge hervorbringen kann und einige davon als günstig anzusehen sind, dann ist die Wahrscheinlichkeit eines günstigen Ausgangs (Ereignis $A$) gleich dem Verhältnis der Anzahl der günstigen zur Anzahl der möglichen Ausgänge"':
+	\begin{equation*}
+		\label{eq:8-4}
+		P(A) = \dfrac{\text{Anzahl der günstige Ausgänge}}{\text{Anzahl der möglichen Ausgänge}} 
+		%= \dfrac{g}{m} 
+		= \dfrac{|A|}{|\Omega|}
+	\end{equation*}
+	%
+	Voraussetzung zur Anwendung des klassischen Wahrscheinlichkeitsbegriffs ist, dass alle Elementarereignisse $e_1, e_2, \dots, e_n \subset \Omega$ als gleich wahrscheinlich anzusehen sind:
+	%
+	\begin{equation*}
+		\label{eq:8-5}
+		P(e_1) = P(e_2) = \ldots = P(e_n) = \dfrac{1}{n}
+	\end{equation*}
+	Diese Definition hat zwei Mängel: 
+	\begin{enumerate}
+		\item Praktisch: Wie weiß man, dass alle Möglichkeiten tatsächlich die gleiche Chance haben, einzutreten?
+		\item Theoretisch: Zirkelschluss: Wahrscheinlichkeit wird mit Wahrscheinlichkeit definiert ("`gleich möglich"' bedeutet "`gleichwahrscheinlich"').
+	\end{enumerate}
+	Trotzdem ist diese Vorstellung gerade bei Spielen äußerst hilfreich, die gesuchte Wahrscheinlichkeit zahlenmäßig zu finden. Gerade hier sind gute Kenntnisse der Kombinatorik wichtig, um die Anzahlen $|A|$ und $|\Omega|$ zu finden!
+	%
+\end{frame}
+%
+%\subsubsection{Statistische Wahrscheinlichkeit}\label{ch:8.4}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Statistische Wahrscheinlichkeit}
+	Verfahren zur Bestimmung von Eintrittswahrscheinlichkeiten: Ein Zufallsexperiment wird $n$ mal voneinander unabhängig ausgeführt. Dabei notieren wir für jedes laufende $n$ die absolute Häufigkeit und berechnen die relative Häufigkeit $h_n(A)$ des Eintretens des interessierenden Ereignisses $A$ bei diesen $n$ Durchführungen.
+	\par\medskip
+	%
+	\begin{alertblock}{"`Flapsige"' Definition statistische Wahrscheinlichkeit}
+		\begin{myframe}{
+				Der Grenzwert
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				\begin{equation*}\label{eq:8-6}
+					P(A) = \limes_{n \to \infty} h_n(A)
+				\end{equation*}
+				%
+				heißt \textbf{statistische Wahrscheinlichkeit} des Ereignisses $A$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	
+	Diese Definition hat zwei Mängel: 
+	\begin{enumerate}
+		\item Praktisch: Niemand kann unendlich oft ein Experiment durchführen.
+		\item Theoretisch: Eine Häufigkeit kann im mathematischen Sinn nicht in eine Wahrscheinlichkeit konvergieren, die in oben fomulierte Konvergenz ist nicht deterministisch; genaue Formulierungen liefern die Grenzwertsätze.
+	\end{enumerate}
+	Trotzdem ist diese Vorstellung äußerst hilfreich, zumindest einen "`guten"' (was genau heißt "`gut"'?) Schätzwert für die gesuchte Wahrscheinlichkeit zu finden.
+	%
+\end{frame}
+%
+%\subsubsection{Axiomatik der Wahrscheinlichkeitstheorie}\label{ch:8.6}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Axiomatik der Wahrscheinlichkeitstheorie}
+	%
+	\begin{alertblock}{Definition der Axiome der Wahrscheinlichkeitstheorie}
+		\begin{myframe}{
+				Jede Funktion $P$
+				\begin{eqnarray*}
+					P \; : \; E &\to & \MRn  \\
+					A &\mapsto & P(A)
+				\end{eqnarray*}  
+				%
+				die jedem Ereignis $A$ aus der Ereignismenge $E$ eine reelle Zahl zuordnet, darf \textbf{Wahrscheinlichkeitsfunktion} heißen und zugeordnete reelle Zahl $P(A)$ die \textbf{Wahrscheinlichkeit} von $A$, sofern die drei folgenden Kolmogorov\footnote{Andrej Nikolaevi\v{c} Kolmogorov, 1903--1987}'schen Axiome erfüllt sind:
+				\newline
+				%\begin{enumerate}
+				%\item $P(A) \geq 0$ für jedes $A \in E$ \newline
+				%Die Wahrscheinlichkeit $P(A)$ jedes Ereignisses $A$ ist eine nichtnegative relle Zahl.\newline
+				%\item $P(\Omega) = 1$ \newline
+				%Das sichere Ereignis $\Omega$ hat die Wahrscheinlichkeit 1.\newline
+				%\item $P(A \cup B) = P(A) + P(B)$ falls $A \cap B = \emptyset$\newline
+				%Additionsregel für disjunkte Ereignisse.
+				%\end{enumerate}
+				\begin{description}
+					\item[\textbf{Axiom K1:}] $P(A) \geq 0 \quad \forall A \subset E$ \newline
+					Die Wahrscheinlichkeit $P(A)$ jedes Ereignisses $A$ ist eine nichtnegative relle Zahl.\newline
+					\item[\textbf{Axiom K2:}] $P(\Omega) = 1$ \newline
+					Das sichere Ereignis $\Omega$ hat die Wahrscheinlichkeit 1.\newline
+					\item[\textbf{Axiom K3:}] $P(A \cup B) = P(A) + P(B)$ falls $A \cap B = \emptyset$\newline
+					Additionsregel für disjunkte Ereignisse.
+				\end{description}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	Die Zusammenfassung $[\Omega, E, P]$ wird als Wahrscheinlichkeitsraum bezeichnet.
+	%\subsection*{Anmerkung:}
+	%Die o.g.~Axiome bilden das Fundament der Wahrscheinlichkeitsrechnung. Bezeichnenderweise fußt es nicht auf irgendeinem konkreten Wahrscheinlichkeitsbgriff sondern legt nur die Regeln fest, die ein Wahrscheinlichkeitsmaß erfüllen muss!
+	%
+\end{frame}
+%
+\subsection{Theoreme der Wahrscheinlichkeitsrechnung}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Regeln 1--6 der Wahrscheinlichkeitsrechnung }
+	%
+	Die Kolmogorov'schen Axiome legen nur die Regeln fest, die ein Wahrscheinlichkeitsmaß erfüllen muss!
+	%
+	\begin{alertblock}{Theorem 1: Komplementäres Ereignis} \label{theo:1}
+		Die Wahrscheinlichkeit des zu $A$ komplementären Ereignisses ist stets
+		\begin{equation*}
+			P(\overline{A}) = 1 - P(A), \quad \forall A \subset E
+		\end{equation*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Theorem 2: Unmögliche Ereignis} \label{theo:2}
+		Das unmögliche Ereignis hat die Wahrscheinlichkeit
+		\begin{equation*}
+			P(\emptyset) = 0
+		\end{equation*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Theorem 3: Paarweise disjunkte Ereignisse} \label{theo:3}
+		Sind die Ereignisse $A_1, A_2, \ldots, A_n \; \subset\; E$ paarweise disjunkt, so ist die Wahrscheinlichkeit für das Ereignis, das aus der Vereinigung all dieser Ereignisse entsteht, gleich der Summe der Einzelwahrscheinlichkeiten:
+		\begin{equation*}
+			P(A_1 \cup A_2 \cup \ldots \cup A_n) = \sum_{j=1}^{n} P(A_j)
+		\end{equation*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Theorem 4: Differenzereignisse} \label{theo:4}
+		Für eine Differenzmenge $A \backslash B$ gilt stets
+		\begin{equation*}
+			P(A \backslash B) = P(A) - P(A \cap B)
+		\end{equation*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Theorem 5: Additionssatz} \label{theo:5}
+		Für zwei beliebige Ereignisse $A$ und $B$ aus $E$ gilt stets
+		\begin{equation*}
+			P(A \cup B) = P(A) + P(B) -  P(A \cap B)
+		\end{equation*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Theorem 6: Monotonieeigenschaft} \label{theo:6}
+		Impliziert das Ereignis $A$ das Ereignis $B$, dann ist die Wahrscheinlichkeit von $B$ niemals kleiner als die Wahrscheinlichkeit von $A$:
+		\begin{equation*}
+			A \subset B \Rightarrow P(A) \leq P(B)
+		\end{equation*}
+	\end{alertblock}
+	%
+\end{frame}
+%
+%%
+%\subsection*{Notation}
+%%
+%Ein Wahrscheinlichkeitsraum wird mit $[\Omega, E, P]$ bezeichnet.
+%%
+%\subsection{Bedingte Wahrscheinlichkeit und stochastische Unabhängigkeit}\label{ch:8.9}
+%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Bedingte Wahrscheinlichkeit und stochastische Unabhängigkeit}
+	%
+	Die Wahrscheinlichkeit des Eintretens eines Ereignisses $A$ "`unter der Bedingung"' ("`vorausgetzt"'), dass das Ereignis $B$ eingetreten ist (oder gleichzeitig mit $A$ eintritt), heißt "`bedingte Wahrscheinlichkeit von $A$ unter der Bedingung $B$"' und man schreibt $P(A|B)$.
+	\par\medskip
+	%
+	\begin{alertblock}{Definition bedingte Wahrscheinlichkeit}
+		\begin{myframe}{
+				Seien $A$ und $B$ zwei Ereignisse des Wahrscheinlichkeitsraumes $[\Omega, E, P]$. Die \textbf{bedingte Wahrscheinlichkeit von \textit{A} unter der Bedingung \textit{B}} ist definiert als
+				%\setcounter{equation}{14}
+				\begin{equation*}
+					\label{eq:8-15}
+					P(A|B) = \dfrac{P(A\cap B)}{P(B)}, \quad P(B) > 0
+				\end{equation*}
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	\par\medskip
+	%
+	\begin{alertblock}{Anmerkung}
+		%
+		$P(A|B)$ bezieht sich explizit auf die Teilmenge $B \subset \Omega$. Die Grundgesamtheit ist nicht mehr $\Omega$ sondern $B$, und die Division durch $P(B)$ entspricht sozusagen der "`Umnormierung"' von $\Omega$ auf $B$. Für $B = \Omega$ ergibt sich 
+		\begin{equation*}
+			P(A|\Omega) = \dfrac{P(A\cap \Omega)}{P(\Omega)} = \dfrac{P(A\cap \Omega)}{1} = P(A\cap \Omega) = P(A)
+		\end{equation*}
+		was die obige Definition aus einem weiteren Blickwinkel schlüssig macht.
+	\end{alertblock}
+	%
+\end{frame}
+%
+%\subsection{Theoreme 7--9}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Regeln 7--8 der Wahrscheinlichkeitsrechnung \& Unabhängigkeit}
+	%
+	\begin{alertblock}{Theorem 7: Multiplikationssatz} \label{theo:7}
+		Die Wahrscheinlichkeit, dass zwei Ereignisse $A$ und $B$ gleichzeitig eintreten, beträgt
+		\begin{equation*}
+			\label{eq:8-16}
+			P(A\cap B) = P(A|B) \cdot  P(B) = P(B|A) \cdot  P(A) = P(B\cap A)
+		\end{equation*}
+	\end{alertblock}
+	%
+	\begin{subequations}
+		\begin{alertblock}{Definition stochastische Unabhängigkeit}
+			\begin{myframe}{
+					Zwei Ereignisse $A$ und $B$ heißen \textbf{(stochastisch) unabhängig}, wenn gilt
+					\begin{eqnarray*}
+						\label{eq:8-17}
+						P(A|B) &=& P(A) \\
+						P(B|A) &=& P(B)
+					\end{eqnarray*}
+					%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				}
+			\end{myframe}
+		\end{alertblock}
+	\end{subequations}
+	%
+	\begin{alertblock}{Theorem 8: Multiplikationssatz für unabhängige Ereignisse} \label{theo:8}
+		Sind zwei Ereignisse $A$ und $B$ unabhängig, dann ist die Wahrscheinlichkeit, dass $A$ und $B$ gleichzeitig eintreten, gerade dem Produkt der einzelnen Wahrscheinlichkeiten:
+		\begin{equation*}
+			\label{eq:8-18}
+			P(A\cap B) = P(A) \cdot  P(B) 
+		\end{equation*}
+	\end{alertblock}
+	%%
+\end{frame}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Theorem 9: Totale Wahrscheinlichkeit}
+	%
+	\begin{alertblock}{Definition einer Partition}
+		\begin{myframe}{
+				Irgendwelche $n$ sich gegenseitig ausschließende Ereignisse $H_1 \subset \Omega, H_2\subset \Omega, \ldots, H_n \subset \Omega$, die zusammengenommen den Ereignisraum $\Omega$ ganz ausfüllen
+				\begin{subequations}
+					\begin{align*}
+						H_i \cap H_j &= \emptyset\quad \forall\; i \neq j \\ %\label{eq:8-19a}\\
+						H_1 \cup H_2 \cup \ldots \cup H_n &= \Omega %\label{eq:8-19b}
+					\end{align*}
+				\end{subequations}
+				heißen eine \textbf{Partition} oder \textbf{Aufteilung} von $\Omega$.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	%\par
+	\begin{alertblock}{Theorem 9: Satz der totalen Wahrscheinlichkeit}
+		Seien $H_1, H_2, \ldots, H_n$ eine Partition von  $\Omega$. Dann gilt für jedes $B \subset E$
+		\begin{equation*}
+			\label{eq:8-20}
+			P(B) = \sum_{j=1}^{n} P(B|H_j) \cdot P(H_j) 
+			\includegraphics[trim=-2cm 1.5cm 0cm 0cm, width=0.4\linewidth]{Bilder/Teil-II-Kapitel-5-Bild-04.jpg}
+		\end{equation*} 
+	\end{alertblock}
+	%
+	\begin{alertblock}{Hinweis}
+		Der Begriff "`totale Wahrscheinlichkeit"' soll ausdrücken, dass die Wahrscheinlichkeit eines Ereignisses auf Basis einer frei wählbaren Partition bestimmt werden kann, sofern die bedingten Wahrscheinlichkeiten sowie diejenigen der Bedingungen bekannt sind.
+	\end{alertblock}
+\end{frame}
+
+%\begin{frame}
+%\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem}
+%
+%Nehmen Sie an, Sie wären in einer Spielshow und hätten die Wahl zwischen drei Türen. Hinter einer der Türen ist ein Auto, hinter den anderen sind Ziegen.\\
+%\vspace{0.2cm}
+%Das Auto und die Ziegen sind vor der Show zufällig auf die Türen verteilt worden. Sie haben keine Information über die Position des Autos. Der Moderator weiß, was sich hinter den Türen befindet.\\
+%\vspace{0.2cm}
+%Die Spielregeln lauten:
+%\begin{enumerate}
+%\item Sie wählen zuerst eine Tür aus. Diese bleibt geschlossen.
+%\item Der Moderator muss nun eine der beiden verbleibenden Türen öffnen. Hinter der von ihm geöffneten Tür muss sich eine Ziege befinden.
+%\item Nachdem der Moderator eine Tür mit einer Ziege geöffnet hat, fragt er Sie, ob Sie bei Ihrer ersten Wahl bleiben oder zur letzten verbliebenen Tür wechseln möchten.
+%\end{enumerate}
+%Sie wählen eine Tür, sagen wir, Tür Nummer 1, und der Moderator (der weiß, was hinter den Türen ist) öffnet eine andere Tür, sagen wir, Nummer 3, 
+%hinter der eine Ziege steht. Er fragt Sie nun: \glqq Möchten Sie die Tür Nummer 2?\grqq \\
+%\vspace{0.2cm}
+%\textbf{Frage:} Ist es von Vorteil, die Wahl der Tür zu ändern?
+%\end{frame}
+
+\begin{frame}
+	\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem}
+	
+	\textbf{Das Problem:}
+	\begin{itemize}
+		\item Hinter einer von drei Türen befindet sich ein Auto, hinter den anderen je eine Ziege. 
+		\item Mit der Aussicht auf den Gewinn des Autos wählt der Kandidat eine Tür. 
+		\item Der Moderator, der weiß, was hinter den Türen steht, öffnet aber eine andere Türe, hinter der sich eine Ziege befindet und bietet dem Kandidaten an, die Tür zu wechseln.
+	\end{itemize}
+	\vspace{0.2cm}
+	\begin{center}
+		\begin{figure}
+			\includegraphics[width=0.6\linewidth]{Bilder/monty_open_door.png}\caption{Wikipedia, \emph{Ziegenproblem}, aufgerufen am 02.05.2024}
+		\end{figure}
+	\end{center}
+	%\vspace{0.2cm}
+	\textbf{Frage:} Ist es vorteilhaft für den Kandidaten, die Tür zu wechseln?
+\end{frame}
+
+\begin{frame}
+	\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem -- Totale Gewinnwahrscheinlichkeit nach Türwechsel}
+	
+	Die Ereignisse zur Türwahl werden zerlegt in:
+	\begin{itemize}
+		\item $g_1$: Der Kandidat hat \emph{anfangs} die Tür zum Auto gewählt
+		\item $g_2$: Der Kandidat hat \emph{anfangs} die Tür zu einer Ziege gewählt
+		\item $G_1$: Der Kandidat hat \emph{nach dem Wechsel} das Auto gewonnen
+		\item $G_2$: Der Kandidat hat \emph{nach dem Wechsel} eine Ziege gewonnen
+	\end{itemize}
+	\vspace{0.3cm}
+	Anfängliche Ereigniswahrscheinlichkeiten (ohne Türwechsel): $$P(g_1)=\frac 13 \;\text{und}\; P(g_2)=\frac 23$$
+	
+	\vspace{0.3cm}
+	Bedingte Ereigniswahrscheinlichkeiten bei Türwechsel: $$P(G_1|g_1) = 0 \;\text{und}\; P(G_1|g_2) = 1$$
+	
+	\vspace{0.3cm}
+	Ereigniswahrscheinlichkeiten bei Türwechsel: $$P(G_1) = P(G_1|g_1)P(g_1) + P(G_1|g_2)P(g_2) = 0\cdot\frac 13 + 1 \cdot \frac 23 = \frac 23$$
+\end{frame}
+
+%
+%\subsection{Bayes-Regel}\label{ch:8.11}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Bayes-Regel}
+	%
+	Die Bayes-Regel stellt eine Verbindung zwischen zwei bedingten Wahrscheinlichkeiten her, in denen die Rolle von Bedingung und Ereignis jeweils vertauscht ist, \zB
+	\begin{equation*}
+		P(A|B) \text{ und } P(B|A)
+	\end{equation*}
+	%
+	Aus Theorem 7 folgt durch Umstellen
+	\begin{equation*}
+		\dfrac{P(A|B)}{P(B|A)} =  \dfrac{P(A)}{P(B)}
+	\end{equation*}
+	%
+	und folglich
+	\begin{equation*}
+		P(A|B) = \dfrac{P(A)}{P(B)}\cdot P(B|A) = \dfrac{P(B|A) \cdot P(A)}{P(B)} = \dfrac{P(B \cap A)}{P(B)}
+	\end{equation*}
+	%
+	\begin{alertblock}{Hinweis}
+		Obiger Sachverhalt wird häufig so interpretiert: $A$ ist ein Ereignis, dessen Wahrscheinlichkeit $P(A)$ vor Ausführung ("`\alert{a priori}"') des Zufallsexperiments bekannt ist. $B$ ist ein Ereignis, welches im Ergebnis mit Wahrscheinlichkeit $P(B)$ eintritt. Obiger Zusammenhang quantifiziert nun, wie sich die Wahrscheinlichkeit für $A$ im Nachhinein ("`\alert{a posteriori}"') "`verändert"', wenn bekannt ist, dass $B$ tatsächlich eingetreten ist, also $P(A) \mapsto P(A|B)$.
+	\end{alertblock}
+	%
+\end{frame}
+%
+%\subsection{Theorem 10}\label{ch:8.11}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Theorem 10: Bayes-Theorem}
+	Die Bayes-Regel gilt auch für ein Element $H_i$ einer Partition, und mit Theorem 9 folgt
+	%
+	\begin{equation*}
+		P(H_i|B) =  \dfrac{P(H_i) \cdot P(B|H_i)}{P(B)} = \dfrac{P(H_i) \cdot P(B|H_i)}{\displaystyle \sum_{j=1}^{n} P(B|H_j) \cdot P(H_j)}
+	\end{equation*}
+	woraus unmittelbar das \sog Bayes-Theorem folgt:
+	\par\bigskip
+	%
+	\alert{Theorem 10: Bayes-Theorem}
+	\newline
+	Sei $H_1, H_2, \ldots, H_n$ eine beliebige Partition von $\Omega$ und $B$ ein Ereignis mit $P(B) > 0$. Dann gilt
+	\begin{equation*}
+		\label{eq:8-21}
+		P(H_i|B) =  \dfrac{ P(B|H_i) \cdot P(H_i) }{\displaystyle \sum_{j=1}^{n} P(B|H_j) \cdot P(H_j)}
+	\end{equation*} 
+	%
+\end{frame}
+
+\begin{frame}
+	\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem -- Lösung des Einzelfalls mit dem Satz von Bayes}
+	
+	Es sind die folgenden Ereignisse definiert:
+	\begin{itemize}
+		\item $G_i$: Das Auto ist hinter Tür $i$ ($i=1,2,3$)
+		\item $M_j$: Der Moderator hat die Tür $j$ geöffnet ($j=1,2,3$)
+	\end{itemize}
+	\vspace{0.1cm}
+	Es liegt folgende Situation vor:\\ Der Kandidat hat Tür 1 gewählt, der Moderator hat daraufhin Tür 3 geöffnet. 
+	$\Longrightarrow$ Gesucht ist also die \emph{bedingte Wahrscheinlichkeit} $P(G_{2}|M_{3})$. % (dass das Auto hinter Tür 2 ist, wenn bekannt ist, dass es nicht hinter Tür 3 ist.)
+	
+	\vspace{0.3cm}
+	Es ergeben sich die folgenden Wahrscheinlichkeiten:
+	\begin{itemize}
+		\item $P(G_1) = P(G_2) = P(G_3) = \frac 13$
+		\item $P(M_3|G_1) = \frac 12$ und $P(M_3|G_2) = 1$ und $P(M_3|G_3) = 0$
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	Anwendung des \emph{Satzes von Bayes} ergibt dann: 
+	\begin{align*}
+		P(G_2|M_3) & = \frac{P(M_3|G_2)P(G_2)}{P(M_3|G_1)P(G_1)+P(M_3|G_2)P(G_2)+P(M_3|G_3)P(G_3)} \\
+		& = \frac{1\cdot\frac 13}{\frac 12\cdot\frac 13+1\cdot\frac 13+0\cdot\frac 13} = \frac{\frac 13}{\frac 12} = \frac 23
+	\end{align*}
+	
+	\vspace{0.1cm}
+	Der Kandidat sollte also wechseln, um seine Gewinnchancen von anfangs $\frac 13$ auf nun $\frac 23$ zu verdoppeln.
+\end{frame}
+
+%
+\subsection{Wahrscheinlichkeitsräume}\label{ch:8.8}
+%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Typen von Wahrscheinlichkeitsräumen}
+	%
+	Der Ereignisraum $\Omega$ kann
+	\begin{enumerate}
+		\item endlich oder abzählbar
+		\item überabzählbar 
+	\end{enumerate}
+	sein. 
+	\par\medskip
+	Im ersten Fall kann man durch\textit{zählen}, entweder von $1$ bis $n < \infty$ oder von $1$ bis $\infty$ (abzählbar: Es gibt genauso viele Elemente in $\Omega$ wie Elemente in der Menge der natürlichen Zahlen $\MNn$: $|\Omega| = |\MNn|$, Äquivalenzklasse im Cantor'schen Sinne).
+	\par\smallskip
+	In diesem Fall spricht man von \alert{diskreten} Wahrscheinlichkeitsräumen.
+	\par\bigskip
+	Im zweiten Fall kann man die Elemente nicht mehr abzählen, \dh \textbf{jede} Liste $x_1, x_2, \ldots$ wäre grundsätzlich unvollständig, entsprechend hat eine überabzählbare Menge mehr Elemente als die  Menge der natürlichen Zahlen $\MNn$, ein Beispiel hierfür ist die Menge der rellen Zahlen $\MRn$. Witzigerweise enthält eine abzählbare Menge unendlich viele Elemente, ebenso wie die überabzählbare Menge unendlich viele Elemente hat, aber Vorsicht: Unendlich ist nicht gleich unendlich, und unendlich ist insbesondere kein Wert (also eine Zahl)!!! Es gilt $|\MNn| \leq |\Omega|$, \zB $|\MNn| \leq |\Omega| = |\MRn|$.
+	\par\smallskip
+	In diesem Fall spricht man von \alert{stetigen} Wahrscheinlichkeitsräumen.
+\end{frame}
+%%
+%\subsubsection*{Diskrete Wahrscheinlichkeitsräume}
+%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Diskrete Wahrscheinlichkeitsräume}
+	\begin{alertblock}{Definition diskreter Wahrscheinlichkeitsraum}
+		\begin{myframe}{
+				Ist ein Ereignisraum $\Omega$ endlich oder abzählbar, heißt er \textbf{diskret}.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\bigskip
+	%
+	Jedem Elementarereignis $e_i \subset \Omega$ wird die Wahrscheinlichkeit $p_i = P(e_i)$ zugeordnet:
+	\begin{eqnarray*}
+		P \; : \; E &\to & \MRn  \\
+		e_i &\mapsto & p_i = P(e_i) \geq 0, \quad i = 1, 2, \ldots
+	\end{eqnarray*}  
+	%
+	Für diskrete Wahrscheinlichkeitsräume gilt daher
+	\begin{equation*}
+		\sum_{\text{alle }i} p_i  =  1
+	\end{equation*}
+	Die Wahrscheinlichkeit eines beliebigen Ereignisses $A$ lässt sich wegen der paarweisen Disjunktheit der Elementarereignisse $e_i$ mit Theorem 3 direkt angeben:
+	\begin{equation*}
+		P(A)  =  \sum_{e_i \subset A} P(e_i) = \sum_{e_i \subset A} p_i
+	\end{equation*}
+\end{frame}
+%%
+%\subsubsection{Stetige Wahrscheinlichkeitsräume}
+%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Stetige Wahrscheinlichkeitsräume}
+	\begin{alertblock}{Definition stetiger Wahrscheinlichkeitsraum}
+		\begin{myframe}{
+				Ist ein Ereignisraum $\Omega$ nicht abzählbar, heißt er \textbf{stetig}.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\medskip
+	%
+	Oftmals liegen die möglichen Ergebnisse des Zufallsexperiments in einem bestimmten Intervall der reellen Zahlen, z.B.~im Intervall $[0,1]$. Ein Ereignis $A$ ist typischerweise ein Teilintervall, \dh das Ergebnis $x$ liegt in einem interessierenden Teilintervall, \zB
+	\begin{equation*}
+		A = \{x | 0{,}2 < x \leq 0{,}4 \} \quad \text{mit} \quad \Omega = \{x | 0 \leq x \leq 1 \}
+	\end{equation*}
+	%
+	Wie groß ist nun $P(A)$? Diese Frage wird später beantwortet. Wichtig ist hier nur, dass diese Zahl $P(A)$ existiert und die Axiome erfüllt werden.
+	\par\bigskip
+	\begin{alertblock}{Hinweis zur Schreibweise}
+		Die Schreibweise $A = \{x | 0{,}2 < x \leq 0{,}4 \}$ besagt in Worten: "`Die Menge $A$ umfasst alle reellen Zahlen $x$, für die gilt -- oder, alternativ, "`unter der Bedingung"', "`vorausgesetzt"' -- dass sie im Intervall $(0{,}2, 0{,}4]$ liegen"'. Eine solche implizite Angabe ist nötig, weil man eben nicht alle Elemente aufzählen kann!
+	\end{alertblock}
+\end{frame}
+
+
+\section{Zufallsvariable}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Definition der Zufallsvariablen}
+	%
+	\begin{itemize}
+		\item Bis jetzt: Zufällige Ereignisse, denen Wahrscheinlichkeiten zugeordnet wurden.
+		\item Ab jetzt: Reellen Zahlen Wahrscheinlichkeiten zuordnen: Tritt ein Elementarereignis $e \subset \Omega$ ein, so wird diesem $e$ eine relle Zahl $\ZVX(e)$ zugeordnet.
+	\end{itemize}
+	%
+	\begin{alertblock}{Definition Zufallsvariable}
+		\begin{myframe}{
+				Gegeben sei ein Wahrscheinlichkeitsraum $[\Omega, E, P]$. Eine Funktion
+				\begin{eqnarray*}
+					\ZVX \; : \; \Omega &\to     & \MRn    \nonumber     \\
+					e &\mapsto & \ZVX(e) \label{eq:9-1}
+				\end{eqnarray*}  
+				die jedem Elementarereignis $e$ eine reelle Zahl $\ZVX(e)$ zuordnet, heißt \textbf{Zufallsvariable} oder \textbf{stochastische Variable}, wenn dabei zu jeder reellen Zahl $x$ ein Ereignis $A_x \subset E$ gehört, mit $A_x = \{e|\ZVX(e) \leq x \}$.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\alert{Anmerkungen:}
+	%
+	\begin{itemize}
+		\item Die Zufalls\textit{variable} $\ZVX$ ist eine \textit{Funktion}.
+		\item Die Wahrscheinlichkeitsfunktion $P(\ast)$ wird zur Defintion nicht benötigt.
+		\item Durch das Einführen von Zufallsvariablen entfällt das eher mühsame Rechnen mit den Elementarereignissen und den Ereignissen weitgehend.
+	\end{itemize}
+	%
+\end{frame}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Veranschaulichung der Zufallsvariablen}
+	Weniger formal kann man sich dies folgendermaßen vorstellen:
+	\begin{itemize}
+		\item Durch Drücken auf den roten Knopf wird im Inneren der Box das Zufallsexperiment ausgeführt 
+		\item Das von außen nicht sichtbare Ergebnis ist das Elementarereignis $e$
+		\item Die Anzeige zeigt die zugehörige reelle Zahl $\ZVX(e)$ an
+		\item Zu dieser Anzeige $\ZVX(e)$ gehört das Ereignis $A_x = \{e|\ZVX(e) \leq x \} \subset E$
+	\end{itemize}
+	\par\bigskip
+	\begin{figure} 
+		\captionsetup[subfigure]{labelformat=empty}
+		%\centering
+		\subfloat[Diskret]{\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.3\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-04.jpg}}
+		\hspace{0.5cm}
+		\subfloat[Stetig]{\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.3\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-05.jpg}}
+	\end{figure}
+\end{frame}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Beispiel einer Zufallsvariablen}
+	Eine Münze wird einmal geworfen, wir betrachten also den Ereignisraum
+	\begin{center}
+		\includegraphics[width=0.25\linewidth]{Bilder/Teil-II-Kapitel-5-Bild-01.jpg}
+	\end{center}
+	und damit die Ereignismenge $E$ mit vier Ereignissen $$E=\left\{\emptyset,\{\text{Zahl}\},\{\text{Kopf}\},\Omega\right\}.$$
+	Die Zufallsvariable $\ZVX:\Omega_\text{M}\longrightarrow\MRn$ bezeichne die Anzahl der Köpfe, die bei diesem Zufallsexperiment herauskommen kann: $$\ZVX(\text{Zahl})=x_1=0 \quad\text{und}\quad \ZVX(\text{Kopf})=x_2=1.$$
+	Die definierende Bedingung \glqq für alle $x\in\MRn$ gibt es ein Ereignis $A_x \subset E$ mit $A_x = \{e|\ZVX(e) \leq x \}$\grqq~ist ebenfalls erfüllt:
+	\begin{align*}
+		-\infty<x<0: \quad & A_x =\emptyset, \\
+		0\leq x < 1: \quad & A_x = \{\text{Zahl}\}, \\
+		1\leq x < \infty: \quad & A_x = \Omega.
+	\end{align*}
+\end{frame}
+%
+\subsection{Verteilungsfunktion}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Verteilungsfunktion}
+	%
+	Von Interesse sind neben den reellen Zahlen $x$, die eine Zufallsvariable $\ZVX$ annehmen kann, auch die Wahrscheinlichkeiten $P$, mit denen diese Zahlen auftreten. Es bezeichne
+	%
+	\begin{align*}
+		P(\ZVX = a)    & \Leftrightarrow\text{Wahrscheinlichkeit, dass }\ZVX = a\text{ ist} \\
+		P(a <\ZVX \leq b) & \Leftrightarrow\text{Wahrscheinlichkeit, dass }\ZVX \text{ im Intervall } (a,b] \text{ liegt}\\
+		P(\ZVX \leq x) & \Leftrightarrow\text{Wahrscheinlichkeit, dass }\ZVX \leq x \text{ ist}
+	\end{align*}
+	%
+	Jedem der drei obigen Fälle werden eindeutig Ereignisse -- und über diese die zugehörenden Wahrscheinlichkeiten  -- zugeordnet:
+	\begin{equation*}
+		\begin{array}{rcl}
+			\ZVX = a    & \Leftrightarrow & A = \{e | \ZVX(e) = a \} \\
+			P(\ZVX = a) & =               & P\left( A \right) = P\left( \{e | \ZVX(e) = a \}\right) 
+		\end{array}
+	\end{equation*}
+	Entsprechend gilt
+	\begin{equation*}
+		\begin{array}{rcl}
+			a <\ZVX \leq b    & \Leftrightarrow & A = \{e | a <\ZVX(e) \leq b \} \\
+			P(a <\ZVX \leq b) & =               & P\left( A \right) = P\left( \{e | a <\ZVX(e) \leq b \}\right) 
+		\end{array}
+	\end{equation*}
+	Schließlich gilt für jede reelle Zahl $x$
+	\begin{equation*}
+		\begin{array}{rcl}
+			\ZVX \leq x    & \Leftrightarrow & A_x = \{e | \ZVX(e) \leq x \} \\
+			P(\ZVX \leq x) & =               & P\left( A_x \right) = P\left( \{e | \ZVX(e) \leq x \}\right) 
+		\end{array}
+	\end{equation*}
+	%
+	\framebreak
+	\begin{alertblock}{Definition der Verteilungsfunktion (1)}
+		\begin{myframe}{
+				Die Funktion
+				\begin{equation*}
+					\label{eq:9-2}
+					F(x) = P(\ZVX \leq x) = P\left( A_x \right) = P\left( \{e | \ZVX(e) \leq x \}\right) 
+				\end{equation*}  
+				die jeder reellen Zahl $x$ die Wahrscheinlichkeit zuordnet, mit der die Zufallsvariable $\ZVX$ einen Wert $\ZVX \leq x$ annimmt, heißt \textbf{Verteilungsfunktion} der betreffenden Zufallsvariablen $\ZVX$. Diese Wahrscheinlichkeit ist gleich der Wahrscheinlichkeit des Ereignisses $A_x = \{e | \ZVX(e) \leq x \}$.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\medskip
+	Die Verteilungsfunktion hat folgende Eigenschaften:
+	%
+	\begin{enumerate}
+		\item $F(x)$ ist an jeder Stelle zumindest rechtsseitig stetig:
+		\begin{equation*}  
+			\limes_{\Delta x \rightarrow 0} F(x + \Delta x) = F(x), \quad \Delta x > 0
+		\end{equation*}
+		\item $F(x)$ ist überall monoton steigend:
+		\begin{equation*}  
+			F(a) \leq F(b) , \quad \text{falls } a < b, \quad a,b \in \MRn
+		\end{equation*}  
+		\item $F(x)$ hat die Grenzwerte
+		\begin{equation*}  
+			\limes_{x \rightarrow -\infty} F(x) = 0, \quad \limes_{x \rightarrow +\infty} F(x) = 1
+		\end{equation*}
+	\end{enumerate}
+	%
+	\framebreak
+	%
+	\par\medskip
+	\alert{Hinweis}
+	\par\smallskip
+	Die Eigenschaften der Verteilungsfunktion sind identisch mit denen der empirischen Verteilungsfunktion!
+	\par\medskip
+	Man kann auch zeigen, dass jede Funktion, die die obigen Eigenschaften 1-3 hat, eindeutig eine Zufallsvariable definiert. Daher lautet die alternative Definition einer Verteilungsfunktion:
+	%
+	\begin{alertblock}{Definition der Verteilungsfunktion (2)}
+		\begin{myframe}{
+				Jede Funktion $F(x)$ auf dem Definitionsbereich der reellen Zahlen $\MRn$ und mit Wertebereich $[0,1]$, die die obigen drei Eigenschaften hat, heißt \textbf{Verteilungsfunktion} und definiert eine \textbf{Zufallsvariable}.
+			}
+		\end{myframe}
+	\end{alertblock}
+	% Teil-II-Kapitel-6-Bild-01
+	\begin{figure}%
+		\includegraphics[width=0.8\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-01.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+\end{frame}
+%
+\subsection{Diskrete Zufallsvariablen}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Wahrscheinlichkeitsfunktion}
+	Bei endlichen Wahrscheinlichkeitsräumen, \dh $|\Omega| < \infty$, ist die Zufallsvariable diskret, und es gibt $n$ unterscheidbare reelle Zahlen $x_i$, $i=1,\dots,n$ als Realisierungen von $\ZVX$. 
+	%
+	\par\medskip
+	%
+	\begin{alertblock}{Definition der Wahrscheinlichkeitsmassenfunktion}
+		\begin{myframe}{
+				Ist $\ZVX$ eine diskrete Zufallsvariable, dann heißt die Funktion
+				\begin{equation*}
+					\label{eq:9-3}
+					f(x) = P(\ZVX = x) =  
+					\begin{cases}
+						P(\ZVX = x_i) = p_i &\;\text{falls } x = x_i,\; i=1,\ldots, n \\
+						0                   & \;\text{sonst }
+					\end{cases}
+				\end{equation*}  
+				die \textbf{Wahrscheinlichkeitsmassenfunktion} oder kurz \textbf{Massenfunktion} der Zufallsvariablen $\ZVX$ (manchmal auch Wahrscheinlichkeitsfunktion genannt).
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	%
+	%\par\medskip
+	%
+	\begin{columns}
+		\begin{column}{0.27\linewidth}
+			\alert{Eigenschaften} 
+			%\par\medskip
+			%\begin{subequations} 
+			\begin{eqnarray*}  
+				(1) & f(x) \geq 0 \label{eq:9-4a} \\
+				(2) & \displaystyle \sum_{ \text{alle }i} f(x_i) = 1 \label{eq:9-4b} \\
+				(3) & 0 < f(x_i) \leq 1 \label{eq:9-4c}
+			\end{eqnarray*}  
+			%\end{subequations}
+		\end{column}
+		%
+		\hfill
+		\begin{column}{0.64\linewidth}
+			\alert{Zusammenhänge} 
+			%\par\medskip
+			%
+			\begin{equation*}
+				\label{eq:9-5}
+				F(x) = P(\ZVX \leq x) = \sum_{x_i \leq x} f(x_i)
+			\end{equation*}
+			\begin{equation*}
+				\label{eq:9-6}
+				f(x) = F(x) - \limes_{\Delta x \rightarrow 0} F(x - \Delta x)), \quad \Delta x > 0
+			\end{equation*}
+		\end{column}
+		%
+	\end{columns}
+	% 
+	\begin{alertblock}{Hinweis} 
+		Die Verteilungsfunktion $F(x)$ diskreter Zufallsvariablen ist an den Sprungstellen $x = x_i$ nicht differenzierbar!
+	\end{alertblock}
+\end{frame}
+%
+\subsection{Stetige Zufallsvariablen}
+%
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Dichtefunktion}
+	Bei unendlichen Wahrscheinlichkeitsräumen ist die Zufallsvariable stetig. Die Realisierungen von $\ZVX$ liegen typischerweise in Intervallen der reellen Zahlen, \zB im Intervall $[a,b], \; a{,}b \in \MRn$. Da in einem solchen Intervall unendlich viele reelle Zahlen liegen, ist die Wahrscheinlichkeit, genau eine bestimmte Zahl daraus zu "`treffen"', stets null: Die Angabe einer Wahrscheinlich\-keits\-massen- \-funktion ist nicht sinnvoll! 
+	%
+	\par\medskip
+	%
+	\begin{alertblock}{Definition der Wahrscheinlichkeitsdichtefunktion}
+		\begin{myframe}{
+				Ist $\ZVX$ eine stetige Zufallsvariable mit Verteilungsfunktion $F(x)$, so heißt die erste Ableitung von $F(x)$ nach $x$ 
+				\begin{equation*}
+					\label{eq:9-7}
+					f(x) = \dfrac{\operatorname{d}F(x)}{\operatorname{d}x}
+				\end{equation*}  
+				die \textbf{Wahrscheinlichkeitsdichtefunktion} oder kurz \textbf{Dichtefunktion} der Zufallsvariablen $\ZVX$.
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{columns}
+		\begin{column}{0.40\linewidth}
+			\alert{Eigenschaften} 
+			\begin{subequations} 
+				\begin{eqnarray*}  
+					(1) & f(x) \geq 0 \label{eq:9-8a}\\
+					(2) & \displaystyle \int\limits_{-\infty}^{+\infty} f(x) \operatorname{d}x = 1 \label{eq:9-8b}
+				\end{eqnarray*}  
+			\end{subequations}
+		\end{column}
+		%
+		%\hfill
+		\begin{column}{0.55\linewidth}
+			\alert{Hinweis}\par\smallskip 
+			Im Falle stetiger Zufallsvariablen ist $F(x)$ \iallg überall differenzierbar und $f(x)$ daher überall definiert mit Einheit 1/("`Einheit von $x$"').
+		\end{column}
+		%
+	\end{columns} 
+	%
+	\framebreak
+	%
+	\par\bigskip
+	Anmerkungen:
+	\begin{enumerate}
+		\item Die Dichtefunktion $f(x)$ gibt den Wahrscheinlichkeits\alert{zuwachs} an der Stelle $x$ an. Daher ist erst die \alert{Fläche}, die $f(x)$  mit der $x$-Achse in einem gegebenen Intervall aufspannt, eine Wahrscheinlichkeit:
+		%
+		\begin{align*}
+			%P(\ZVX = a)    & = \int_{a}^{a} f(x) \operatorname{d}x = 0 \\
+			P(a <\ZVX \leq b) & = \int_{a}^{b} f(x) \operatorname{d}x = F(b) - F(a) \\
+			P(\ZVX \leq x) & = \int_{-\infty}^{x} f(u) \operatorname{d}u 
+		\end{align*}
+		%
+		\item Das Intervall $[a,b]$ lässt sich in drei disjunkte Intervalle zerlegen: $[a] \cup (a,b) \cup [b]$. Bei endlichem stetigem $f(x)$ gilt 
+		%\begin{align*}
+		%%P(\ZVX = c)    & = \int_{c}^{c} f(x) \operatorname{d}x = 0 \\
+		%\underbrace{\int\limits_{a}^{a} f(x) \operatorname{d}x}_{P(\ZVX = a)=0} 
+		%+ \underbrace{\int\limits_{a}^{b} f(x) \operatorname{d}x}_{P(a < \ZVX < b)} 
+		%+ \underbrace{\int\limits_{b}^{b} f(x) \operatorname{d}x}_{P(\ZVX = b)=0}
+		%&= P(a \leq \ZVX \leq b) \\
+		%& = P(a < \ZVX \leq b) \\
+		%& = P(a \leq \ZVX < b) \\
+		%& = P(a < \ZVX < b)  
+		%\end{align*}
+		\begin{equation*}
+			%P(\ZVX = c)    & = \int_{c}^{c} f(x) \operatorname{d}x = 0 \\
+			P(a \leq \ZVX \leq b) = \underbrace{\int\limits_{a}^{a} f(x) \operatorname{d}x}_{P(\ZVX = a)=0} 
+			+ \underbrace{\int\limits_{a}^{b} f(x) \operatorname{d}x}_{P(a < \ZVX < b)} 
+			+ \underbrace{\int\limits_{b}^{b} f(x) \operatorname{d}x}_{P(\ZVX = b)=0}
+		\end{equation*}
+		und daher
+		\begin{equation*}
+			P(a \leq \ZVX \leq b) = P(a < \ZVX \leq b) = P(a \leq \ZVX < b) = P(a < \ZVX < b)  
+		\end{equation*}
+	\end{enumerate}
+	%
+	\framebreak
+	\par\bigskip
+	\begin{figure}%
+		\includegraphics[width=1.0\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-03.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+	%
+	$$f_{\mu,\sigma^2}(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\cdot e^{-\frac 12\left(\frac{x-\mu}{\sigma}\right)^2}$$
+\end{frame}
+%
+\subsection{Erwartungswerte}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Erwartungswert der Zufallsvariablen $\ZVX$}
+	%
+	Der Erwartungswert ist vergleichbar mit dem empirischen arithmetischen Mittel einer Häufigkeitsverteilung. Er beschreibt die Zahl, die die Zufallsvariable $\ZVX$ "`im Mittel"' annimmt (Lagemaß) -- eine Zahl, die nicht notwendigerweise eine Realisierung von $\ZVX$ sein muss.
+	%
+	\par\medskip
+	\begin{alertblock}{Definition des Erwartungswertes einer Zufallsvariablen $\ZVX$}
+		\begin{myframe}{
+				Sei $\ZVX$ eine Zufallsvariable und $f(x)$ ihre Massen- \bzw Dichtefunktion. Ihr \textbf{Erwartungswert} ist definiert als \newline
+				\begin{subequations} 
+					\begin{eqnarray*}
+						\E(\ZVX) &= \displaystyle \sum_{\text{alle }j} x_j \cdot f(x_j)\quad \text{diskret} \\
+						\E(\ZVX) &= \displaystyle \int\limits_{-\infty}^{+\infty} x\cdot f(x) \operatorname{d}x\quad \text{stetig} 
+					\end{eqnarray*}  
+				\end{subequations} 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Bezeichnung:}
+		Der Erwartungswert wird auch \textbf{Mittelwert} oder mathematische Erwartung genannt; als Formelsymbol -- \insb für die sich ergebene Zahl -- wird meistens $\mu$, $\mu_{\mathrm{ X}}$ oder $\mu(\ZVX)$ verwendet. 
+	\end{alertblock}
+	%
+	%\begin{leftbar}
+	%\begin{mSatz} Der Erwartungswert der Abweichungen jeder Zufallsvariablen $\ZVX$ von ihrem Erwartungswert $\mu_{\mathrm{ X}}$ ist Null:
+	%\begin{equation}
+	%\label{eq:9-10}
+	%\E\left( \ZVX -  \mu_{\mathrm{ X}} \right) = 0
+	%\end{equation}
+	%\end{mSatz}
+	%\end{leftbar}
+\end{frame}
+%
+%\subsection{Rechnen mit Erwartungswerten} 
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Erwartungswert der Zufallsvariablen $\ZVY = g(\ZVX)$}
+	%
+	\par\medskip
+	%
+	Wird jede Realisierung $x$ der Zufallsvariablen $\ZVX$ durch die Abbildung $y = g(x)$ in eine Realisierung der Zufallsvariable $\ZVY$ transformiert, dann werden die den Werten $x$ zugewiesenen Wahrscheinlichkeitsmassen \bzw -dichten den Werten $y=g(x)$ zugewiesen. Dann gilt
+	\par\medskip
+	%
+	\begin{subequations} 
+		\begin{eqnarray*}
+			\E\left(\ZVY = g(\ZVX)\right) &= \displaystyle \sum_{\text{alle }j} g(x_j) \cdot f(x_j)\quad \text{diskret} \label{eq:9-11a}\\
+			\E\left(\ZVY = g(\ZVX)\right) &= \displaystyle \int\limits_{-\infty}^{+\infty} g(x) \cdot f(x) \operatorname{d}x\quad \text{stetig} \label{eq:9-11b}
+		\end{eqnarray*}  
+	\end{subequations} 
+	%
+	\par\bigskip
+	Die obige Vorstellung verallgemeinert den zuvor definierten Erwartungswert in dem Sinne, als dass man direkt bestimmen kann, welche Zahl im Mittel zu erwarten wäre, wenn man die Realisierungen von $\ZVX$ der Abbildung $y = g(x)$ unterwerfen würde.
+	\framebreak
+	\par\bigskip
+	Für das \alert{Rechnen mit Erwartungswerten} gelten folgende Regeln: 
+	\par\smallskip
+	%
+	\begin{enumerate}
+		\item \alert{Konstante:} Mit $y = g(x) = a$ folgt
+		\begin{equation*}
+			\E(\ZVY) = \E(a) = a
+		\end{equation*}
+		\item \alert{Faktor:} Für $y = b\cdot g(x)$ folgt
+		\begin{equation*}
+			\E(\ZVY) = \E(b\cdot g(\ZVX)) = b \cdot E\left(g(\ZVX)\right)
+		\end{equation*}
+		\item \alert{Lineare Transformation:} Für $y = a + b\cdot x$ folgt
+		\begin{equation*}
+			\label{eq:9-13}
+			\E(\ZVY) = \E(a +b\cdot \ZVX ) = a + b \cdot E\left(\ZVX\right)
+		\end{equation*}
+		\item \alert{Linearkombination:} Für $y = \lambda_1 \cdot g_1(x) + \lambda_2 \cdot g_2(x)$ folgt
+		\begin{equation*}
+			\label{eq:9-12}
+			\E(\ZVY) = \E(\lambda_1 \cdot g_1(\ZVX)+ \lambda_2 \cdot g_2(\ZVX)) = \lambda_1 \cdot  E\left(g_1(\ZVX)\right) + \lambda_2 \cdot E\left(g_2(\ZVX)\right)
+		\end{equation*}
+	\end{enumerate}     
+	%
+\end{frame}
+%
+\subsection{Varianz} 
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Varianz der Zufallsvariablen $\ZVX$}
+	Die Varianz entspricht der empirischen Varianz und stellt ein \emph{Maß für die Streuung um den Mittelwert} dar.
+	%
+	\begin{alertblock}{Definition der Varianz der Zufallsvariablen $\ZVX$}
+		\begin{myframe}{
+				Sei $\ZVX$ eine Zufallsvariable und $\mu_{\mathrm{ X}}$ ihre Erwartungswert. Der Erwartungswert der quadrierten Abweichungen der Zufallsvariablen von ihrem Erwartungswert
+				\begin{equation*}
+					\label{eq:9-14}
+					\Var(\ZVX) = \E\left( (\ZVX -  \mu_{\mathrm{ X}})^2 \right)
+				\end{equation*} 
+				heißt \textbf{Varianz} der Zufallsvariablen $\ZVX$, falls die Summe bzw.~das Integral existiert. Die positive Wurzel aus der Varianz
+				\begin{equation*}
+					\label{eq:9-15}
+					\sigma_{\mathrm{ X}} = +\sqrt{\Var(\ZVX)}
+				\end{equation*} 
+				heißt \textbf{Standardabweichung}. 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Bezeichnung:}
+		Als Formelsymbol, \insb auch für die sich ergebende Zahl, wird für $\Var(\ZVX)$ meistens $\sigma^2$, $\sigma^2_{\mathrm{ X}}$ oder $\sigma^2(\ZVX)$ verwendet.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Hinweis:}
+		Die Varianz ist der Erwartungswert der Abbildung $y = g(x) = (x - \mu_{\mathrm{ X}})^2$
+	\end{alertblock}
+	%
+	\framebreak
+	%
+	Die Varianz berechnet sich laut Definition folgendermaßen:
+	\begin{subequations} 
+		\begin{eqnarray*}
+			\Var\left(\ZVX\right) &= \displaystyle \sum_{\text{alle }j} \left(x_j - \mu_{\mathrm{ X}} \right)^2 \cdot f(x_j)\quad \text{diskret} \label{eq:9-16a}\\
+			\Var\left(\ZVX\right) &= \displaystyle \int_{-\infty}^{+\infty} \left(x - \mu_{\mathrm{ X}} \right)^2 \cdot f(x) \operatorname{d}x\quad \text{stetig} \label{eq:9-16b}
+		\end{eqnarray*}  
+	\end{subequations} 
+	%
+	\par\bigskip
+	\framebreak
+	Für das \alert{Rechnen mit Varianzen} gelten folgende Regeln: 
+	\par\smallskip
+	\begin{enumerate}
+		\item \alert{Vereinfachte Berechnung:} Es gilt (siehe Punkt 6 für $d=0$)
+		\begin{equation*}
+			\label{eq:9-19}
+			\Var(\ZVY) = \E\left( \ZVX^2 \right) - \mu^2_{\mathrm{ X}} 
+		\end{equation*}
+		\item \alert{Konstante:} Da eine konstante Größe nicht streut, gilt
+		\begin{equation*}
+			\Var(a) = 0
+		\end{equation*}
+		\item \alert{Verschiebung:} Für $y = x+a$ folgt
+		\begin{equation*}
+			\Var(\ZVY) =\Var(\ZVX+a) = \Var(\ZVX)
+		\end{equation*}
+		\item \alert{Skalierung:} Für $y = b \cdot x$ folgt
+		\begin{equation*}
+			\Var(\ZVY) = \Var(b \cdot \ZVX) = b^2 \cdot \Var(\ZVX)
+		\end{equation*}
+		\item \alert{Lineare Transformation:} Für $y = a + b\cdot x$ folgt
+		\begin{equation*}
+			\Var(\ZVY) = \Var(a +b\cdot(\ZVX)) = b^2 \cdot \Var(\ZVX) \label{eq:9-17} %\\
+			%\sigma_{\mathrm{ Y}} &=& |b|  \cdot \sigma_{\mathrm{ X}} \label{eq:9-18}       
+		\end{equation*}
+		\item \alert{Steiner'scher Verschiebungssatz:} Für $d = \text{const.}$ gilt:
+		\begin{equation*}
+			\label{eq:9-20}
+			\Var(\ZVY) = \E\left( (\ZVX - d)^2 \right) - (\mu_{\mathrm{ X}} - d)^2 
+		\end{equation*}
+	\end{enumerate}     
+	%
+\end{frame}
+%
+\subsection{Standardisieren} 
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Standardisierte Zufallsvariable $\ZVZ$}
+	%
+	Jede Zufallsvariable lässt sich so abbilden, dass die resultierende Zufalls\-variable \textbf{mittelwertfrei} ist und die \textbf{Varianz den Wert Eins} annimmt. \\
+	Zum Zwecke der Vergleichbarkeit, aber auch zur Aufwandsverringerung (Tabellen o.\,ä.) ist dies häufig gewünscht \bzw nötig.
+	%
+	\begin{alertblock}{Definition der Standardisierung}
+		\begin{myframe}{
+				Ist $\ZVX$ eine Zufallsvariable mit Erwartungswert $\mu$ und Standardabweichung $\sigma> 0$, dann heißt die linear transformierte Zufallsvariable
+				%
+				\begin{equation*}
+					\label{eq:9-21}
+					\ZVZ = \dfrac{\ZVX - \mu}{\sigma} = -\dfrac{\mu}{\sigma} + \dfrac{1}{\sigma} \cdot \ZVX = a + b \cdot \ZVX 
+				\end{equation*} 
+				\textbf{standardisiert}. 
+				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Anmerkungen}
+		\begin{enumerate}
+			\item Es gilt wie gefordert (\vgl die Rechenregeln):
+			\begin{eqnarray*}
+				E(\ZVZ) &=&  a + b \cdot E\left(\ZVX\right) = -\dfrac{\mu}{\sigma} + \dfrac{1}{\sigma} \cdot \mu = 0  \\
+				\sqrt{\Var(\ZVZ)} &=& |b|  \cdot \sqrt{\Var(\ZVX)} = \dfrac{1}{\sigma} \cdot \sigma = 1     
+			\end{eqnarray*}
+			%Die so gebildete Zufallsvariable $\ZVZ$ ist stets mittelwertfrei, $\mu_{\mathrm{ Z}} = 0$, und hat eine Standardabweichung von Eins, $\sigma_{\mathrm{ Z}} = 1$, sie ist also normiert ("`standardisiert"').
+			\item Anschaulich bedeutet die lineare Transformation $\ZVZ = g(\ZVX) = \frac{\ZVX - \mu}{\sigma}$ zunächst die \textbf{Verschiebung} $\ZVY = \ZVX- \mu$ um $\mu$ und dann die \textbf{Skalierung} $\ZVZ = \frac{\ZVY}{\sigma}$ 
+			um den Faktor $\frac 1\sigma$.
+		\end{enumerate}
+	\end{alertblock}
+	%
+\end{frame}
+%
+%\subsection{Bienaymé-Tschebyscheff-Ungleichung} 
+%\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+%	\frametitle<presentation>{Bienaymé-Tschebyscheff-Ungleichung}
+%	%
+%	Für jede Zufallsvariable $\ZVX$ mit endlichem Erwartungswert $\mu$ und endlicher Varianz $\sigma^2$ kann man eine \textbf{Abschätzung} dafür angeben, mit welcher Wahrscheinlichkeit die betragsmäßige Abweichung einer Realisierung vom Erwartungswert mindestens das $k$-fache der Standardabweichung $\sigma$ beträgt, und zwar \alert{unabhängig} von $f(x)$ bzw.\,$F(x)$.
+%	\par\smallskip
+%	Diese Abschätzung ist nach Bienaymé\footnote{Irénée-Jules Bienaymé, 1796--1878} und Tschebyschow\footnote{Pafnuti Lwowitsch Tschebyschow, 1821--1894} benannt und lautet:
+%	%
+%	\par\smallskip
+%	\begin{alertblock}{Bienaymé-Tschebyscheff-Ungleichung}
+%		\begin{myframe}{
+%				Sei $\ZVX$ eine Zufallsvariable mit Erwartungswert $\mu$ und Standardabweichung $\sigma> 0$, so gelten stets die Ungleichungen
+%				%
+%				\begin{align*}
+%					\label{eq:9-22}
+%					P\left( |\ZVX - \mu| \geq k \cdot \sigma \right) & \leq \dfrac{1}{k^2} \\
+%					P\left( |\ZVX - \mu| < k \cdot \sigma \right) & \geq 1- \dfrac{1}{k^2} 
+%				\end{align*} 
+%				für jedes reelle $k > 0$ und völlig unabhängig von der Verteilungsfunktion $F(x)$. 
+%				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+%			}
+%		\end{myframe}
+%	\end{alertblock}
+%	%
+%	\par\medskip
+%	\alert{Hinweis}: Die obige Ungleichung macht nur Sinn für Werte $k>1$, da Wahrscheinlichkeiten nicht größer als Eins werden können \smiley.
+%\end{frame}
+%
+%
+\subsection{Quantile}\label{ch:9.10}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Quantile}
+	%
+	Wie im Falle empirischer Häufigkeiten lassen sich bei gleicher Interpretation die Quantile einer Verteilungsfunktion $F(x)$ definieren.
+	
+	\begin{alertblock}{Quantil}
+		\begin{myframe}{
+				Diejenige Zahl $x_{[q]}$, für die gleichzeitig
+				\begin{equation*} \label{eq:9-32}
+					P\left(\ZVX \leq x_{[q]} \right) \geq q \quad \text{und} \quad P\left(\ZVX \geq x_{[q]} \right) \geq 1-q
+				\end{equation*}
+				gilt, heißt \textbf{$q$-Quantil} der Verteilung.
+			}
+		\end{myframe}
+	\end{alertblock}
+	%
+	\par\smallskip
+	Eine häufige Anwendung von Quantilen ist es, theoretische und empirische Quantile gegeneinander aufzutragen um festzustellen, ob die empirisch erhobenen Beobachtungen einer bestimmten theoretischen Verteilung genügen.
+	
+	\begin{figure}%
+		\includegraphics[width=0.5\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-02.pdf}%
+		%\par\medskip
+		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+		%\caption{}%
+		%\label{}%
+	\end{figure}
+	%
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Stochastic Models \& Selected Distributions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Preface}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Vorbemerkung zu den ausgewählten Verteilungen}
+	%
+	\begin{itemize}
+		\item Bis jetzt: Zufallsvariable als mathematisches (abstraktes) Konzept.
+		\item Jetzt: Anwenden des Konzepts zur quantitativen Beschreibung eines zufälligen Vorganges durch Angabe einer konkreten Verteilungsfunktion.
+	\end{itemize}
+	%
+	\par\medskip
+	%
+	\begin{alertblock}{Hinweise}
+		\begin{itemize}
+			\item Zu manchen Verteilungen können \sog "`stochastische Modelle"' angegeben werden, die dieser Verteilung gehorchen (\zB Urnenmodelle). Erst durch die Wahl der Zahlenwerte der Parameter der Verteilung ist ein konkreter zufälliger Vorgang eindeutig spezifiziert.
+			\item Die Auswahl der hier angegebenen Verteilungsfunktionen erfolgt nach zwei Kriterien:
+			\begin{enumerate}
+				\item Grundlegende Verteilungen, die sozusagen "`zur statistischen Allgemeinbildung"' gehören (sollten) und für die meist einfache Modellvorstellungen existieren.
+				\item Relevanz für die schließende Statistik. Dort werden auch Ver\-tei\-lungs\-funktionen benötigt, für die kein stochastisches Modell existiert (\zB  Fisher-Verteilung).
+			\end{enumerate}
+		\end{itemize}
+	\end{alertblock}
+	%
+	\par\medskip
+	%
+	Von allen betrachteten Verteilungsfunktionen wird ggf.~eine Modellvorstellung, die Massen- oder Dichtefunktion, ggf.~die Verteilungsfunktion, der Erwartungswert und die Varianz abhängig von den Parametern angegeben.
+	%
+	%
+\end{frame}
+%
+%
+\subsection{Diskrete Verteilungen}
+%
+%\subsubsection{Gleichförmige Verteilung}\label{ch:11.1}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Gleichförmige Verteilung}
+	\begin{alertblock}{Modellvorstellung}
+		Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Gl}}$ hat $m$ verschiedene Ausprägungen $x_1, x_2, \ldots, x_m$, die alle gleich wahrscheinlich sind (Laplace-Experiment). \\
+		\vspace{0.1cm}
+		Die Abstände zwischen den einzelnen Ausprägungen brauchen nicht gleich zu sein, oft ist es jedoch so. 
+	\end{alertblock}
+	%
+	\begin{alertblock}{Gleichförmige Verteilung}
+		Sind die Ausprägungen einer gleichförmig verteilten Zufallsvariablen die natürlichen Zahlen von $1$ bis $m$, so gilt:
+		\begin{eqnarray*}
+			f_{\mathrm{ Gl}}(x;m) &=& 
+			\begin{cases}
+				\dfrac{1}{m} &\quad \text{für } x = 1,2,\ldots,m \\
+				0            &\quad \text{sonst}
+			\end{cases} \label{eq:11-1} \\
+			%
+			\E(\ZVX_{\mathrm{ Gl}}) &=& \dfrac{m +1}{2}  \label{eq:11-2} \\
+			\Var(\ZVX_{\mathrm{ Gl}}) &=& \dfrac{m^2-1}{12} \label{eq:11-3}
+		\end{eqnarray*}
+	\end{alertblock}
+	%
+\end{frame}
+%
+%\subsubsection{Bernoulli-Verteilung}\label{ch:11.2}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Bernoulli-Verteilung}
+	%
+	\begin{alertblock}{Modellvorstellung} 
+		Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Be}}$ hat die beiden Ausprägungen $0$ und $1$. Das Zufallsexperiment kennt nur die Ereignisse $A$ ("`Erfolg"', das interessierende Ereignis tritt ein) und $\overline{A}$ ("`Misserfolg"', das interessierende Ereignis tritt nicht ein). Die Wahrscheinlichkeit von $A$ ist $P(A) = p$.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Bernoulli-Verteilung} 
+		\begin{align*}
+			f_{\mathrm{ Be}}(x;p) &= 
+			\begin{cases}
+				1-p &\quad \text{für } x = 0 \\
+				p &\quad \text{für } x = 1 \\
+				0            &\quad \text{sonst}
+			\end{cases}  \\
+			\E(\ZVX_{\mathrm{ Be}}) &= p  \\
+			\Var(\ZVX_{\mathrm{ Be}}) &= p\cdot(1-p) 
+		\end{align*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Hinweis} 
+		Die Bernoulli-Verteilung kann als \sog Indikatorfunktion der Menge $A \subset E$ aufgefasst werden. Ihr Erwartungswert ist gleich der Wahrscheinlichkeit des Ereignisses $A$.
+	\end{alertblock}
+	%
+\end{frame}
+%
+%\subsubsection{Binomial-Verteilung}\label{ch:11.3}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Binomial-Verteilung}
+	%
+	\begin{alertblock}{Modellvorstellung} 
+		Urnenmodell \alert{mit} Zurücklegen: $N$ Kugeln, davon $0 \leq S\leq N$ schwarz. Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Bi}}$ gibt die Anzahl der schwarzen Kugeln an, die bei $n$-maligen Ziehen mit Zurücklegen der Kugel gezogen werden. Bei jedem Ziehen ist die Wahrscheinlichkeit für eine schwarze Kugel demzufolge stets gleich und beträgt $p=\frac{S}{N}$.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Binomial-Verteilung} 
+		Mit dem Binomialkoeffizienten $\binom{n}{x} = \frac{n!}{x! \cdot (n-x)!}$ gilt
+		\begin{align*}
+			f_{\mathrm{ Bi}}(x;p,n) &= 
+			\binom{n}{x} \cdot p^x \cdot (1-p)^{n-x} , \quad x=0,1,\ldots,n \\
+			\E(\ZVX_{\mathrm{ Bi}}) &= n \cdot p \\
+			\Var(\ZVX_{\mathrm{ Bi}}) &= n \cdot p\cdot(1-p) 
+		\end{align*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Anmerkung} 
+		Man kann eine binomial-verteilte Zufallsvariable auch als Summe von  $n$ unabhängigen Bernoulli-verteilten Zufallsvariablen $\ZVX_{\mathrm{ Be},1}, \dots \ZVX_{\mathrm{ Be},n}$ auffassen, \dh $\ZVX_{\mathrm{ Bi}} = \sum_{i=1}^n \ZVX_{\mathrm{ Be},i}$
+	\end{alertblock}
+	%
+\end{frame}
+%%
+%\subsubsection{Poissonverteilung}\label{ch:11.1}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Poissonverteilung}
+	\begin{alertblock}{Modellvorstellung}
+		Grenzfall der diskreten Binomialverteilung für "`sehr viele"' Versuche ($n \to \infty$) bei gleichzeitig "`sehr kleiner"' Erfolgswahrscheinlichkeit ($p \to 0$), wobei $\lambda = n\cdot p = \text{const.} \in \MRn^{+}$
+	\end{alertblock}
+	%
+	\begin{alertblock}{Poissonverteilung}
+		\begin{eqnarray*}
+			f_{\mathrm{ Po}}(x;\lambda) &=& \dfrac{\lambda^x}{x!}\cdot \operatorname{e}^{-\lambda}, \quad x=0,1,\ldots,n  \label{eq:11-12} \\
+			\E(\ZVX_{\mathrm{ Po}}) &=& \lambda \label{eq:11-13a} \\
+			\Var(\ZVX_{\mathrm{ Po}}) &=& \lambda \label{eq:11-13b}
+		\end{eqnarray*}
+		%
+	\end{alertblock}
+	\begin{alertblock}{Anmerkung} 
+		Die Poissonverteilung ist für die Bedingungen $n$ "`groß"', $p$ "`klein"' mit $0 < \lambda = n \cdot p < \infty$ eine gute Näherung der exakten Binomialverteilung, und zwar um so mehr, je größer $n$ und je kleiner $p$ werden. Beispiele: Anzahl der Druckfehler je Seite, der Blitzeinschläge je Hektar und Jahr, der radioaktiven Zerfälle einer Substanz in einem gegebenen Zeitintervall (welches kleiner als die Halbwertzeit sein muss).
+	\end{alertblock}
+	%
+	
+\end{frame}
+%
+%\subsubsection{Geometrische Verteilung}\label{ch:11.6}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Geometrische Verteilung}
+	%
+	\begin{alertblock}{Modellvorstellung} 
+		Ein Bernoulli-Experiment mit Erfolgswahrscheinlichkeit $p$ wird so oft unabhängig voneinander ausgeführt, bis zum ersten Mal Erfolg eintritt. Die diskrete Zufallsvariable $\ZVX \in \MNn_0$ gibt die Anzahl der \alert{vorausgegangenen Misserfolge} an.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Geometrische Verteilung}
+		\begin{align*}
+			f_{\mathrm{ Geo}}(x;p) &= \left( 1-p \right)^x \cdot p, \quad x = 0,1,2,\dots  \\
+			F_{\mathrm{ Geo}}(x;p) &= 1-\left(1-p\right)^{x+1} \\
+			\E(\ZVX_{\mathrm{ Geo}})               &= \dfrac{1-p}{p}  \\
+			\Var(\ZVX_{\mathrm{ Geo}})             &= \dfrac{1-p}{p^2} 
+		\end{align*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Hinweis} 
+		In der Literatur gibt es auch die Modellvorstellung, nach der die geometrisch verteilte Zufallsvariable $\ZVY_{\mathrm{ Geo}}$  die Anzahl der Versuche bis \alert{zum ersten Erfolg} angibt, \dh $\ZVY_{\mathrm{ Geo}} \in \MNn$. Trivialerweise gilt $\ZVY_{\mathrm{ Geo}} = \ZVX_{\mathrm{ Geo}} + 1$.
+	\end{alertblock}
+\end{frame}
+%
+%\subsubsection{Hypergeometrische Verteilung}\label{ch:11.4}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Hypergeometrische Verteilung}
+	%
+	\begin{alertblock}{Modellvorstellung} 
+		Urnenmodell \alert{ohne} Zurücklegen: $N$ Kugeln, davon $0 \leq S \leq N$ schwarz. Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Hy}}$ gibt die Anzahl der schwarzen Kugeln an, die bei $n$-maligen Ziehen ohne Zurücklegen der Kugel gezogen werden. Nur beim ersten Ziehen ist die Wahrscheinlichkeit für eine schwarze Kugel $p=\frac{S}{N}$.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Hypergeometrische Verteilung}
+		\vspace{-0.2cm}
+		\begin{align*}
+			f_{\mathrm{ Hy}}(x;N,S,n) &= \frac{ \binom{S}{x} \cdot {\binom{N-S}{n-x} }}{\binom{N}{n}}, \quad x=0,1,\ldots,n,\;S<N,\;n\leq N  \\
+			f_{\mathrm{ Hy}}(x;N,p,n) &= \frac{{ \binom{p\cdot N}{x}} \cdot {\binom{N-p \cdot N}{n-x} }}{ \binom{N}{n}}, \quad x=0,1,\ldots,n,\; n\leq N  \\
+			\E(\ZVX_{\mathrm{ Hy}}) &= n \cdot p = n \cdot \frac{S}{N}  \\
+			\Var(\ZVX_{\mathrm{ Hy}}) &= n \cdot p\cdot(1-p) \cdot \frac{N-n}{N-1} = n \cdot \frac{S}{N}\cdot \left(1- \frac{S}{N} \right) \cdot \frac{N-n}{N-1} \\
+			&= \Var\left(\ZVX_{\mathrm{ Bi}}\right) \cdot \frac{N-n}{N-1} \\
+			&=  \Var\left(\ZVX_{\mathrm{ Bi}}\right) \cdot Kf \;\,\text{mit \emph{Korrekturfaktor }} Kf:=\frac{N-n}{N-1} \leq 1
+		\end{align*}
+	\end{alertblock}
+	%
+	%\begin{alertblock}{Anmerkung} 
+	%Es gilt $\Var\left(\ZVX_{\mathrm{ Hy}}\right) = \Var\left(\ZVX_{\mathrm{ Bi}}\right) \cdot \frac{N-n}{N-1}$
+	%\end{alertblock}
+	%
+\end{frame}
+%
+\subsection{Stetige Verteilungen}
+%\subsubsection{Exponentialverteilung}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Exponentialverteilung}
+	\begin{alertblock}{Modellvorstellung}
+		Stetige Version der geometrischen Verteilung. Die Kurve der streng monoton fallenden Exponentialfunktion $e^{-x}$
+		schließt im ersten Quadranten mit $x$- und $y$-Achse eine Fläche mit Flächeninhalt $1\,\text{FE}$ ein und eignet sich 
+		daher als \emph{Dichtefunktion}. 
+	\end{alertblock}
+	%
+	\begin{alertblock}{Exponentialverteilung}
+		\begin{eqnarray*}
+			f_{\mathrm{ Ex}}(x; \lambda) &=& \lambda \cdot \operatorname{e}^{-\lambda x}; \quad x \geq 0; \; \lambda > 0 \label{eq:11-18} \\
+			F_{\mathrm{ Ex}}(x) &=& 1 - \operatorname{e}^{-\lambda x} \\
+			\E(\ZVX_{\mathrm{ Ex}}) &=& \dfrac{1}{\lambda} \label{eq:11-18a} \\
+			\Var(\ZVX_{\mathrm{ Ex}}) &=& \dfrac{1}{\lambda^2} \label{eq:11-18b}
+		\end{eqnarray*}
+	\end{alertblock}
+	%
+	\begin{alertblock}{Hinweis} 
+		Die Exponentialverteilung ist eine \emph{Verteilung ohne Gedächtnis}: Sei $w$ eine schon verstrichene Wartezeit, so gilt:
+		$$f_{\mathrm{ Ex}\mid w}(w+x\mid X>w; \lambda) = f_{\mathrm{ Ex}}(x; \lambda)$$
+	\end{alertblock}
+\end{frame}
+%
+%\subsubsection{Rechteckverteilung}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Rechteckverteilung}
+	\begin{alertblock}{Modellvorstellung}
+		Eine stetige Zufallsvariable $\ZVX_{\mathrm{ R}}$, deren Ausprägungen aus einem Intervall $[a,b]$ stammen, hat die Eigenschaft, dass die Wahrscheinlichkeit, mit der das Ergebnis im Intervall $\Delta x \in [a,b]$ liegt, proportional der Länge dieses Intervalles ist, und zwar unabhängig von der Lage des Intervalles innerhalb $[a,b]$. Dies ist die stetige Version der gleichförmigen Verteilung.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Rechteckverteilung}
+		\begin{eqnarray*}
+			f_{\mathrm{ R}}(x) &=& 
+			\begin{cases} 
+				\dfrac{1}{b-a} & \quad \text{für } a \leq x \leq b \\
+				0              & \quad \text{sonst}
+			\end{cases}\label{eq:11-16} \\
+			F_{\mathrm{ R}}(x) &=& 
+			\begin{cases} 
+				0 & \quad \text{für } -\infty \leq x <a \\
+				\dfrac{x-a}{b-a} & \quad \text{für } a \leq x \leq b \\
+				1              & \quad \text{für } b < x \leq +\infty
+			\end{cases} \\
+			\E(\ZVX_{\mathrm{ R}}) &=& \dfrac{a+b}{2} \label{eq:11-17a} \\
+			\Var(\ZVX_{\mathrm{ R}}) &=& \dfrac{(b-a)^2}{12} \label{eq:11-17b}
+		\end{eqnarray*}
+	\end{alertblock}
+	%
+\end{frame}
+%
+%\subsubsection{Standardnormalverteilung}
+%
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Standardnormalverteilung}
+	\begin{alertblock}{Modellvorstellung}
+		Grenzfall der \alert{standardisierten} Binomialverteilung für $n \to \infty$. 
+	\end{alertblock}
+	%
+	\begin{alertblock}{Standardnormalverteilung}
+		Eine stetige Zufallsvariable $\ZVZ$ mit der Dichtefunktion
+		\begin{equation*}
+			f_{\mathrm{ St}}(z) = \dfrac{1}{\sqrt{2\cdot \pi}}\operatorname{e}^{-\frac{1}{2}z^2} \label{eq:11-20}
+		\end{equation*}
+		heißt \textbf{standardnormalverteilt}.
+	\end{alertblock}
+	%
+	\begin{alertblock}{Eigenschaften}
+		\begin{enumerate}
+			\item Maximum bei $z = 0$
+			\item Symmetrie bzgl.~$z = 0$
+			\item Wendepunkte bei $z = \pm 1$
+			\item Für $|z| < \infty$ gilt stets $f_{\mathrm{ St}}(z) > 0$ ($f_{\mathrm{ St}}(z)$ hat also keine Nullstellen)
+			\item Im Grenzübergang gilt: $\lim_{z \to \pm \infty}f_{\mathrm{ St}}(z) = 0$ 
+		\end{enumerate}
+	\end{alertblock}
+	\framebreak
+	\begin{alertblock}{}
+		\begin{enumerate}
+			\setcounter{enumi}{4}
+			\item Die Verteilungsfunktion
+			\begin{equation*}
+				F_{\mathrm{ St}}(z) = \frac{1}{\sqrt{2\cdot \pi}}\int\limits_{-\infty}^{z}\operatorname{e}^{-\frac{1}{2}u^2} \operatorname{d}u 
+			\end{equation*}
+			ist analytisch \textbf{nicht geschlossen lösbar}. Ihre Werte sind tabelliert \bzw können über Funktionsaufrufe ermittelt werden.
+			\item Flächen:
+			%\setcounter{equation}{21}
+			\begin{eqnarray*}
+				P(\ZVZ \leq z)      &=& \int_{-\infty}^{z} f_{\mathrm{ St}}(u) \operatorname{d}u  = F_{\mathrm{ St}}(z)                 \nonumber \\
+				P(a < \ZVZ \leq b)  &=& \int_{a}^{b} f_{\mathrm{ St}}(z) \operatorname{d}z  = F_{\mathrm{ St}}(b) - F_{\mathrm{ St}}(a) \nonumber \\
+				P(-a < \ZVZ \leq a) &=& \int_{-a}^{a} f_{\mathrm{ St}}(z) \operatorname{d}z  = 2 \cdot F_{\mathrm{ St}}(a) - 1 =: D(a) \label{eq:11-22} \\
+			\end{eqnarray*}
+			\item Erwartungswert: $\E(\ZVZ) = 0$
+			\item Varianz: $\Var(\ZVZ) = 1$
+		\end{enumerate}
+	\end{alertblock}
+	%
+	%
+	%
+\end{frame}
+%
+%\subsubsection{Normalverteilung}
+%
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Normalverteilung}
+	%
+	\begin{alertblock}{Modellvorstellung}
+		Entsteht durch lineare Transformation $\ZVX_{\mathrm{ N}} = \mu + \sigma \cdot \ZVZ$ ("`entstandardisieren"') aus der standardnormalverteilten Zufallsvariablen $\ZVZ$
+	\end{alertblock}
+	%
+	\begin{alertblock}{Normalverteilung}
+		Eine stetige Zufallsvariable $\ZVX_{\mathrm{ N}}$ mit der Dichtefunktion
+		\begin{equation*}
+			f_{\mathrm{ N}}(x) = \dfrac{1}{\sigma} f_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right) = \frac{1}{\sigma \cdot \sqrt{2\cdot \pi}}\mye^{-\frac{1}{2}\left( \frac{x-\mu}{\sigma} \right)^2} \label{eq:11-24} 
+		\end{equation*}
+		heißt \textbf{normalverteilt}.
+	\end{alertblock}
+	%%
+	\begin{alertblock}{Eigenschaften}
+		\begin{enumerate}
+			\item Erwartungswert und Varianz:
+			\begin{eqnarray*}
+				\E(\ZVX_{\mathrm{ N}})  &=& \mu \\
+				\Var(\ZVX_{\mathrm{ N}}) &=& \sigma^2 
+			\end{eqnarray*}
+			\item Maximum bei $x = \mu$
+			\item Symmetrie bzgl.~$x = \mu$
+			\item Wendepunkte bei $x = \mu \pm \sigma$
+		\end{enumerate}
+	\end{alertblock}
+	
+	\framebreak
+	\begin{alertblock}{}
+		\begin{enumerate}
+			\setcounter{enumi}{4}
+			\item Verläuft umso flacher, je größer $\sigma$ ist:
+			\begin{equation*}
+				\label{eq:11-25}
+				f_{\mathrm{ N}}(x) = \dfrac{1}{\sigma} f_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right)
+			\end{equation*}
+			\item Die Verteilungsfunktion
+			\begin{equation*}
+				F_{\mathrm{ N}}(x) = \frac{1}{\sigma \cdot \sqrt{2\cdot \pi}}\int\limits_{-\infty}^{x}\mye^{-\frac{1}{2}\left( \frac{u-\mu}{\sigma} \right)^2} \operatorname{d}u = F_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right)
+			\end{equation*}
+			wird auf die Standardnormalverteilung $F_{\mathrm{ St}}(z)$ zurückgeführt.
+			\item Flächen:
+			%\setcounter{equation}{21}
+			\begin{eqnarray*}
+				P(\ZVX_{\mathrm{ N}} \leq x)      &=& F_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right)                 \nonumber \\
+				P(a < \ZVX_{\mathrm{ N}} \leq b)  &=& F_{\mathrm{ St}}\left(z_b = \dfrac{b-\mu}{\sigma} \right) - F_{\mathrm{ St}}\left(z_a = \dfrac{a-\mu}{\sigma} \right) \nonumber \\
+				P(-a < \ZVX_{\mathrm{ N}} \leq a) &=& 2 \cdot F_{\mathrm{ St}}\left(z_a = \dfrac{a-\mu}{\sigma} \right) - 1 = D\left(z_a = \dfrac{a-\mu}{\sigma} \right) \label{eq:11-22} \\
+			\end{eqnarray*}
+		\end{enumerate}
+	\end{alertblock}
+	%
+	%
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+
+
