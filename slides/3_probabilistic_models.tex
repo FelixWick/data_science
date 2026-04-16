@@ -428,11 +428,11 @@ For the classical urn model, the numbers of possible arrangements can be determi
 			\begin{itemize}
 				\item \textbf{Union} $A \cup B$: The event \glqq\textbf{\textit{A} or \textit{B}}\grqq\,occurs exactly when $A$, or $B$, or both occur.
 				\rule[-0.6cm]{0mm}{0.6cm}\par\smallskip
-				\item \textbf{Intersection} $A \cap B$: The event "\textbf{\textit{A} and \textit{B}}" occurs exactly when $A$ and $B$ occur simultaneously.
+				\item \textbf{Intersection} $A \cap B$: The event \glqq\textbf{\textit{A} and \textit{B}}\grqq\,occurs exactly when $A$ and $B$ occur simultaneously.
 				\rule[-0.9cm]{0mm}{0.9cm}\par\smallskip
-				\item \textbf{Difference} $A \backslash B$: The event "\textbf{\textit{A} without \textit{B}}" occurs exactly when $A$ occurs but $B$ does not.
+				\item \textbf{Difference} $A \backslash B$: The event \glqq\textbf{\textit{A} without \textit{B}}\grqq\,occurs exactly when $A$ occurs but $B$ does not.
 				\rule[-0.9cm]{0mm}{0.9cm}\par\smallskip
-				\item \textbf{Complement} $\overline{A}$: The event "\textbf{not \textit{A}}" occurs exactly when $A$ does not occur.
+				\item \textbf{Complement} $\overline{A}$: The event \glqq\textbf{not \textit{A}}\grqq\,occurs exactly when $A$ does not occur.
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.25\linewidth}
@@ -536,106 +536,112 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{myframe}
 	\end{alertblock}
 	%
-	\par\bigskip
+	\par\medskip
 	\alert{Note:} The cardinality $|A|$ of a set is the number of elements contained in $A$.
 	%
 \end{frame}
 
 
-\subsection{Wahrscheinlichkeit}
+\subsection{Probability}
 %
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Wahrscheinlichkeit}
-	Die möglichen Ereignisse des Zufallsexperiments haben eine gewisse Chance einzutreten. Es ist nur folgerichtig, jedem Element der Ereignismenge $E(\Omega)$ eine relle Zahl zuzuordnen, die eben die Höhe dieser Chance \alert{bemaßt} (quantifiziert). Eine solche Abbildung $P$ ist eine reellwertige Funktion mit
+	\frametitle<presentation>{Probability}
+	The possible events of a random experiment each have a certain chance of occurring. 
+	\par\medskip
+	It is therefore natural to assign a real number to every element of the event set $E(\Omega)$ that \alert{quantifies} this chance. 
+	\par\medskip
+	Such a mapping $P$ is a real-valued function given by
 	%
 	\begin{eqnarray*}
-		P \; : \; E &\to & \MRn  \\
+		P \; : \; E(\Omega) &\to & \MRn  \\
 		A &\mapsto & P(A)
 	\end{eqnarray*}  
-	Damit ist die Wahrscheinlichkeit $P(A)$ des Ereignisses $A$ rein "`formal"' definiert, aber wie genau lässt sich Wahrscheinlichkeit messen oder angeben und welchen Regeln gehorcht sie?
+	This defines the probability $P(A)$ of an event $A$ in a formal way, but how exactly can probability be measured or specified, and which rules does it obey?
 	\par\bigskip
-	Die Antwort auf diese Frage ist nicht ganz einfach, es gibt den 
+	The answer is not entirely simple; there are
 	\begin{enumerate}
-		\item "`klassischen"' Wahrscheinlichkeitsbegriff
-		\item "`statistischen"' Wahrscheinlichkeitsbegriff
-		\item "`axiomatischen"' Wahrscheinlichkeitsbegriff 
+		\item the \glqq classical\grqq\, concept of probability,
+		\item the \glqq axiomatic\grqq\, concept of probability.
 	\end{enumerate}
 	%
 	\par\bigskip
-	Der axiomatische Wahrscheinlichkeitsbegriff bildet das Fundament der Wahrscheinlichkeitsrechnung, er schließt den klassischen und den statistischen Wahrscheinlichkeitsbegriff mit ein.
+	The axiomatic concept of probability forms the foundation of probability theory and includes the classical concept.
 	%
 \end{frame}
 %\subsubsection{Klassische Wahrscheinlichkeit}\label{ch:8.3}
 %
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Klassische Wahrscheinlichkeit}
-	Laplace'sche Sicht: "`Wenn ein Experiment eine Anzahl verschiedener und gleich möglicher Ausgänge hervorbringen kann und einige davon als günstig anzusehen sind, dann ist die Wahrscheinlichkeit eines günstigen Ausgangs (Ereignis $A$) gleich dem Verhältnis der Anzahl der günstigen zur Anzahl der möglichen Ausgänge"':
+	\frametitle<presentation>{Classical Probability}
+	Laplace's view: 
+%	``If an experiment can produce a number of different and equally possible outcomes, and some of them are considered favorable, then the probability of a favorable outcome (event $A$) equals the ratio of the number of favorable outcomes to the number of possible outcomes'':
 	\begin{equation*}
 		\label{eq:8-4}
-		P(A) = \dfrac{\text{Anzahl der günstige Ausgänge}}{\text{Anzahl der möglichen Ausgänge}} 
+		P(A) = \dfrac{\text{number of favorable outcomes}}{\text{number of possible outcomes}} 
 		%= \dfrac{g}{m} 
 		= \dfrac{|A|}{|\Omega|}
 	\end{equation*}
 	%
-	Voraussetzung zur Anwendung des klassischen Wahrscheinlichkeitsbegriffs ist, dass alle Elementarereignisse $e_1, e_2, \dots, e_n \subset \Omega$ als gleich wahrscheinlich anzusehen sind:
+	A prerequisite for applying the classical concept of probability is that all elementary events $e_1, e_2, \dots, e_n \subset \Omega$ are considered with equal probability:
 	%
 	\begin{equation*}
 		\label{eq:8-5}
 		P(e_1) = P(e_2) = \ldots = P(e_n) = \dfrac{1}{n}
 	\end{equation*}
-	Diese Definition hat zwei Mängel: 
-	\begin{enumerate}
-		\item Praktisch: Wie weiß man, dass alle Möglichkeiten tatsächlich die gleiche Chance haben, einzutreten?
-		\item Theoretisch: Zirkelschluss: Wahrscheinlichkeit wird mit Wahrscheinlichkeit definiert ("`gleich möglich"' bedeutet "`gleichwahrscheinlich"').
-	\end{enumerate}
-	Trotzdem ist diese Vorstellung gerade bei Spielen äußerst hilfreich, die gesuchte Wahrscheinlichkeit zahlenmäßig zu finden. Gerade hier sind gute Kenntnisse der Kombinatorik wichtig, um die Anzahlen $|A|$ und $|\Omega|$ zu finden!
+%	This definition has two shortcomings: 
+%	\begin{enumerate}
+%		\item Practical: How do we know that all possibilities really have the same chance of occurring?
+%		\item Theoretical: Circular reasoning: probability is defined in terms of probability ("`equally possible"' means "`equally likely"').
+%	\end{enumerate}
+	This concept is especially useful in games when determining the desired probability numerically. In this context, good knowledge of combinatorics is important for finding the counts $|A|$ and $|\Omega|$.
 	%
 \end{frame}
 %
 %\subsubsection{Statistische Wahrscheinlichkeit}\label{ch:8.4}
 %
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Statistische Wahrscheinlichkeit}
-	Verfahren zur Bestimmung von Eintrittswahrscheinlichkeiten: Ein Zufallsexperiment wird $n$ mal voneinander unabhängig ausgeführt. Dabei notieren wir für jedes laufende $n$ die absolute Häufigkeit und berechnen die relative Häufigkeit $h_n(A)$ des Eintretens des interessierenden Ereignisses $A$ bei diesen $n$ Durchführungen.
-	\par\medskip
-	%
-	\begin{alertblock}{"`Flapsige"' Definition statistische Wahrscheinlichkeit}
-		\begin{myframe}{
-				Der Grenzwert
-				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
-				\begin{equation*}\label{eq:8-6}
-					P(A) = \limes_{n \to \infty} h_n(A)
-				\end{equation*}
-				%
-				heißt \textbf{statistische Wahrscheinlichkeit} des Ereignisses $A$.
-			}
-		\end{myframe}
-	\end{alertblock}
-	
-	Diese Definition hat zwei Mängel: 
-	\begin{enumerate}
-		\item Praktisch: Niemand kann unendlich oft ein Experiment durchführen.
-		\item Theoretisch: Eine Häufigkeit kann im mathematischen Sinn nicht in eine Wahrscheinlichkeit konvergieren, die in oben fomulierte Konvergenz ist nicht deterministisch; genaue Formulierungen liefern die Grenzwertsätze.
-	\end{enumerate}
-	Trotzdem ist diese Vorstellung äußerst hilfreich, zumindest einen "`guten"' (was genau heißt "`gut"'?) Schätzwert für die gesuchte Wahrscheinlichkeit zu finden.
-	%
-\end{frame}
+%\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+%	\frametitle<presentation>{Statistische Wahrscheinlichkeit}
+%	Verfahren zur Bestimmung von Eintrittswahrscheinlichkeiten: Ein Zufallsexperiment wird $n$ mal voneinander unabhängig ausgeführt. Dabei notieren wir für jedes laufende $n$ die absolute Häufigkeit und berechnen die relative Häufigkeit $h_n(A)$ des Eintretens des interessierenden Ereignisses $A$ bei diesen $n$ Durchführungen.
+%	\par\medskip
+%	%
+%	\begin{alertblock}{"`Flapsige"' Definition statistische Wahrscheinlichkeit}
+%		\begin{myframe}{
+%				Der Grenzwert
+%				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+%				\begin{equation*}\label{eq:8-6}
+%					P(A) = \limes_{n \to \infty} h_n(A)
+%				\end{equation*}
+%				%
+%				heißt \textbf{statistische Wahrscheinlichkeit} des Ereignisses $A$.
+%			}
+%		\end{myframe}
+%	\end{alertblock}
+%	
+%	Diese Definition hat zwei Mängel: 
+%	\begin{enumerate}
+%		\item Praktisch: Niemand kann unendlich oft ein Experiment durchführen.
+%		\item Theoretisch: Eine Häufigkeit kann im mathematischen Sinn nicht in eine Wahrscheinlichkeit konvergieren, die in oben fomulierte Konvergenz ist nicht deterministisch; genaue Formulierungen liefern die Grenzwertsätze.
+%	\end{enumerate}
+%	Trotzdem ist diese Vorstellung äußerst hilfreich, zumindest einen "`guten"' (was genau heißt "`gut"'?) Schätzwert für die gesuchte Wahrscheinlichkeit zu finden.
+%	%
+%\end{frame}
 %
 %\subsubsection{Axiomatik der Wahrscheinlichkeitstheorie}\label{ch:8.6}
-%
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Axiomatik der Wahrscheinlichkeitstheorie}
+	\frametitle<presentation>{Axioms of Probability Theory}
 	%
-	\begin{alertblock}{Definition der Axiome der Wahrscheinlichkeitstheorie}
+	\begin{alertblock}{Definition: Axioms of Probability Theory}
 		\begin{myframe}{
-				Jede Funktion $P$
-				\begin{eqnarray*}
-					P \; : \; E &\to & \MRn  \\
-					A &\mapsto & P(A)
-				\end{eqnarray*}  
-				%
-				die jedem Ereignis $A$ aus der Ereignismenge $E$ eine reelle Zahl zuordnet, darf \textbf{Wahrscheinlichkeitsfunktion} heißen und zugeordnete reelle Zahl $P(A)$ die \textbf{Wahrscheinlichkeit} von $A$, sofern die drei folgenden Kolmogorov\footnote{Andrej Nikolaevi\v{c} Kolmogorov, 1903--1987}'schen Axiome erfüllt sind:
-				\newline
+			%\small
+			Any function $P$
+			\begin{eqnarray*}
+				P \; : \; E(\Omega) &\to & \MRn  \\
+				A &\mapsto & P(A)
+			\end{eqnarray*} 
+			that assigns a real number to each event
+				$A$ from the event set $E(\Omega)$ is called a \textbf{probability function}, and the assigned real
+				number $P(A)$ is called the \textbf{probability} of $A$, provided that the following three
+				Kolmogorov\footnote{Andrej Nikolaevi\v{c} Kolmogorov, 1903--1987} axioms are satisfied:
+				\vspace{0.2em}
 				%\begin{enumerate}
 				%\item $P(A) \geq 0$ für jedes $A \in E$ \newline
 				%Die Wahrscheinlichkeit $P(A)$ jedes Ereignisses $A$ ist eine nichtnegative relle Zahl.\newline
@@ -645,89 +651,87 @@ For the classical urn model, the numbers of possible arrangements can be determi
 				%Additionsregel für disjunkte Ereignisse.
 				%\end{enumerate}
 				\begin{description}
-					\item[\textbf{Axiom K1:}] $P(A) \geq 0 \quad \forall A \subset E$ \newline
-					Die Wahrscheinlichkeit $P(A)$ jedes Ereignisses $A$ ist eine nichtnegative relle Zahl.\newline
-					\item[\textbf{Axiom K2:}] $P(\Omega) = 1$ \newline
-					Das sichere Ereignis $\Omega$ hat die Wahrscheinlichkeit 1.\newline
-					\item[\textbf{Axiom K3:}] $P(A \cup B) = P(A) + P(B)$ falls $A \cap B = \emptyset$\newline
-					Additionsregel für disjunkte Ereignisse.
+					\setlength{\itemsep}{0.25em}
+					\item[\textbf{Axiom K1:}] $P(A) \geq 0 \quad \forall A \subset E$\\
+					The probability $P(A)$ of every event $A$ is a non-negative real number.
+					\vspace{3mm}
+					\item[\textbf{Axiom K2:}] $P(\Omega) = 1$\\
+					The certain event $\Omega$ has probability 1.
+					\vspace{3mm}
+					\item[\textbf{Axiom K3:}] $P(A \cup B) = P(A) + P(B)$ if $A \cap B = \emptyset$\\
+					Addition rule for disjoint events.
 				\end{description}
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	Die Zusammenfassung $[\Omega, E, P]$ wird als Wahrscheinlichkeitsraum bezeichnet.
+	The tuple $[\Omega, E, P]$ is called a probability space.
 	%\subsection*{Anmerkung:}
 	%Die o.g.~Axiome bilden das Fundament der Wahrscheinlichkeitsrechnung. Bezeichnenderweise fußt es nicht auf irgendeinem konkreten Wahrscheinlichkeitsbgriff sondern legt nur die Regeln fest, die ein Wahrscheinlichkeitsmaß erfüllen muss!
 	%
 \end{frame}
 %
-\subsection{Theoreme der Wahrscheinlichkeitsrechnung}
+\subsection{Rules of Probability}
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Regeln 1--6 der Wahrscheinlichkeitsrechnung }
+	\frametitle<presentation>{Rules of Probability}
 	%
-	Die Kolmogorov'schen Axiome legen nur die Regeln fest, die ein Wahrscheinlichkeitsmaß erfüllen muss!
+	Kolmogorov's axioms only specify the rules that a probability measure must satisfy.
 	%
-	\begin{alertblock}{Theorem 1: Komplementäres Ereignis} \label{theo:1}
-		Die Wahrscheinlichkeit des zu $A$ komplementären Ereignisses ist stets
+	\begin{alertblock}{Theorem 1: Complementary Event} \label{theo:1}
+		The probability of the event complementary to $A$ is always
 		\begin{equation*}
 			P(\overline{A}) = 1 - P(A), \quad \forall A \subset E
 		\end{equation*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Theorem 2: Unmögliche Ereignis} \label{theo:2}
-		Das unmögliche Ereignis hat die Wahrscheinlichkeit
+	\begin{alertblock}{Theorem 2: Impossible Event} \label{theo:2}
+		The impossible event has probability
 		\begin{equation*}
 			P(\emptyset) = 0
 		\end{equation*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Theorem 3: Paarweise disjunkte Ereignisse} \label{theo:3}
-		Sind die Ereignisse $A_1, A_2, \ldots, A_n \; \subset\; E$ paarweise disjunkt, so ist die Wahrscheinlichkeit für das Ereignis, das aus der Vereinigung all dieser Ereignisse entsteht, gleich der Summe der Einzelwahrscheinlichkeiten:
+	\begin{alertblock}{Theorem 3: Pairwise Disjoint Events} \label{theo:3}
+		If the events $A_1, A_2, \ldots, A_n \; \subset\; E$ are pairwise disjoint, then the probability of the event formed by the union of all these events equals the sum of the individual probabilities:
 		\begin{equation*}
 			P(A_1 \cup A_2 \cup \ldots \cup A_n) = \sum_{j=1}^{n} P(A_j)
 		\end{equation*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Theorem 4: Differenzereignisse} \label{theo:4}
-		Für eine Differenzmenge $A \backslash B$ gilt stets
+	\begin{alertblock}{Theorem 4: Difference Events} \label{theo:4}
+		For a difference set $A \backslash B$, the following always holds:
 		\begin{equation*}
 			P(A \backslash B) = P(A) - P(A \cap B)
 		\end{equation*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Theorem 5: Additionssatz} \label{theo:5}
-		Für zwei beliebige Ereignisse $A$ und $B$ aus $E$ gilt stets
+	\begin{alertblock}{Theorem 5: Addition Rule} \label{theo:5}
+		For any two events $A$ and $B$ from $E$, the following always holds:
 		\begin{equation*}
 			P(A \cup B) = P(A) + P(B) -  P(A \cap B)
 		\end{equation*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Theorem 6: Monotonieeigenschaft} \label{theo:6}
-		Impliziert das Ereignis $A$ das Ereignis $B$, dann ist die Wahrscheinlichkeit von $B$ niemals kleiner als die Wahrscheinlichkeit von $A$:
+	\begin{alertblock}{Theorem 6: Monotonicity Property} \label{theo:6}
+		If event $A$ implies event $B$, then the probability of $B$ is never smaller than the probability of $A$:
 		\begin{equation*}
 			A \subset B \Rightarrow P(A) \leq P(B)
 		\end{equation*}
 	\end{alertblock}
 	%
 \end{frame}
-%
+
+\subsection{Conditional Probability \& Stochastic Independence}\label{ch:8.9}
 %%
-%\subsection*{Notation}
-%%
-%Ein Wahrscheinlichkeitsraum wird mit $[\Omega, E, P]$ bezeichnet.
-%%
-%\subsection{Bedingte Wahrscheinlichkeit und stochastische Unabhängigkeit}\label{ch:8.9}
-%%
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Bedingte Wahrscheinlichkeit und stochastische Unabhängigkeit}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Conditional Probability \& Stochastic Independence}
 	%
-	Die Wahrscheinlichkeit des Eintretens eines Ereignisses $A$ "`unter der Bedingung"' ("`vorausgetzt"'), dass das Ereignis $B$ eingetreten ist (oder gleichzeitig mit $A$ eintritt), heißt "`bedingte Wahrscheinlichkeit von $A$ unter der Bedingung $B$"' und man schreibt $P(A|B)$.
+	The probability of occurrence of an event $A$ "`under the condition"' that event $B$ has occurred (or occurs simultaneously with $A$) is called the "`conditional probability of $A$ given $B$"' and is written as $P(A|B)$.
 	\par\medskip
 	%
-	\begin{alertblock}{Definition bedingte Wahrscheinlichkeit}
+	\begin{alertblock}{Definition: Conditional Probability}
 		\begin{myframe}{
-				Seien $A$ und $B$ zwei Ereignisse des Wahrscheinlichkeitsraumes $[\Omega, E, P]$. Die \textbf{bedingte Wahrscheinlichkeit von \textit{A} unter der Bedingung \textit{B}} ist definiert als
+				Let $A$ and $B$ be two events of the probability space $[\Omega, E, P]$. The \textbf{conditional probability of \textit{A} given \textit{B}} is defined as
 				%\setcounter{equation}{14}
 				\begin{equation*}
 					\label{eq:8-15}
@@ -738,34 +742,56 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{myframe}
 	\end{alertblock}
 	\par\medskip
-	%
-	\begin{alertblock}{Anmerkung}
-		%
-		$P(A|B)$ bezieht sich explizit auf die Teilmenge $B \subset \Omega$. Die Grundgesamtheit ist nicht mehr $\Omega$ sondern $B$, und die Division durch $P(B)$ entspricht sozusagen der "`Umnormierung"' von $\Omega$ auf $B$. Für $B = \Omega$ ergibt sich 
-		\begin{equation*}
-			P(A|\Omega) = \dfrac{P(A\cap \Omega)}{P(\Omega)} = \dfrac{P(A\cap \Omega)}{1} = P(A\cap \Omega) = P(A)
-		\end{equation*}
-		was die obige Definition aus einem weiteren Blickwinkel schlüssig macht.
-	\end{alertblock}
-	%
-\end{frame}
-%
-%\subsection{Theoreme 7--9}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Regeln 7--8 der Wahrscheinlichkeitsrechnung \& Unabhängigkeit}
-	%
-	\begin{alertblock}{Theorem 7: Multiplikationssatz} \label{theo:7}
-		Die Wahrscheinlichkeit, dass zwei Ereignisse $A$ und $B$ gleichzeitig eintreten, beträgt
+	\begin{alertblock}{Theorem 7: Multiplication Rule} \label{theo:7}
+		The probability that two events $A$ and $B$ occur simultaneously is
 		\begin{equation*}
 			\label{eq:8-16}
 			P(A\cap B) = P(A|B) \cdot  P(B) = P(B|A) \cdot  P(A) = P(B\cap A)
 		\end{equation*}
 	\end{alertblock}
-	%
+	
+	\framebreak
+	
+	\textbf{Experiment:}  
+	A red and a green die are rolled (36 elementary events):
+	\begin{center}
+	\includegraphics[width=0.45\textwidth]{Bilder/Conditional_Probability_Ex1.png}
+	\end{center}
+	
+	%\vspace{0.1cm}
+	
+	\textbf{Events:}
+	\begin{itemize}
+		\item $A$: ``At least one die shows a $6$''
+		\item $B$: ``Sum of the dice/pips is greater than $9$''
+	\end{itemize}
+	
+	\vspace{0.1cm}
+	
+	\textbf{Probabilities:}
+	$$P(A) = \frac{11}{36}, \qquad P(B) = \frac{6}{36}, \qquad P(A \cap B) = \frac{5}{36}$$
+%	\begin{itemize}
+%		\item $P(A) = \frac{11}{36}$
+%		\item $P(B) = \frac{6}{36}$
+%		\item $P(A \cap B) = \frac{5}{36}$
+%	\end{itemize}
+	
+	%\vspace{0.1cm}
+	
+	\textbf{Conditional Probability:}
+	$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+	= \frac{5/36}{6/36}
+	= \frac{5}{6}$$
+	
+	%\vspace{0.1cm}
+	
+	\textbf{Interpretation:}  
+	Given that the sum exceeds 9, the probability that at least one die shows a six is $\frac{5}{6}$.
+
 	\begin{subequations}
-		\begin{alertblock}{Definition stochastische Unabhängigkeit}
+		\begin{alertblock}{Definition: Stochastic Independence}
 			\begin{myframe}{
-					Zwei Ereignisse $A$ und $B$ heißen \textbf{(stochastisch) unabhängig}, wenn gilt
+					Two events $A$ and $B$ are called \textbf{(stochastically) independent} if
 					\begin{eqnarray*}
 						\label{eq:8-17}
 						P(A|B) &=& P(A) \\
@@ -777,8 +803,8 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{alertblock}
 	\end{subequations}
 	%
-	\begin{alertblock}{Theorem 8: Multiplikationssatz für unabhängige Ereignisse} \label{theo:8}
-		Sind zwei Ereignisse $A$ und $B$ unabhängig, dann ist die Wahrscheinlichkeit, dass $A$ und $B$ gleichzeitig eintreten, gerade dem Produkt der einzelnen Wahrscheinlichkeiten:
+	\begin{alertblock}{Theorem 8: Multiplication Rule for Independent Events} \label{theo:8}
+		If two events $A$ and $B$ are independent, then the probability that $A$ and $B$ occur simultaneously is exactly the product of the individual probabilities:
 		\begin{equation*}
 			\label{eq:8-18}
 			P(A\cap B) = P(A) \cdot  P(B) 
@@ -786,28 +812,28 @@ For the classical urn model, the numbers of possible arrangements can be determi
 	\end{alertblock}
 	%%
 \end{frame}
-%
+
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Theorem 9: Totale Wahrscheinlichkeit}
+	\frametitle<presentation>{Law of Total Probability}
 	%
-	\begin{alertblock}{Definition einer Partition}
+	\begin{alertblock}{Definition: Partition}
 		\begin{myframe}{
-				Irgendwelche $n$ sich gegenseitig ausschließende Ereignisse $H_1 \subset \Omega, H_2\subset \Omega, \ldots, H_n \subset \Omega$, die zusammengenommen den Ereignisraum $\Omega$ ganz ausfüllen
+				Any $n$ disjoint events $H_1 \subset \Omega, H_2\subset \Omega, \ldots, H_n \subset \Omega$ that together cover the event space $\Omega$ completely,
 				\begin{subequations}
 					\begin{align*}
 						H_i \cap H_j &= \emptyset\quad \forall\; i \neq j \\ %\label{eq:8-19a}\\
 						H_1 \cup H_2 \cup \ldots \cup H_n &= \Omega %\label{eq:8-19b}
 					\end{align*}
 				\end{subequations}
-				heißen eine \textbf{Partition} oder \textbf{Aufteilung} von $\Omega$.
+				are called a \textbf{partition} of $\Omega$.
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
 	%\par
-	\begin{alertblock}{Theorem 9: Satz der totalen Wahrscheinlichkeit}
-		Seien $H_1, H_2, \ldots, H_n$ eine Partition von  $\Omega$. Dann gilt für jedes $B \subset E$
+	\begin{alertblock}{Theorem 9: Law of Total Probability}
+		Let $H_1, H_2, \ldots, H_n$ be a partition of $\Omega$. Then for every $B \subset E$,
 		\begin{equation*}
 			\label{eq:8-20}
 			P(B) = \sum_{j=1}^{n} P(B|H_j) \cdot P(H_j) 
@@ -815,323 +841,387 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{equation*} 
 	\end{alertblock}
 	%
-	\begin{alertblock}{Hinweis}
-		Der Begriff "`totale Wahrscheinlichkeit"' soll ausdrücken, dass die Wahrscheinlichkeit eines Ereignisses auf Basis einer frei wählbaren Partition bestimmt werden kann, sofern die bedingten Wahrscheinlichkeiten sowie diejenigen der Bedingungen bekannt sind.
+	\begin{alertblock}{Note}
+		The term "`total probability"' expresses that the probability of an event can be determined based on an arbitrarily chosen partition, provided that the conditional probabilities and the probabilities of the conditions are known.
 	\end{alertblock}
 \end{frame}
 
-%\begin{frame}
-%\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem}
-%
-%Nehmen Sie an, Sie wären in einer Spielshow und hätten die Wahl zwischen drei Türen. Hinter einer der Türen ist ein Auto, hinter den anderen sind Ziegen.\\
-%\vspace{0.2cm}
-%Das Auto und die Ziegen sind vor der Show zufällig auf die Türen verteilt worden. Sie haben keine Information über die Position des Autos. Der Moderator weiß, was sich hinter den Türen befindet.\\
-%\vspace{0.2cm}
-%Die Spielregeln lauten:
-%\begin{enumerate}
-%\item Sie wählen zuerst eine Tür aus. Diese bleibt geschlossen.
-%\item Der Moderator muss nun eine der beiden verbleibenden Türen öffnen. Hinter der von ihm geöffneten Tür muss sich eine Ziege befinden.
-%\item Nachdem der Moderator eine Tür mit einer Ziege geöffnet hat, fragt er Sie, ob Sie bei Ihrer ersten Wahl bleiben oder zur letzten verbliebenen Tür wechseln möchten.
-%\end{enumerate}
-%Sie wählen eine Tür, sagen wir, Tür Nummer 1, und der Moderator (der weiß, was hinter den Türen ist) öffnet eine andere Tür, sagen wir, Nummer 3, 
-%hinter der eine Ziege steht. Er fragt Sie nun: \glqq Möchten Sie die Tür Nummer 2?\grqq \\
-%\vspace{0.2cm}
-%\textbf{Frage:} Ist es von Vorteil, die Wahl der Tür zu ändern?
-%\end{frame}
-
-\begin{frame}
-	\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem}
+\begin{frame}{Example: Manufacturing}
 	
-	\textbf{Das Problem:}
+	\textbf{Problem:}  
+	A product is manufactured by two machines:
 	\begin{itemize}
-		\item Hinter einer von drei Türen befindet sich ein Auto, hinter den anderen je eine Ziege. 
-		\item Mit der Aussicht auf den Gewinn des Autos wählt der Kandidat eine Tür. 
-		\item Der Moderator, der weiß, was hinter den Türen steht, öffnet aber eine andere Türe, hinter der sich eine Ziege befindet und bietet dem Kandidaten an, die Tür zu wechseln.
+		\item Machine $M_1$: produces $\frac{2}{3}$ of all items, defect rate $10\%$
+		\item Machine $M_2$: produces $\frac{1}{3}$ of all items, defect rate $7\%$
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Given:}
+	\begin{itemize}
+		\item $P(\text{defect} \mid M_1) = 0.10$, \quad $P(M_1) = \frac{2}{3}$
+		\item $P(\text{defect} \mid M_2) = 0.07$, \quad $P(M_2) = \frac{1}{3}$
+	\end{itemize}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Law of Total Probability:}
+	\[
+	P(\text{defect}) = P(\text{defect} \mid M_1) \cdot P(M_1)
+	+ P(\text{defect} \mid M_2) \cdot P(M_2)
+	\]
+	
+	\vspace{0.3cm}
+	
+	\textbf{Calculation:}
+	\[
+	P(\text{defect}) = 0.10 \cdot \frac{2}{3}
+	+ 0.07 \cdot \frac{1}{3}
+	= 0.09
+	\]
+	
+	\vspace{0.3cm}
+	
+	\textbf{Interpretation:}  
+	The overall probability that a randomly selected item is defective is $9\%$.
+	
+\end{frame}
+
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Example: Three-Door Problem or Monty Hall Problem}
+	
+	\textbf{The problem:}
+	\begin{itemize}
+		\item Behind one of three doors there is a car; behind each of the others there is a goat.
+		\item Hoping to win the car, the contestant first chooses one door.
+		\item The host, who knows what is behind the doors, then opens another door with a goat behind it and offers the contestant the option to switch.
 	\end{itemize}
 	\vspace{0.2cm}
 	\begin{center}
 		\begin{figure}
-			\includegraphics[width=0.6\linewidth]{Bilder/monty_open_door.png}\caption{Wikipedia, \emph{Ziegenproblem}, aufgerufen am 02.05.2024}
+			\includegraphics[width=0.6\linewidth]{Bilder/monty_open_door.png}\caption{Wikipedia, \emph{Monty Hall problem}, accessed on 02.05.2024}
 		\end{figure}
 	\end{center}
 	%\vspace{0.2cm}
-	\textbf{Frage:} Ist es vorteilhaft für den Kandidaten, die Tür zu wechseln?
-\end{frame}
-
-\begin{frame}
-	\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem -- Totale Gewinnwahrscheinlichkeit nach Türwechsel}
+	\textbf{Question:} Is it advantageous for the contestant to switch doors?
 	
-	Die Ereignisse zur Türwahl werden zerlegt in:
+	\framebreak
+	
+	The door-choice events are defined as follows:
 	\begin{itemize}
-		\item $g_1$: Der Kandidat hat \emph{anfangs} die Tür zum Auto gewählt
-		\item $g_2$: Der Kandidat hat \emph{anfangs} die Tür zu einer Ziege gewählt
-		\item $G_1$: Der Kandidat hat \emph{nach dem Wechsel} das Auto gewonnen
-		\item $G_2$: Der Kandidat hat \emph{nach dem Wechsel} eine Ziege gewonnen
+		\item $g_1$: The contestant \emph{initially} chose the door with the car
+		\item $g_2$: The contestant \emph{initially} chose a door with a goat
+		\item $G_1$: The contestant wins the car \emph{after switching}
+		\item $G_2$: The contestant wins a goat \emph{after switching}
 	\end{itemize}
 	\vspace{0.3cm}
-	Anfängliche Ereigniswahrscheinlichkeiten (ohne Türwechsel): $$P(g_1)=\frac 13 \;\text{und}\; P(g_2)=\frac 23$$
+	Initial event probabilities (without switching): $$P(g_1)=\frac 13 \;\text{ and }\; P(g_2)=\frac 23$$
 	
 	\vspace{0.3cm}
-	Bedingte Ereigniswahrscheinlichkeiten bei Türwechsel: $$P(G_1|g_1) = 0 \;\text{und}\; P(G_1|g_2) = 1$$
+	Conditional event probabilities when switching: $$P(G_1|g_1) = 0 \;\text{ and }\; P(G_1|g_2) = 1$$
 	
 	\vspace{0.3cm}
-	Ereigniswahrscheinlichkeiten bei Türwechsel: $$P(G_1) = P(G_1|g_1)P(g_1) + P(G_1|g_2)P(g_2) = 0\cdot\frac 13 + 1 \cdot \frac 23 = \frac 23$$
+	Event probability when switching: $$P(G_1) = P(G_1|g_1)P(g_1) + P(G_1|g_2)P(g_2) = 0\cdot\frac 13 + 1 \cdot \frac 23 = \frac 23$$
+	
 \end{frame}
 
+
+\subsection{Bayes' Rule}\label{ch:8.11}
 %
-%\subsection{Bayes-Regel}\label{ch:8.11}
-%
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Bayes-Regel}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Bayes' Rule}
 	%
-	Die Bayes-Regel stellt eine Verbindung zwischen zwei bedingten Wahrscheinlichkeiten her, in denen die Rolle von Bedingung und Ereignis jeweils vertauscht ist, \zB
+	Bayes' rule establishes a relationship between two conditional probabilities in which the roles of condition and event are interchanged, e.g.,
 	\begin{equation*}
-		P(A|B) \text{ und } P(B|A)
+		P(A|B) \text{ and } P(B|A)
 	\end{equation*}
 	%
-	Aus Theorem 7 folgt durch Umstellen
+	By rearranging Theorem 7, we obtain
 	\begin{equation*}
 		\dfrac{P(A|B)}{P(B|A)} =  \dfrac{P(A)}{P(B)}
 	\end{equation*}
 	%
-	und folglich
+	and therefore
 	\begin{equation*}
 		P(A|B) = \dfrac{P(A)}{P(B)}\cdot P(B|A) = \dfrac{P(B|A) \cdot P(A)}{P(B)} = \dfrac{P(B \cap A)}{P(B)}
 	\end{equation*}
 	%
-	\begin{alertblock}{Hinweis}
-		Obiger Sachverhalt wird häufig so interpretiert: $A$ ist ein Ereignis, dessen Wahrscheinlichkeit $P(A)$ vor Ausführung ("`\alert{a priori}"') des Zufallsexperiments bekannt ist. $B$ ist ein Ereignis, welches im Ergebnis mit Wahrscheinlichkeit $P(B)$ eintritt. Obiger Zusammenhang quantifiziert nun, wie sich die Wahrscheinlichkeit für $A$ im Nachhinein ("`\alert{a posteriori}"') "`verändert"', wenn bekannt ist, dass $B$ tatsächlich eingetreten ist, also $P(A) \mapsto P(A|B)$.
+	\begin{alertblock}{Note}
+		The above relationship is often interpreted as follows: 
+		\begin{itemize}
+			\item $A$ is an event whose probability $P(A)$ is known before ("`\alert{a priori}"') carrying out the random experiment. 
+			\item $B$ is an event that occurs in the outcome with probability $P(B)$. 
+			\item The relation above quantifies how the probability of $A$ changes afterwards ("`\alert{a posteriori}"') when it is known that $B$ has actually occurred, i.e., $P(A) \mapsto P(A|B)$.
+	\end{itemize}
 	\end{alertblock}
-	%
-\end{frame}
-%
-%\subsection{Theorem 10}\label{ch:8.11}
-%
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Theorem 10: Bayes-Theorem}
-	Die Bayes-Regel gilt auch für ein Element $H_i$ einer Partition, und mit Theorem 9 folgt
+
+
+	Bayes' rule also applies to an element $H_i$ of a partition, and together with Theorem 9 this yields
 	%
 	\begin{equation*}
 		P(H_i|B) =  \dfrac{P(H_i) \cdot P(B|H_i)}{P(B)} = \dfrac{P(H_i) \cdot P(B|H_i)}{\displaystyle \sum_{j=1}^{n} P(B|H_j) \cdot P(H_j)}
 	\end{equation*}
-	woraus unmittelbar das \sog Bayes-Theorem folgt:
+	from which Bayes' theorem follows directly:
 	\par\bigskip
 	%
-	\alert{Theorem 10: Bayes-Theorem}
-	\newline
-	Sei $H_1, H_2, \ldots, H_n$ eine beliebige Partition von $\Omega$ und $B$ ein Ereignis mit $P(B) > 0$. Dann gilt
+%	\alert{Theorem 10: Bayes' Theorem}
+%	\newline
+	\begin{alertblock}{Bayes' Theorem}
+		\begin{myframe}{
+	Let $H_1, H_2, \ldots, H_n$ be an arbitrary partition of $\Omega$ and let $B$ be an event with $P(B) > 0$. Then
 	\begin{equation*}
 		\label{eq:8-21}
 		P(H_i|B) =  \dfrac{ P(B|H_i) \cdot P(H_i) }{\displaystyle \sum_{j=1}^{n} P(B|H_j) \cdot P(H_j)}
-	\end{equation*} 
+	\end{equation*}
+        }\end{myframe}
+    \end{alertblock} 
 	%
 \end{frame}
 
-\begin{frame}
-	\frametitle<presentation>{Drei-Türen-Spiel oder Ziegenproblem -- Lösung des Einzelfalls mit dem Satz von Bayes}
+\begin{frame}{Example: Manufacturing}
 	
-	Es sind die folgenden Ereignisse definiert:
+	\textbf{Context (from previous example):} \\ 
+	A product is manufactured by two machines:
 	\begin{itemize}
-		\item $G_i$: Das Auto ist hinter Tür $i$ ($i=1,2,3$)
-		\item $M_j$: Der Moderator hat die Tür $j$ geöffnet ($j=1,2,3$)
+		\item $M_1$: produces $\frac{2}{3}$ of items, defect rate $10\%$
+		\item $M_2$: produces $\frac{1}{3}$ of items, defect rate $7\%$
 	\end{itemize}
-	\vspace{0.1cm}
-	Es liegt folgende Situation vor:\\ Der Kandidat hat Tür 1 gewählt, der Moderator hat daraufhin Tür 3 geöffnet. 
-	$\Longrightarrow$ Gesucht ist also die \emph{bedingte Wahrscheinlichkeit} $P(G_{2}|M_{3})$. % (dass das Auto hinter Tür 2 ist, wenn bekannt ist, dass es nicht hinter Tür 3 ist.)
 	
 	\vspace{0.3cm}
-	Es ergeben sich die folgenden Wahrscheinlichkeiten:
+	
+	\textbf{Question:}  
+	Given that a randomly selected item is defective, what is the probability that it was produced by $M_1$?
+	
+	\vspace{0.3cm}
+	
+	\textbf{Recap:}
+	$$P(\text{defect}) = 0.09$$
+	
+	\vspace{0.3cm}
+	
+	\textbf{Bayes' Theorem:}
+	$$P(M_1 \mid \text{defect}) =
+	\frac{P(\text{defect} \mid M_1)\,P(M_1)}
+	{P(\text{defect})} =
+	\frac{0.10 \cdot \frac{2}{3}}{0.09}
+	= \frac{20}{27}
+	\approx 0.741$$
+	
+	\vspace{0.3cm}
+	
+	\textbf{Interpretation:}  
+	If a product is defective, the probability that it was produced by $M_1$ increases from $66.7\%$ to about $74.1\%$.
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle<presentation>{Example: Three-Door Problem or Monty Hall Problem}
+	
+	\alert{The following events are defined:}
+	\begin{itemize}
+		\item $G_i$: The car is behind door $i$ ($i=1,2,3$)
+		\item $M_j$: The host opened door $j$ ($j=1,2,3$)
+	\end{itemize}
+	\vspace{0.3cm}
+	\alert{The following situation is given:}\\ 
+	The contestant chose door 1, and the host then opened door 3. \linebreak
+	$\Longrightarrow$ We are looking for the \emph{conditional probability} $P(G_{2}|M_{3})$. % (that the car is behind door 2 given that it is not behind door 3.)
+	
+	\vspace{0.3cm}
+	\alert{The following probabilities are obtained:}
 	\begin{itemize}
 		\item $P(G_1) = P(G_2) = P(G_3) = \frac 13$
-		\item $P(M_3|G_1) = \frac 12$ und $P(M_3|G_2) = 1$ und $P(M_3|G_3) = 0$
+		\item $P(M_3|G_1) = \frac 12$, $P(M_3|G_2) = 1$, and $P(M_3|G_3) = 0$
 	\end{itemize}
 	
 	\vspace{0.3cm}
-	Anwendung des \emph{Satzes von Bayes} ergibt dann: 
+	\alert{Applying \emph{Bayes' theorem} yields:} 
 	\begin{align*}
 		P(G_2|M_3) & = \frac{P(M_3|G_2)P(G_2)}{P(M_3|G_1)P(G_1)+P(M_3|G_2)P(G_2)+P(M_3|G_3)P(G_3)} \\
 		& = \frac{1\cdot\frac 13}{\frac 12\cdot\frac 13+1\cdot\frac 13+0\cdot\frac 13} = \frac{\frac 13}{\frac 12} = \frac 23
 	\end{align*}
 	
 	\vspace{0.1cm}
-	Der Kandidat sollte also wechseln, um seine Gewinnchancen von anfangs $\frac 13$ auf nun $\frac 23$ zu verdoppeln.
-\end{frame}
-
-%
-\subsection{Wahrscheinlichkeitsräume}\label{ch:8.8}
-%%
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Typen von Wahrscheinlichkeitsräumen}
-	%
-	Der Ereignisraum $\Omega$ kann
-	\begin{enumerate}
-		\item endlich oder abzählbar
-		\item überabzählbar 
-	\end{enumerate}
-	sein. 
-	\par\medskip
-	Im ersten Fall kann man durch\textit{zählen}, entweder von $1$ bis $n < \infty$ oder von $1$ bis $\infty$ (abzählbar: Es gibt genauso viele Elemente in $\Omega$ wie Elemente in der Menge der natürlichen Zahlen $\MNn$: $|\Omega| = |\MNn|$, Äquivalenzklasse im Cantor'schen Sinne).
-	\par\smallskip
-	In diesem Fall spricht man von \alert{diskreten} Wahrscheinlichkeitsräumen.
-	\par\bigskip
-	Im zweiten Fall kann man die Elemente nicht mehr abzählen, \dh \textbf{jede} Liste $x_1, x_2, \ldots$ wäre grundsätzlich unvollständig, entsprechend hat eine überabzählbare Menge mehr Elemente als die  Menge der natürlichen Zahlen $\MNn$, ein Beispiel hierfür ist die Menge der rellen Zahlen $\MRn$. Witzigerweise enthält eine abzählbare Menge unendlich viele Elemente, ebenso wie die überabzählbare Menge unendlich viele Elemente hat, aber Vorsicht: Unendlich ist nicht gleich unendlich, und unendlich ist insbesondere kein Wert (also eine Zahl)!!! Es gilt $|\MNn| \leq |\Omega|$, \zB $|\MNn| \leq |\Omega| = |\MRn|$.
-	\par\smallskip
-	In diesem Fall spricht man von \alert{stetigen} Wahrscheinlichkeitsräumen.
-\end{frame}
-%%
-%\subsubsection*{Diskrete Wahrscheinlichkeitsräume}
-%%
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Diskrete Wahrscheinlichkeitsräume}
-	\begin{alertblock}{Definition diskreter Wahrscheinlichkeitsraum}
-		\begin{myframe}{
-				Ist ein Ereignisraum $\Omega$ endlich oder abzählbar, heißt er \textbf{diskret}.
-				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
-			}
-		\end{myframe}
-	\end{alertblock}
-	%
-	\par\bigskip
-	%
-	Jedem Elementarereignis $e_i \subset \Omega$ wird die Wahrscheinlichkeit $p_i = P(e_i)$ zugeordnet:
-	\begin{eqnarray*}
-		P \; : \; E &\to & \MRn  \\
-		e_i &\mapsto & p_i = P(e_i) \geq 0, \quad i = 1, 2, \ldots
-	\end{eqnarray*}  
-	%
-	Für diskrete Wahrscheinlichkeitsräume gilt daher
-	\begin{equation*}
-		\sum_{\text{alle }i} p_i  =  1
-	\end{equation*}
-	Die Wahrscheinlichkeit eines beliebigen Ereignisses $A$ lässt sich wegen der paarweisen Disjunktheit der Elementarereignisse $e_i$ mit Theorem 3 direkt angeben:
-	\begin{equation*}
-		P(A)  =  \sum_{e_i \subset A} P(e_i) = \sum_{e_i \subset A} p_i
-	\end{equation*}
-\end{frame}
-%%
-%\subsubsection{Stetige Wahrscheinlichkeitsräume}
-%%
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Stetige Wahrscheinlichkeitsräume}
-	\begin{alertblock}{Definition stetiger Wahrscheinlichkeitsraum}
-		\begin{myframe}{
-				Ist ein Ereignisraum $\Omega$ nicht abzählbar, heißt er \textbf{stetig}.
-				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
-			}
-		\end{myframe}
-	\end{alertblock}
-	%
-	\par\medskip
-	%
-	Oftmals liegen die möglichen Ergebnisse des Zufallsexperiments in einem bestimmten Intervall der reellen Zahlen, z.B.~im Intervall $[0,1]$. Ein Ereignis $A$ ist typischerweise ein Teilintervall, \dh das Ergebnis $x$ liegt in einem interessierenden Teilintervall, \zB
-	\begin{equation*}
-		A = \{x | 0{,}2 < x \leq 0{,}4 \} \quad \text{mit} \quad \Omega = \{x | 0 \leq x \leq 1 \}
-	\end{equation*}
-	%
-	Wie groß ist nun $P(A)$? Diese Frage wird später beantwortet. Wichtig ist hier nur, dass diese Zahl $P(A)$ existiert und die Axiome erfüllt werden.
-	\par\bigskip
-	\begin{alertblock}{Hinweis zur Schreibweise}
-		Die Schreibweise $A = \{x | 0{,}2 < x \leq 0{,}4 \}$ besagt in Worten: "`Die Menge $A$ umfasst alle reellen Zahlen $x$, für die gilt -- oder, alternativ, "`unter der Bedingung"', "`vorausgesetzt"' -- dass sie im Intervall $(0{,}2, 0{,}4]$ liegen"'. Eine solche implizite Angabe ist nötig, weil man eben nicht alle Elemente aufzählen kann!
-	\end{alertblock}
+	\alert{Consequence:} The contestant should switch in order to double the winning probability from initially $\frac 13$ to now $\frac 23$.
 \end{frame}
 
 
-\section{Zufallsvariable}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Probability Spaces}\label{ch:8.8}
+%%%
+%\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+%	\frametitle<presentation>{Types of Probability Spaces}
+%	%
+%	The sample space $\Omega$ can be
+%	\begin{enumerate}
+%		\item finite or countable
+%		\item uncountable 
+%	\end{enumerate}
+%	.
+%	\par\medskip
+%	In the first case, one can \textit{count}, either from $1$ to $n < \infty$ or from $1$ to $\infty$ (countable: there are as many elements in $\Omega$ as in the set of natural numbers $\MNn$: $|\Omega| = |\MNn|$, equivalence class in Cantor's sense).
+%	\par\smallskip
+%	In this case, we speak of \alert{discrete} probability spaces.
+%	\par\bigskip
+%	In the second case, the elements can no longer be counted, i.e., \textbf{every} list $x_1, x_2, \ldots$ would in principle be incomplete. Accordingly, an uncountable set has more elements than the set of natural numbers $\MNn$; one example is the set of real numbers $\MRn$. Interestingly, a countable set contains infinitely many elements, and an uncountable set also contains infinitely many elements, but be careful: infinity is not just infinity, and in particular infinity is not a value (i.e., not a number). We have $|\MNn| \leq |\Omega|$, e.g., $|\MNn| \leq |\Omega| = |\MRn|$.
+%	\par\smallskip
+%	In this case, we speak of \alert{continuous} probability spaces.
+%\end{frame}
+%%%
+%%\subsubsection*{Diskrete Wahrscheinlichkeitsräume}
+%%%
+%\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+%	\frametitle<presentation>{Discrete Probability Spaces}
+%	\begin{alertblock}{Definition: Discrete Probability Space}
+%		\begin{myframe}{
+%				If a sample space $\Omega$ is finite or countable, it is called \textbf{discrete}.
+%				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+%			}
+%		\end{myframe}
+%	\end{alertblock}
+%	%
+%	\par\bigskip
+%	%
+%	Each elementary event $e_i \subset \Omega$ is assigned the probability $p_i = P(e_i)$:
+%	\begin{eqnarray*}
+%		P \; : \; E &\to & \MRn  \\
+%		e_i &\mapsto & p_i = P(e_i) \geq 0, \quad i = 1, 2, \ldots
+%	\end{eqnarray*}  
+%	%
+%	Therefore, for discrete probability spaces,
+%	\begin{equation*}
+%		\sum_{\text{all }i} p_i  =  1
+%	\end{equation*}
+%	The probability of an arbitrary event $A$ can be stated directly via Theorem 3 because the elementary events $e_i$ are pairwise disjoint:
+%	\begin{equation*}
+%		P(A)  =  \sum_{e_i \subset A} P(e_i) = \sum_{e_i \subset A} p_i
+%	\end{equation*}
+%\end{frame}
+%%%
+%%\subsubsection{Stetige Wahrscheinlichkeitsräume}
+%%%
+%\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+%	\frametitle<presentation>{Continuous Probability Spaces}
+%	\begin{alertblock}{Definition: Continuous Probability Space}
+%		\begin{myframe}{
+%				If a sample space $\Omega$ is not countable, it is called \textbf{continuous}.
+%				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+%			}
+%		\end{myframe}
+%	\end{alertblock}
+%	%
+%	\par\medskip
+%	%
+%	Often, the possible outcomes of the random experiment lie in a certain interval of the real numbers, e.g., in the interval $[0,1]$. An event $A$ is typically a subinterval, i.e., the outcome $x$ lies in an interval of interest, e.g.
+%	\begin{equation*}
+%		A = \{x | 0{,}2 < x \leq 0{,}4 \} \quad \text{with} \quad \Omega = \{x | 0 \leq x \leq 1 \}
+%	\end{equation*}
+%	%
+%	How large is $P(A)$ in this case? This question will be answered later. What matters here is only that this number $P(A)$ exists and that the axioms are satisfied.
+%	\par\bigskip
+%	\begin{alertblock}{Notation Remark}
+%		The notation $A = \{x | 0{,}2 < x \leq 0{,}4 \}$ says in words: "`The set $A$ contains all real numbers $x$ for which it holds -- or, equivalently, under the condition / provided that -- that they lie in the interval $(0{,}2, 0{,}4]$"'. Such an implicit description is necessary because one cannot list all elements explicitly.
+%	\end{alertblock}
+%\end{frame}
+
+
+
+\section{Random variable}
+% ------------------------------------------------------------
 \subsection{Definition}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ------------------------------------------------------------
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Definition der Zufallsvariablen}
+	\frametitle<presentation>{Definition of Random Variables}
 	%
 	\begin{itemize}
-		\item Bis jetzt: Zufällige Ereignisse, denen Wahrscheinlichkeiten zugeordnet wurden.
-		\item Ab jetzt: Reellen Zahlen Wahrscheinlichkeiten zuordnen: Tritt ein Elementarereignis $e \subset \Omega$ ein, so wird diesem $e$ eine relle Zahl $\ZVX(e)$ zugeordnet.
+		\item Until now: Random events to which probabilities were assigned.
+		\item From now on: Assign probabilities to real numbers: If an elementary event $e \subset \Omega$ occurs, then a real number $\ZVX(e)$ is assigned to this $e$.
 	\end{itemize}
 	%
-	\begin{alertblock}{Definition Zufallsvariable}
+	\begin{alertblock}{Definition: Random Variable}
 		\begin{myframe}{
-				Gegeben sei ein Wahrscheinlichkeitsraum $[\Omega, E, P]$. Eine Funktion
+				Given a probability space $[\Omega, E, P]$. A function
 				\begin{eqnarray*}
 					\ZVX \; : \; \Omega &\to     & \MRn    \nonumber     \\
 					e &\mapsto & \ZVX(e) \label{eq:9-1}
 				\end{eqnarray*}  
-				die jedem Elementarereignis $e$ eine reelle Zahl $\ZVX(e)$ zuordnet, heißt \textbf{Zufallsvariable} oder \textbf{stochastische Variable}, wenn dabei zu jeder reellen Zahl $x$ ein Ereignis $A_x \subset E$ gehört, mit $A_x = \{e|\ZVX(e) \leq x \}$.
+				that assigns a real number $\ZVX(e)$ to each elementary event $e$ is called a \textbf{random variable} or \textbf{stochastic variable} if, for every real number $x$, there exists an event $A_x \subset E$ with $A_x = \{e|\ZVX(e) \leq x \}$.
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	\alert{Anmerkungen:}
+	\alert{Remarks:}
 	%
 	\begin{itemize}
-		\item Die Zufalls\textit{variable} $\ZVX$ ist eine \textit{Funktion}.
-		\item Die Wahrscheinlichkeitsfunktion $P(\ast)$ wird zur Defintion nicht benötigt.
-		\item Durch das Einführen von Zufallsvariablen entfällt das eher mühsame Rechnen mit den Elementarereignissen und den Ereignissen weitgehend.
+		\item The random \textit{variable} $\ZVX$ is a \textit{function}.
+		\item The probability function $P$ is not needed for the definition.
+		\item Introducing random variables largely eliminates the rather exhausting calculations with elementary events and events.
 	\end{itemize}
 	%
 \end{frame}
 %
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Veranschaulichung der Zufallsvariablen}
-	Weniger formal kann man sich dies folgendermaßen vorstellen:
+	\frametitle<presentation>{Visualization of Random Variables}
+	Less formally, this can be imagined as follows:
 	\begin{itemize}
-		\item Durch Drücken auf den roten Knopf wird im Inneren der Box das Zufallsexperiment ausgeführt 
-		\item Das von außen nicht sichtbare Ergebnis ist das Elementarereignis $e$
-		\item Die Anzeige zeigt die zugehörige reelle Zahl $\ZVX(e)$ an
-		\item Zu dieser Anzeige $\ZVX(e)$ gehört das Ereignis $A_x = \{e|\ZVX(e) \leq x \} \subset E$
+		\item Pressing the red button performs the random experiment inside the box
+		\item The outcome, which is not visible from the outside, is the elementary event $e$
+		\item The display shows the associated real number $\ZVX(e)$
+		\item Associated with this display value $\ZVX(e)$ is the event $A_x = \{e|\ZVX(e) \leq x \} \subset E$
 	\end{itemize}
 	\par\bigskip
 	\begin{figure} 
 		\captionsetup[subfigure]{labelformat=empty}
 		%\centering
-		\subfloat[Diskret]{\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.3\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-04.jpg}}
+		\subfloat[discret]{\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.3\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-04.jpg}}
 		\hspace{0.5cm}
-		\subfloat[Stetig]{\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.3\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-05.jpg}}
+		\subfloat[continuous]{\includegraphics[trim=0cm 0cm 0cm 0cm, width=0.3\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-05.jpg}}
 	\end{figure}
 \end{frame}
 %
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Beispiel einer Zufallsvariablen}
-	Eine Münze wird einmal geworfen, wir betrachten also den Ereignisraum
+	\frametitle<presentation>{Example of a Random Variable}
+	A coin is tossed once, so we consider the sample space
 	\begin{center}
 		\includegraphics[width=0.25\linewidth]{Bilder/Teil-II-Kapitel-5-Bild-01.jpg}
 	\end{center}
-	und damit die Ereignismenge $E$ mit vier Ereignissen $$E=\left\{\emptyset,\{\text{Zahl}\},\{\text{Kopf}\},\Omega\right\}.$$
-	Die Zufallsvariable $\ZVX:\Omega_\text{M}\longrightarrow\MRn$ bezeichne die Anzahl der Köpfe, die bei diesem Zufallsexperiment herauskommen kann: $$\ZVX(\text{Zahl})=x_1=0 \quad\text{und}\quad \ZVX(\text{Kopf})=x_2=1.$$
-	Die definierende Bedingung \glqq für alle $x\in\MRn$ gibt es ein Ereignis $A_x \subset E$ mit $A_x = \{e|\ZVX(e) \leq x \}$\grqq~ist ebenfalls erfüllt:
+	and thus the event set $E$ with four events $$E=\left\{\emptyset,\{\text{tails}\},\{\text{heads}\},\Omega\right\}.$$
+	Let the random variable $\ZVX:\Omega_\text{M}\longrightarrow\MRn$ denote the number of heads that can occur in this random experiment: $$\ZVX(\text{tails})=x_1=0 \quad\text{and}\quad \ZVX(\text{heads})=x_2=1.$$
+	The defining condition ``for all $x\in\MRn$ there exists an event $A_x \subset E$ with $A_x = \{e|\ZVX(e) \leq x \}$'' is also satisfied:
 	\begin{align*}
 		-\infty<x<0: \quad & A_x =\emptyset, \\
-		0\leq x < 1: \quad & A_x = \{\text{Zahl}\}, \\
+		0\leq x < 1: \quad & A_x = \{\text{tails}\}, \\
 		1\leq x < \infty: \quad & A_x = \Omega.
 	\end{align*}
 \end{frame}
+
 %
-\subsection{Verteilungsfunktion}
+\subsection{Distribution Function}
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Verteilungsfunktion}
+	\frametitle<presentation>{Distribution Function}
 	%
-	Von Interesse sind neben den reellen Zahlen $x$, die eine Zufallsvariable $\ZVX$ annehmen kann, auch die Wahrscheinlichkeiten $P$, mit denen diese Zahlen auftreten. Es bezeichne
+	In addition to the real numbers $x$ that a random variable $\ZVX$ can assume, the probabilities $P$ with which these values occur are also of interest. Let
 	%
 	\begin{align*}
-		P(\ZVX = a)    & \Leftrightarrow\text{Wahrscheinlichkeit, dass }\ZVX = a\text{ ist} \\
-		P(a <\ZVX \leq b) & \Leftrightarrow\text{Wahrscheinlichkeit, dass }\ZVX \text{ im Intervall } (a,b] \text{ liegt}\\
-		P(\ZVX \leq x) & \Leftrightarrow\text{Wahrscheinlichkeit, dass }\ZVX \leq x \text{ ist}
+		P(\ZVX = a)    & \Leftrightarrow\text{probability that }\ZVX = a \\
+		P(a <\ZVX \leq b) & \Leftrightarrow\text{probability that }\ZVX \text{ is greater than } a \text{ and at most } b\\
+		P(\ZVX \leq x) & \Leftrightarrow\text{probability that }\ZVX \leq x
 	\end{align*}
 	%
-	Jedem der drei obigen Fälle werden eindeutig Ereignisse -- und über diese die zugehörenden Wahrscheinlichkeiten  -- zugeordnet:
+	Each of the three cases above can be uniquely associated with events and, through them, with the corresponding probabilities:
 	\begin{equation*}
 		\begin{array}{rcl}
 			\ZVX = a    & \Leftrightarrow & A = \{e | \ZVX(e) = a \} \\
 			P(\ZVX = a) & =               & P\left( A \right) = P\left( \{e | \ZVX(e) = a \}\right) 
 		\end{array}
 	\end{equation*}
-	Entsprechend gilt
+	Accordingly,
 	\begin{equation*}
 		\begin{array}{rcl}
 			a <\ZVX \leq b    & \Leftrightarrow & A = \{e | a <\ZVX(e) \leq b \} \\
 			P(a <\ZVX \leq b) & =               & P\left( A \right) = P\left( \{e | a <\ZVX(e) \leq b \}\right) 
 		\end{array}
 	\end{equation*}
-	Schließlich gilt für jede reelle Zahl $x$
+	Finally, for every real number $x$,
 	\begin{equation*}
 		\begin{array}{rcl}
 			\ZVX \leq x    & \Leftrightarrow & A_x = \{e | \ZVX(e) \leq x \} \\
@@ -1140,82 +1230,84 @@ For the classical urn model, the numbers of possible arrangements can be determi
 	\end{equation*}
 	%
 	\framebreak
-	\begin{alertblock}{Definition der Verteilungsfunktion (1)}
+	\begin{alertblock}{Definition: Distribution Function}
 		\begin{myframe}{
-				Die Funktion
+				The function
 				\begin{equation*}
 					\label{eq:9-2}
 					F(x) = P(\ZVX \leq x) = P\left( A_x \right) = P\left( \{e | \ZVX(e) \leq x \}\right) 
 				\end{equation*}  
-				die jeder reellen Zahl $x$ die Wahrscheinlichkeit zuordnet, mit der die Zufallsvariable $\ZVX$ einen Wert $\ZVX \leq x$ annimmt, heißt \textbf{Verteilungsfunktion} der betreffenden Zufallsvariablen $\ZVX$. Diese Wahrscheinlichkeit ist gleich der Wahrscheinlichkeit des Ereignisses $A_x = \{e | \ZVX(e) \leq x \}$.
+				which assigns to each real number $x$ the probability that the random variable $\ZVX$ takes on a value $\ZVX \leq x$, is called the \textbf{distribution function} of the random variable $\ZVX$. This probability is equal to the probability of the event $A_x = \{e | \ZVX(e) \leq x \}$.
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
 	\par\medskip
-	Die Verteilungsfunktion hat folgende Eigenschaften:
+	The distribution function has the following properties:
 	%
 	\begin{enumerate}
-		\item $F(x)$ ist an jeder Stelle zumindest rechtsseitig stetig:
+		\item $F(x)$ is at least right-continuous at every point:
 		\begin{equation*}  
 			\limes_{\Delta x \rightarrow 0} F(x + \Delta x) = F(x), \quad \Delta x > 0
 		\end{equation*}
-		\item $F(x)$ ist überall monoton steigend:
+		\item $F(x)$ is monotonically increasing everywhere:
 		\begin{equation*}  
-			F(a) \leq F(b) , \quad \text{falls } a < b, \quad a,b \in \MRn
+			F(a) \leq F(b) , \quad \text{if } a < b, \quad a,b \in \MRn
 		\end{equation*}  
-		\item $F(x)$ hat die Grenzwerte
+		\item $F(x)$ has the limits
 		\begin{equation*}  
 			\limes_{x \rightarrow -\infty} F(x) = 0, \quad \limes_{x \rightarrow +\infty} F(x) = 1
 		\end{equation*}
 	\end{enumerate}
-	%
-	\framebreak
-	%
-	\par\medskip
-	\alert{Hinweis}
+
 	\par\smallskip
-	Die Eigenschaften der Verteilungsfunktion sind identisch mit denen der empirischen Verteilungsfunktion!
+	\alert{Note}
+	\par\smallskip
+	The properties of the distribution function are identical to those of the empirical distribution function!
+	
 	\par\medskip
-	Man kann auch zeigen, dass jede Funktion, die die obigen Eigenschaften 1-3 hat, eindeutig eine Zufallsvariable definiert. Daher lautet die alternative Definition einer Verteilungsfunktion:
-	%
-	\begin{alertblock}{Definition der Verteilungsfunktion (2)}
-		\begin{myframe}{
-				Jede Funktion $F(x)$ auf dem Definitionsbereich der reellen Zahlen $\MRn$ und mit Wertebereich $[0,1]$, die die obigen drei Eigenschaften hat, heißt \textbf{Verteilungsfunktion} und definiert eine \textbf{Zufallsvariable}.
-			}
-		\end{myframe}
-	\end{alertblock}
-	% Teil-II-Kapitel-6-Bild-01
-	\begin{figure}%
-		\includegraphics[width=0.8\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-01.pdf}%
-		%\par\medskip
-		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
-		%\caption{}%
-		%\label{}%
-	\end{figure}
+%	It can also be shown that every function satisfying properties 1?3 above uniquely defines a random variable. The alternative definition of a distribution function therefore reads:
+%	%
+%	\begin{alertblock}{Definition of the Distribution Function (2)}
+%		\begin{myframe}{
+%				Every function $F(x)$ defined on the real numbers $\MRn$ with range $[0,1]$ that satisfies the three properties above is called a \textbf{distribution function} and defines a \textbf{random variable}.
+%			}
+%		\end{myframe}
+%	\end{alertblock}
+
+    \begin{figure}%
+    	\centering
+    	\includegraphics[width=0.8\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-01.pdf}%
+    	%\par\medskip
+    	%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+    	%\caption{}%
+    	%\label{}%
+    \end{figure}
 \end{frame}
+
+
 %
-\subsection{Diskrete Zufallsvariablen}
+\subsection{Discrete Random Variables}
 %
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Wahrscheinlichkeitsfunktion}
-	Bei endlichen Wahrscheinlichkeitsräumen, \dh $|\Omega| < \infty$, ist die Zufallsvariable diskret, und es gibt $n$ unterscheidbare reelle Zahlen $x_i$, $i=1,\dots,n$ als Realisierungen von $\ZVX$. 
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Probability Mass Function}
+	In finite probability spaces, i.e.\ $|\Omega| < \infty$, the random variable is discrete, and there are $n$ distinguishable real numbers $x_i$, $i=1,\dots,n$ as realizations of $\ZVX$.
 	%
 	\par\medskip
 	%
-	\begin{alertblock}{Definition der Wahrscheinlichkeitsmassenfunktion}
+	\begin{alertblock}{Definition: Probability Mass Function}
 		\begin{myframe}{
-				Ist $\ZVX$ eine diskrete Zufallsvariable, dann heißt die Funktion
+				If $\ZVX$ is a discrete random variable, then the function
 				\begin{equation*}
 					\label{eq:9-3}
 					f(x) = P(\ZVX = x) =  
 					\begin{cases}
-						P(\ZVX = x_i) = p_i &\;\text{falls } x = x_i,\; i=1,\ldots, n \\
-						0                   & \;\text{sonst }
+						P(\ZVX = x_i) = p_i &\;\text{if } x = x_i,\; i=1,\ldots, n \\
+						0                   & \;\text{otherwise}
 					\end{cases}
 				\end{equation*}  
-				die \textbf{Wahrscheinlichkeitsmassenfunktion} oder kurz \textbf{Massenfunktion} der Zufallsvariablen $\ZVX$ (manchmal auch Wahrscheinlichkeitsfunktion genannt).
+				is called the \textbf{probability mass function} or simply the \textbf{mass function} of the random variable $\ZVX$ (sometimes also called the probability function).
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 			}
 		\end{myframe}
@@ -1226,20 +1318,17 @@ For the classical urn model, the numbers of possible arrangements can be determi
 	%
 	\begin{columns}
 		\begin{column}{0.27\linewidth}
-			\alert{Eigenschaften} 
-			%\par\medskip
-			%\begin{subequations} 
-			\begin{eqnarray*}  
-				(1) & f(x) \geq 0 \label{eq:9-4a} \\
-				(2) & \displaystyle \sum_{ \text{alle }i} f(x_i) = 1 \label{eq:9-4b} \\
-				(3) & 0 < f(x_i) \leq 1 \label{eq:9-4c}
-			\end{eqnarray*}  
-			%\end{subequations}
+			\alert{Properties} 
+			\begin{itemize}
+				\item $f(x) \geq 0$\label{eq:9-4a}
+				\item $\sum\limits_{\text{all }i} f(x_i) = 1$\label{eq:9-4b}
+				\item $0 < f(x_i) \leq 1$\label{eq:9-4c}
+			\end{itemize}
 		\end{column}
 		%
 		\hfill
 		\begin{column}{0.64\linewidth}
-			\alert{Zusammenhänge} 
+			\alert{Relationships} 
 			%\par\medskip
 			%
 			\begin{equation*}
@@ -1248,41 +1337,54 @@ For the classical urn model, the numbers of possible arrangements can be determi
 			\end{equation*}
 			\begin{equation*}
 				\label{eq:9-6}
-				f(x) = F(x) - \limes_{\Delta x \rightarrow 0} F(x - \Delta x)), \quad \Delta x > 0
+				\begin{aligned}
+					f(x) &= F(x) - \limes_{\Delta x \rightarrow 0} F(x - \Delta x),
+					&\Delta x > 0
+				\end{aligned}
 			\end{equation*}
 		\end{column}
 		%
 	\end{columns}
 	% 
-	\begin{alertblock}{Hinweis} 
-		Die Verteilungsfunktion $F(x)$ diskreter Zufallsvariablen ist an den Sprungstellen $x = x_i$ nicht differenzierbar!
+	\begin{alertblock}{Note} 
+		The distribution function $F(x)$ of discrete random variables is not differentiable at the jump points $x = x_i$!
 	\end{alertblock}
+	
+	Relationship between distribution function $F(x)$ and probability mass function $f(x)$ of a discrete random variable $\ZVX$ [Schira, Statistische Methoden der VWL und BWL, 2021]:
+	\par\smallskip
+	\begin{center}
+			\includegraphics[height=0.65\textwidth]{Bilder/ProbMassFunc.png}
+	\end{center}
 \end{frame}
+
 %
-\subsection{Stetige Zufallsvariablen}
+\subsection{Continuous Random Variables}
 %
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Dichtefunktion}
-	Bei unendlichen Wahrscheinlichkeitsräumen ist die Zufallsvariable stetig. Die Realisierungen von $\ZVX$ liegen typischerweise in Intervallen der reellen Zahlen, \zB im Intervall $[a,b], \; a{,}b \in \MRn$. Da in einem solchen Intervall unendlich viele reelle Zahlen liegen, ist die Wahrscheinlichkeit, genau eine bestimmte Zahl daraus zu "`treffen"', stets null: Die Angabe einer Wahrscheinlich\-keits\-massen- \-funktion ist nicht sinnvoll! 
+	\frametitle<presentation>{Density Function}
+	In infinite probability spaces, the random variable is continuous. The realizations of $\ZVX$ typically lie in intervals of the real numbers, for example in the interval $[a,b], \; a{,}b \in \MRn$. 
+%	Since such an interval contains infinitely many real numbers, the probability of hitting exactly one specific number is always zero. Therefore, specifying a probability mass function is not meaningful.
 	%
 	\par\medskip
 	%
-	\begin{alertblock}{Definition der Wahrscheinlichkeitsdichtefunktion}
+	\begin{alertblock}{Definition: Probability Density Function}
 		\begin{myframe}{
-				Ist $\ZVX$ eine stetige Zufallsvariable mit Verteilungsfunktion $F(x)$, so heißt die erste Ableitung von $F(x)$ nach $x$ 
+				If $\ZVX$ is a continuous random variable with distribution function $F(x)$, then the first derivative of $F(x)$ with respect to $x$
 				\begin{equation*}
 					\label{eq:9-7}
-					f(x) = \dfrac{\operatorname{d}F(x)}{\operatorname{d}x}
+					f(x) = \dfrac{dF(x)}{dx}
 				\end{equation*}  
-				die \textbf{Wahrscheinlichkeitsdichtefunktion} oder kurz \textbf{Dichtefunktion} der Zufallsvariablen $\ZVX$.
+				is called the \textbf{probability density function}, or simply the \textbf{density function}, of the random variable $\ZVX$.
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 			}
 		\end{myframe}
 	\end{alertblock}
+	
+	\par\medskip
 	%
 	\begin{columns}
 		\begin{column}{0.40\linewidth}
-			\alert{Eigenschaften} 
+			\alert{Properties} 
 			\begin{subequations} 
 				\begin{eqnarray*}  
 					(1) & f(x) \geq 0 \label{eq:9-8a}\\
@@ -1293,8 +1395,8 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		%
 		%\hfill
 		\begin{column}{0.55\linewidth}
-			\alert{Hinweis}\par\smallskip 
-			Im Falle stetiger Zufallsvariablen ist $F(x)$ \iallg überall differenzierbar und $f(x)$ daher überall definiert mit Einheit 1/("`Einheit von $x$"').
+			\alert{Note}\par\smallskip 
+			In the case of continuous random variables, $F(x)$ is in general everywhere differentiable, and, hence, $f(x)$ is everywhere defined.
 		\end{column}
 		%
 	\end{columns} 
@@ -1302,9 +1404,9 @@ For the classical urn model, the numbers of possible arrangements can be determi
 	\framebreak
 	%
 	\par\bigskip
-	Anmerkungen:
+	Remarks:
 	\begin{enumerate}
-		\item Die Dichtefunktion $f(x)$ gibt den Wahrscheinlichkeits\alert{zuwachs} an der Stelle $x$ an. Daher ist erst die \alert{Fläche}, die $f(x)$  mit der $x$-Achse in einem gegebenen Intervall aufspannt, eine Wahrscheinlichkeit:
+		\item The density function $f(x)$ describes the \alert{increase in probability} or the \alert{probability rate} at the point $x$. Therefore, only the \alert{area} enclosed by $f(x)$ and the $x$-axis over a given interval is a probability:
 		%
 		\begin{align*}
 			%P(\ZVX = a)    & = \int_{a}^{a} f(x) \operatorname{d}x = 0 \\
@@ -1312,7 +1414,7 @@ For the classical urn model, the numbers of possible arrangements can be determi
 			P(\ZVX \leq x) & = \int_{-\infty}^{x} f(u) \operatorname{d}u 
 		\end{align*}
 		%
-		\item Das Intervall $[a,b]$ lässt sich in drei disjunkte Intervalle zerlegen: $[a] \cup (a,b) \cup [b]$. Bei endlichem stetigem $f(x)$ gilt 
+		\item The interval $[a,b]$ can be decomposed into three disjoint intervals: $[a] \cup (a,b) \cup [b]$. For a finite continuous $f(x)$, the following holds:
 		%\begin{align*}
 		%%P(\ZVX = c)    & = \int_{c}^{c} f(x) \operatorname{d}x = 0 \\
 		%\underbrace{\int\limits_{a}^{a} f(x) \operatorname{d}x}_{P(\ZVX = a)=0} 
@@ -1329,176 +1431,250 @@ For the classical urn model, the numbers of possible arrangements can be determi
 			+ \underbrace{\int\limits_{a}^{b} f(x) \operatorname{d}x}_{P(a < \ZVX < b)} 
 			+ \underbrace{\int\limits_{b}^{b} f(x) \operatorname{d}x}_{P(\ZVX = b)=0}
 		\end{equation*}
-		und daher
+		and therefore
 		\begin{equation*}
 			P(a \leq \ZVX \leq b) = P(a < \ZVX \leq b) = P(a \leq \ZVX < b) = P(a < \ZVX < b)  
 		\end{equation*}
 	\end{enumerate}
 	%
-	\framebreak
-	\par\bigskip
-	\begin{figure}%
-		\includegraphics[width=1.0\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-03.pdf}%
-		%\par\medskip
-		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
-		%\caption{}%
-		%\label{}%
-	\end{figure}
-	%
-	$$f_{\mu,\sigma^2}(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\cdot e^{-\frac 12\left(\frac{x-\mu}{\sigma}\right)^2}$$
+	Probability as area below the density function $f(x)$ [Schira, Statistische Methoden der VWL und BWL, 2021]:
+	\par\smallskip
+	\begin{center}
+		\includegraphics[height=0.7\textwidth]{Bilder/DensityFunc.png}
+	\end{center}
+	
+%	\framebreak
+%	\par\bigskip
+%	\begin{figure}%
+%		\includegraphics[width=1.0\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-03.pdf}%
+%		%\par\medskip
+%		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
+%		%\caption{}%
+%		%\label{}%
+%	\end{figure}
+%	%
+%	$$f_{\mu,\sigma^2}(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\cdot e^{-\frac 12\left(\frac{x-\mu}{\sigma}\right)^2}$$
 \end{frame}
 %
-\subsection{Erwartungswerte}
+
+\subsection{Expected Value}
 %
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Erwartungswert der Zufallsvariablen $\ZVX$}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Expected Value of a Random Variable}
 	%
-	Der Erwartungswert ist vergleichbar mit dem empirischen arithmetischen Mittel einer Häufigkeitsverteilung. Er beschreibt die Zahl, die die Zufallsvariable $\ZVX$ "`im Mittel"' annimmt (Lagemaß) -- eine Zahl, die nicht notwendigerweise eine Realisierung von $\ZVX$ sein muss.
+	The expected value is comparable to the empirical arithmetic mean.
+	It describes the number that the random variable $\ZVX$ takes \glqq on average\grqq\,(a measure of location) $\rightarrow$ a number that does not necessarily have to be a realization of $\ZVX$.
 	%
-	\par\medskip
-	\begin{alertblock}{Definition des Erwartungswertes einer Zufallsvariablen $\ZVX$}
+	\par\smallskip
+	\begin{alertblock}{Definition: Expected Value of a Random Variable}
 		\begin{myframe}{
-				Sei $\ZVX$ eine Zufallsvariable und $f(x)$ ihre Massen- \bzw Dichtefunktion. Ihr \textbf{Erwartungswert} ist definiert als \newline
-				\begin{subequations} 
-					\begin{eqnarray*}
-						\E(\ZVX) &= \displaystyle \sum_{\text{alle }j} x_j \cdot f(x_j)\quad \text{diskret} \\
-						\E(\ZVX) &= \displaystyle \int\limits_{-\infty}^{+\infty} x\cdot f(x) \operatorname{d}x\quad \text{stetig} 
-					\end{eqnarray*}  
-				\end{subequations} 
-				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
+				Let $\ZVX$ be a random variable and $f(x)$ its mass or density function. Its \textbf{expected value} is defined as \newline
+				\begin{align*} 
+						\E(\ZVX) &= \displaystyle \sum_{\text{all }j} x_j \cdot f(x_j)\quad \text{discrete} \\
+						\E(\ZVX) &= \displaystyle \int\limits_{-\infty}^{+\infty} x\cdot f(x) \,dx\quad \text{continuous}  
+				\end{align*}
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Bezeichnung:}
-		Der Erwartungswert wird auch \textbf{Mittelwert} oder mathematische Erwartung genannt; als Formelsymbol -- \insb für die sich ergebene Zahl -- wird meistens $\mu$, $\mu_{\mathrm{ X}}$ oder $\mu(\ZVX)$ verwendet. 
+	\begin{alertblock}{Notation:}
+		The expected value is also called the \textbf{mean} or \textbf{mathematical expectation}.\\
+		As a formula symbol for the resulting number, one usually uses $\mu$, $\mu_{\mathrm{ X}}$, or $\mu(\ZVX)$.
 	\end{alertblock}
-	%
-	%\begin{leftbar}
-	%\begin{mSatz} Der Erwartungswert der Abweichungen jeder Zufallsvariablen $\ZVX$ von ihrem Erwartungswert $\mu_{\mathrm{ X}}$ ist Null:
-	%\begin{equation}
-	%\label{eq:9-10}
-	%\E\left( \ZVX -  \mu_{\mathrm{ X}} \right) = 0
-	%\end{equation}
-	%\end{mSatz}
-	%\end{leftbar}
+	
+	\framebreak
+
+	\begin{alertblock}{Example A (discrete random variable)}
+		Let the \alert{discrete} random variable $\ZVX$ have the following \alert{probability mass function}:
+		$$f(x)=
+		\begin{cases}
+			\dfrac{1}{3}, & \text{for } x=1,\\[4pt]
+			\dfrac{2}{3}, & \text{for } x=2,\\[4pt]
+			0, & \text{otherwise.}
+		\end{cases}$$
+		Then the expected value is $$\E(\ZVX)=1\cdot \frac{1}{3} + 2\cdot \frac{2}{3} = \frac{5}{3} \approx 1.666\ldots$$
+	\end{alertblock}
+	
+	\begin{alertblock}{Example B (continuous variable)}
+		Let the \alert{continuous} random variable $\ZVX$ have the following \alert{density function}:
+		$$f(x)=
+		\begin{cases}
+			\dfrac{3}{4}, & \text{for } 0 \le x \le 1,\\[4pt]
+			0, & \text{otherwise.}
+		\end{cases}$$
+		Then the expected value is:
+		\begin{align*}
+			\mu = \E(\ZVX) & =\int_{0}^{1} x\cdot f(x)\,dx
+			= \int_{-\infty}^1 0\,dx + \int_1^3 x\cdot \frac 14 x\,dx + \int_3^\infty 0\,dx \\
+			& = \int_1^3 \frac 14 x^2\,dx = \left[\frac{1}{12}x^3\right]_1^3 = \frac{27}{12}-\frac{1}{12} = \frac{26}{12} = 2.1667.
+		\end{align*}
+		
+		\begin{center}
+            \includegraphics[scale=0.75]{Bilder/ExpectedValue.png}
+		\end{center}
+	\end{alertblock}
+	
 \end{frame}
+
 %
 %\subsection{Rechnen mit Erwartungswerten} 
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Erwartungswert der Zufallsvariablen $\ZVY = g(\ZVX)$}
+	\frametitle<presentation>{Expected Value of Transformation $\ZVY = g(\ZVX)$}
 	%
-	\par\medskip
+	%\par\medskip
 	%
-	Wird jede Realisierung $x$ der Zufallsvariablen $\ZVX$ durch die Abbildung $y = g(x)$ in eine Realisierung der Zufallsvariable $\ZVY$ transformiert, dann werden die den Werten $x$ zugewiesenen Wahrscheinlichkeitsmassen \bzw -dichten den Werten $y=g(x)$ zugewiesen. Dann gilt
-	\par\medskip
-	%
-	\begin{subequations} 
-		\begin{eqnarray*}
-			\E\left(\ZVY = g(\ZVX)\right) &= \displaystyle \sum_{\text{alle }j} g(x_j) \cdot f(x_j)\quad \text{diskret} \label{eq:9-11a}\\
-			\E\left(\ZVY = g(\ZVX)\right) &= \displaystyle \int\limits_{-\infty}^{+\infty} g(x) \cdot f(x) \operatorname{d}x\quad \text{stetig} \label{eq:9-11b}
-		\end{eqnarray*}  
-	\end{subequations} 
-	%
-	\par\bigskip
-	Die obige Vorstellung verallgemeinert den zuvor definierten Erwartungswert in dem Sinne, als dass man direkt bestimmen kann, welche Zahl im Mittel zu erwarten wäre, wenn man die Realisierungen von $\ZVX$ der Abbildung $y = g(x)$ unterwerfen würde.
-	\framebreak
-	\par\bigskip
-	Für das \alert{Rechnen mit Erwartungswerten} gelten folgende Regeln: 
+	Let $\ZVY = g(\ZVX)$ be the transformation of the random variable $\ZVX$.	Then it holds:
+	\begin{align*}
+		\E\left(\ZVY = g(\ZVX)\right) & = \displaystyle \sum_{\text{all }j} g(x_j) \cdot f(x_j)\quad \text{discrete}\\
+		\E\left(\ZVY = g(\ZVX)\right) & = \displaystyle \int\limits_{-\infty}^{+\infty} g(x) \cdot f(x) dx\quad \text{continuous}
+	\end{align*}   
+	
+
+	The following rules apply for \alert{calculations with expected values}:
 	\par\smallskip
 	%
 	\begin{enumerate}
-		\item \alert{Konstante:} Mit $y = g(x) = a$ folgt
+		\item \alert{Constant:} For $y = g(x) = a$, it follows that
 		\begin{equation*}
 			\E(\ZVY) = \E(a) = a
 		\end{equation*}
-		\item \alert{Faktor:} Für $y = b\cdot g(x)$ folgt
+		\item \alert{Factor:} For $y = b\cdot g(x)$, it follows that
 		\begin{equation*}
 			\E(\ZVY) = \E(b\cdot g(\ZVX)) = b \cdot E\left(g(\ZVX)\right)
 		\end{equation*}
-		\item \alert{Lineare Transformation:} Für $y = a + b\cdot x$ folgt
+		\item \alert{Linear Transformation:} For $y = a + b\cdot x$, it follows that
 		\begin{equation*}
 			\label{eq:9-13}
 			\E(\ZVY) = \E(a +b\cdot \ZVX ) = a + b \cdot E\left(\ZVX\right)
 		\end{equation*}
-		\item \alert{Linearkombination:} Für $y = \lambda_1 \cdot g_1(x) + \lambda_2 \cdot g_2(x)$ folgt
+		\item \alert{Linear Combination:} For $y = \lambda_1 \cdot g_1(x) + \lambda_2 \cdot g_2(x)$, it follows that
 		\begin{equation*}
 			\label{eq:9-12}
 			\E(\ZVY) = \E(\lambda_1 \cdot g_1(\ZVX)+ \lambda_2 \cdot g_2(\ZVX)) = \lambda_1 \cdot  E\left(g_1(\ZVX)\right) + \lambda_2 \cdot E\left(g_2(\ZVX)\right)
 		\end{equation*}
-	\end{enumerate}     
-	%
+	\end{enumerate} 
+	
+	\framebreak    
+	
+	\textbf{Exemplary Problem:}
+    Failures occur during the operation of a production facility. Based on past observations, the following probability distribution is assumed for the number of failures per day $\ZVX$:
+	$$\begin{array}{c|cccc}
+			x & 0 & 1 & 2 & 3 \\
+			\hline
+			f(x)=P(\ZVX=x) & 0.35 & 0.40 & 0.15 & 0.10
+		\end{array}$$
+	
+	\vspace{0.1cm}
+		
+    Resolving failures follow the degressive cost function (in thousand Euro):
+	$$g(x) = 5 - \frac{4}{x+1}$$
+	
+	\vspace{0.1cm}
+	
+	\textbf{Substituting the expectation of failures}, 
+	$\E(\ZVX)=1$ into the cost function yields expected costs of $g\left(\E(\ZVX)\right)=5-\frac 42 = 3$. $\longrightarrow$ daily costs of $3000$ Euro
+	
+	\vspace{0.1cm}
+	
+	\textbf{Compute transformed values}
+	$$\begin{array}{c|cccc}
+		x & 0 & 1 & 2 & 3 \\
+		\hline
+		g(x) & 1 & 3 & 3.66 & 4
+	\end{array}$$
+	
+	%\vspace{0.1cm}
+	
+	\textbf{Compute expectation}
+	$$\E(g(\ZVX)) = \sum_x g(x)\cdot f(x)
+	= 1\cdot0.35 + 3\cdot0.40 + 3.66\cdot0.15 + 4\cdot0.10 = 2.5$$
+	
+	%\vspace{0.1cm}
+	
+	\textbf{Conclusion:} \\
+    Lower expected daily costs of $2500$ Euro since 
+	$\E(g(\ZVX)) \neq g(\E(\ZVX))$.
+	
 \end{frame}
-%
-\subsection{Varianz} 
+
+
+\subsection{Variance} 
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Varianz der Zufallsvariablen $\ZVX$}
-	Die Varianz entspricht der empirischen Varianz und stellt ein \emph{Maß für die Streuung um den Mittelwert} dar.
+	\frametitle<presentation>{Variance of a Random Variable}
+	The variance corresponds to the empirical variance and represents a \emph{measure of dispersion around the mean}.
 	%
-	\begin{alertblock}{Definition der Varianz der Zufallsvariablen $\ZVX$}
+	\begin{alertblock}{Definition: Variance of the Random Variable}
 		\begin{myframe}{
-				Sei $\ZVX$ eine Zufallsvariable und $\mu_{\mathrm{ X}}$ ihre Erwartungswert. Der Erwartungswert der quadrierten Abweichungen der Zufallsvariablen von ihrem Erwartungswert
+				Let $\ZVX$ be a random variable and $\mu_{\mathrm{ X}}$ its expected value. The expected value of the squared deviations of the random variable from its expected value
 				\begin{equation*}
 					\label{eq:9-14}
 					\Var(\ZVX) = \E\left( (\ZVX -  \mu_{\mathrm{ X}})^2 \right)
 				\end{equation*} 
-				heißt \textbf{Varianz} der Zufallsvariablen $\ZVX$, falls die Summe bzw.~das Integral existiert. Die positive Wurzel aus der Varianz
+				is called the \textbf{variance} of the random variable $\ZVX$, provided that the sum or the integral exists. The positive square root of the variance
 				\begin{equation*}
 					\label{eq:9-15}
 					\sigma_{\mathrm{ X}} = +\sqrt{\Var(\ZVX)}
 				\end{equation*} 
-				heißt \textbf{Standardabweichung}. 
+				is called the \textbf{standard deviation}. 
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Bezeichnung:}
-		Als Formelsymbol, \insb auch für die sich ergebende Zahl, wird für $\Var(\ZVX)$ meistens $\sigma^2$, $\sigma^2_{\mathrm{ X}}$ oder $\sigma^2(\ZVX)$ verwendet.
+	\begin{alertblock}{Notation:}
+		As a formula symbol, especially for the resulting number, $\sigma^2$, $\sigma^2_{\mathrm{ X}}$, or $\sigma^2(\ZVX)$ is usually used for $\Var(\ZVX)$.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Hinweis:}
-		Die Varianz ist der Erwartungswert der Abbildung $y = g(x) = (x - \mu_{\mathrm{ X}})^2$
+	\begin{alertblock}{Note:}
+		The variance is the expected value of the transformation $y = g(x) = (x - \mu_{\mathrm{ X}})^2$.
 	\end{alertblock}
 	%
 	\framebreak
 	%
-	Die Varianz berechnet sich laut Definition folgendermaßen:
-	\begin{subequations} 
-		\begin{eqnarray*}
-			\Var\left(\ZVX\right) &= \displaystyle \sum_{\text{alle }j} \left(x_j - \mu_{\mathrm{ X}} \right)^2 \cdot f(x_j)\quad \text{diskret} \label{eq:9-16a}\\
-			\Var\left(\ZVX\right) &= \displaystyle \int_{-\infty}^{+\infty} \left(x - \mu_{\mathrm{ X}} \right)^2 \cdot f(x) \operatorname{d}x\quad \text{stetig} \label{eq:9-16b}
-		\end{eqnarray*}  
-	\end{subequations} 
-	%
-	\par\bigskip
+	According to the definition, the variance is calculated as follows:
+	\begin{align*}
+		\Var\left(\ZVX\right) & = \displaystyle \sum_{\text{all }j} \left(x_j - \mu_{\mathrm{ X}} \right)^2 \cdot f(x_j)\quad \text{discrete} \\
+		\Var\left(\ZVX\right) & = \displaystyle \int_{-\infty}^{+\infty} \left(x - \mu_{\mathrm{ X}} \right)^2 \cdot f(x)\,dx\quad \text{continuous}
+	\end{align*}  
+	
+	\alert{Example:} Given $\ZVX$ with density $f(x)=\frac 32\left(x-\frac 12x^2\right)$ in the interval $[0,2]$:
+	\begin{center}
+        \includegraphics[scale=0.3]{Bilder/Variance.png}
+	\end{center}
+	
+	According to the symmetry, the expected value is $\mu_{\mathrm{ X}}=\E(\ZVX)=1$.\\
+	The variance is computed via the definite integral
+	$$\Var(\ZVX)= \int_0^2 (x-1)^2 \cdot \frac 32 \left(x-\frac 12x^2\right)\,dx = \ldots = \frac 15 $$ 
+	and the standard deviation yields $\sigma_{\mathrm{ X}} = 0.4472$.
+	
+	
 	\framebreak
-	Für das \alert{Rechnen mit Varianzen} gelten folgende Regeln: 
+	The following rules apply for \alert{calculations with variances}:
 	\par\smallskip
 	\begin{enumerate}
-		\item \alert{Vereinfachte Berechnung:} Es gilt (siehe Punkt 6 für $d=0$)
+		\item \alert{Simplified Calculation:} The following holds (see item 6 for $d=0$):
 		\begin{equation*}
 			\label{eq:9-19}
 			\Var(\ZVY) = \E\left( \ZVX^2 \right) - \mu^2_{\mathrm{ X}} 
 		\end{equation*}
-		\item \alert{Konstante:} Da eine konstante Größe nicht streut, gilt
+		\item \alert{Constant:} Since a constant quantity does not vary, the following holds:
 		\begin{equation*}
 			\Var(a) = 0
 		\end{equation*}
-		\item \alert{Verschiebung:} Für $y = x+a$ folgt
+		\item \alert{Shift:} For $y = x+a$, it follows that
 		\begin{equation*}
 			\Var(\ZVY) =\Var(\ZVX+a) = \Var(\ZVX)
 		\end{equation*}
-		\item \alert{Skalierung:} Für $y = b \cdot x$ folgt
+		\item \alert{Scaling:} For $y = b \cdot x$, it follows that
 		\begin{equation*}
 			\Var(\ZVY) = \Var(b \cdot \ZVX) = b^2 \cdot \Var(\ZVX)
 		\end{equation*}
-		\item \alert{Lineare Transformation:} Für $y = a + b\cdot x$ folgt
+		\item \alert{Linear Transformation:} For $y = a + b\cdot x$, it follows that
 		\begin{equation*}
 			\Var(\ZVY) = \Var(a +b\cdot(\ZVX)) = b^2 \cdot \Var(\ZVX) \label{eq:9-17} %\\
 			%\sigma_{\mathrm{ Y}} &=& |b|  \cdot \sigma_{\mathrm{ X}} \label{eq:9-18}       
 		\end{equation*}
-		\item \alert{Steiner'scher Verschiebungssatz:} Für $d = \text{const.}$ gilt:
+		\item \alert{Steiner's Translation Theorem:} For $d = \text{const.}$, the following holds:
 		\begin{equation*}
 			\label{eq:9-20}
 			\Var(\ZVY) = \E\left( (\ZVX - d)^2 \right) - (\mu_{\mathrm{ X}} - d)^2 
@@ -1506,201 +1682,191 @@ For the classical urn model, the numbers of possible arrangements can be determi
 	\end{enumerate}     
 	%
 \end{frame}
+
 %
-\subsection{Standardisieren} 
+\subsection{Standardization} 
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Standardisierte Zufallsvariable $\ZVZ$}
+	\frametitle<presentation>{Standardization of a Random Variable}
 	%
-	Jede Zufallsvariable lässt sich so abbilden, dass die resultierende Zufalls\-variable \textbf{mittelwertfrei} ist und die \textbf{Varianz den Wert Eins} annimmt. \\
-	Zum Zwecke der Vergleichbarkeit, aber auch zur Aufwandsverringerung (Tabellen o.\,ä.) ist dies häufig gewünscht \bzw nötig.
+	Every random variable can be transformed in such a way that the resulting random variable has \textbf{zero mean} and its \textbf{variance equals one}.
+	\par\smallskip
+	For the purpose of comparability, this is often desirable or necessary.
 	%
-	\begin{alertblock}{Definition der Standardisierung}
+	\begin{alertblock}{Definition: Standardization}
 		\begin{myframe}{
-				Ist $\ZVX$ eine Zufallsvariable mit Erwartungswert $\mu$ und Standardabweichung $\sigma> 0$, dann heißt die linear transformierte Zufallsvariable
+				If $\ZVX$ is a random variable with expected value $\mu$ and standard deviation $\sigma> 0$, then the linearly transformed random variable
 				%
 				\begin{equation*}
 					\label{eq:9-21}
 					\ZVZ = \dfrac{\ZVX - \mu}{\sigma} = -\dfrac{\mu}{\sigma} + \dfrac{1}{\sigma} \cdot \ZVX = a + b \cdot \ZVX 
 				\end{equation*} 
-				\textbf{standardisiert}. 
+				is called \textbf{standardized}. 
 				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Anmerkungen}
+	\begin{alertblock}{Remarks}
 		\begin{enumerate}
-			\item Es gilt wie gefordert (\vgl die Rechenregeln):
+			\item As required (see calculation rules), the following holds:
 			\begin{eqnarray*}
 				E(\ZVZ) &=&  a + b \cdot E\left(\ZVX\right) = -\dfrac{\mu}{\sigma} + \dfrac{1}{\sigma} \cdot \mu = 0  \\
 				\sqrt{\Var(\ZVZ)} &=& |b|  \cdot \sqrt{\Var(\ZVX)} = \dfrac{1}{\sigma} \cdot \sigma = 1     
 			\end{eqnarray*}
-			%Die so gebildete Zufallsvariable $\ZVZ$ ist stets mittelwertfrei, $\mu_{\mathrm{ Z}} = 0$, und hat eine Standardabweichung von Eins, $\sigma_{\mathrm{ Z}} = 1$, sie ist also normiert ("`standardisiert"').
-			\item Anschaulich bedeutet die lineare Transformation $\ZVZ = g(\ZVX) = \frac{\ZVX - \mu}{\sigma}$ zunächst die \textbf{Verschiebung} $\ZVY = \ZVX- \mu$ um $\mu$ und dann die \textbf{Skalierung} $\ZVZ = \frac{\ZVY}{\sigma}$ 
-			um den Faktor $\frac 1\sigma$.
+			%The random variable $\ZVZ$ formed this way is always zero-mean, $\mu_{\mathrm{ Z}} = 0$, and has a standard deviation of one, $\sigma_{\mathrm{ Z}} = 1$; it is thus normalized (``standardized'').
+			\item Intuitively, the linear transformation $\ZVZ = g(\ZVX) = \frac{\ZVX - \mu}{\sigma}$ first represents a \textbf{shift} $\ZVY = \ZVX- \mu$ by $\mu$, and then a \textbf{scaling} $\ZVZ = \frac{\ZVY}{\sigma}$ 
+			by the factor $\frac 1\sigma$.
 		\end{enumerate}
 	\end{alertblock}
 	%
 \end{frame}
-%
-%\subsection{Bienaymé-Tschebyscheff-Ungleichung} 
-%\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-%	\frametitle<presentation>{Bienaymé-Tschebyscheff-Ungleichung}
-%	%
-%	Für jede Zufallsvariable $\ZVX$ mit endlichem Erwartungswert $\mu$ und endlicher Varianz $\sigma^2$ kann man eine \textbf{Abschätzung} dafür angeben, mit welcher Wahrscheinlichkeit die betragsmäßige Abweichung einer Realisierung vom Erwartungswert mindestens das $k$-fache der Standardabweichung $\sigma$ beträgt, und zwar \alert{unabhängig} von $f(x)$ bzw.\,$F(x)$.
-%	\par\smallskip
-%	Diese Abschätzung ist nach Bienaymé\footnote{Irénée-Jules Bienaymé, 1796--1878} und Tschebyschow\footnote{Pafnuti Lwowitsch Tschebyschow, 1821--1894} benannt und lautet:
-%	%
-%	\par\smallskip
-%	\begin{alertblock}{Bienaymé-Tschebyscheff-Ungleichung}
-%		\begin{myframe}{
-%				Sei $\ZVX$ eine Zufallsvariable mit Erwartungswert $\mu$ und Standardabweichung $\sigma> 0$, so gelten stets die Ungleichungen
-%				%
-%				\begin{align*}
-%					\label{eq:9-22}
-%					P\left( |\ZVX - \mu| \geq k \cdot \sigma \right) & \leq \dfrac{1}{k^2} \\
-%					P\left( |\ZVX - \mu| < k \cdot \sigma \right) & \geq 1- \dfrac{1}{k^2} 
-%				\end{align*} 
-%				für jedes reelle $k > 0$ und völlig unabhängig von der Verteilungsfunktion $F(x)$. 
-%				%\marginpar{{\sffamily\mdseries\upshape Grundgesamtheit}}
-%			}
-%		\end{myframe}
-%	\end{alertblock}
-%	%
-%	\par\medskip
-%	\alert{Hinweis}: Die obige Ungleichung macht nur Sinn für Werte $k>1$, da Wahrscheinlichkeiten nicht größer als Eins werden können \smiley.
-%\end{frame}
-%
-%
-\subsection{Quantile}\label{ch:9.10}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Quantile}
+
+
+\subsection{Quantiles}\label{ch:9.10}
+\begin{frame}[shrink=5]%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Quantiles}
 	%
-	Wie im Falle empirischer Häufigkeiten lassen sich bei gleicher Interpretation die Quantile einer Verteilungsfunktion $F(x)$ definieren.
+	Just as in the case of empirical frequencies, the quantiles of a distribution function $F(x)$ can be defined with the same interpretation.
 	
-	\begin{alertblock}{Quantil}
+	\begin{alertblock}{Definition: Quantile}
 		\begin{myframe}{
-				Diejenige Zahl $x_{[q]}$, für die gleichzeitig
+				The number $x_{[q]}$ for which simultaneously
 				\begin{equation*} \label{eq:9-32}
-					P\left(\ZVX \leq x_{[q]} \right) \geq q \quad \text{und} \quad P\left(\ZVX \geq x_{[q]} \right) \geq 1-q
+					P\left(\ZVX \leq x_{[q]} \right) \geq q \quad \text{and} \quad P\left(\ZVX \geq x_{[q]} \right) \geq 1-q
 				\end{equation*}
-				gilt, heißt \textbf{$q$-Quantil} der Verteilung.
+				holds is called the \textbf{$q$-quantile} of the distribution.
 			}
 		\end{myframe}
 	\end{alertblock}
 	%
 	\par\smallskip
-	Eine häufige Anwendung von Quantilen ist es, theoretische und empirische Quantile gegeneinander aufzutragen um festzustellen, ob die empirisch erhobenen Beobachtungen einer bestimmten theoretischen Verteilung genügen.
 	
-	\begin{figure}%
-		\includegraphics[width=0.5\linewidth]{Bilder/Teil-II-Kapitel-6-Bild-02.pdf}%
-		%\par\medskip
-		%\includegraphics[width=\linewidth]{Bilder/Teil-I-Kapitel-2-Bild-02a.pdf}%
-		%\caption{}%
-		%\label{}%
-	\end{figure}
-	%
+	\begin{alertblock}{Remember:}
+		For $q=0.5$, $x_{[q]} = x_{\text{Med}}$ is called the \emph{Median} with $x_{\text{Med}} = F^{-1}(0.5)$:
+		\begin{center}
+			\includegraphics[scale=0.7]{Bilder/Median.png}
+		\end{center}
+	\end{alertblock}
+
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Stochastic Models \& Selected Distributions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Preface}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Vorbemerkung zu den ausgewählten Verteilungen}
+	\frametitle<presentation>{Preliminary Remarks on Selected Distributions}
 	%
-	\begin{itemize}
-		\item Bis jetzt: Zufallsvariable als mathematisches (abstraktes) Konzept.
-		\item Jetzt: Anwenden des Konzepts zur quantitativen Beschreibung eines zufälligen Vorganges durch Angabe einer konkreten Verteilungsfunktion.
-	\end{itemize}
+    \alert{So far:} random variable as a mathematical (abstract) concept. \\
+    \par\smallskip
+    \alert{Now:} apply this concept to quantitatively describe a \textbf{random process} or \textbf{random experiment} by specifying a concrete distribution function.
 	%
 	\par\medskip
 	%
-	\begin{alertblock}{Hinweise}
-		\begin{itemize}
-			\item Zu manchen Verteilungen können \sog "`stochastische Modelle"' angegeben werden, die dieser Verteilung gehorchen (\zB Urnenmodelle). Erst durch die Wahl der Zahlenwerte der Parameter der Verteilung ist ein konkreter zufälliger Vorgang eindeutig spezifiziert.
-			\item Die Auswahl der hier angegebenen Verteilungsfunktionen erfolgt nach zwei Kriterien:
-			\begin{enumerate}
-				\item Grundlegende Verteilungen, die sozusagen "`zur statistischen Allgemeinbildung"' gehören (sollten) und für die meist einfache Modellvorstellungen existieren.
-				\item Relevanz für die schließende Statistik. Dort werden auch Ver\-tei\-lungs\-funktionen benötigt, für die kein stochastisches Modell existiert (\zB  Fisher-Verteilung).
-			\end{enumerate}
-		\end{itemize}
+	\begin{alertblock}{Notes}
+   		For some distributions, so-called \textbf{``stochastic models''} can be given that follow this distribution (e.g., urn models). A concrete random process is uniquely specified only after choosing numerical values for the \textbf{distribution parameters}.
+   		
+   		\par\medskip
+   		
+		The distribution functions presented here are selected according to \textbf{two criteria}:
+		\begin{enumerate}
+				\item \alert{Fundamental distributions} that should be part of basic statistical literacy and for which simple model interpretations usually exist.
+				\item \alert{Relevance for inferential statistics.} In that context, distribution functions are also required for which no stochastic model exists.
+		\end{enumerate}
 	\end{alertblock}
-	%
-	\par\medskip
-	%
-	Von allen betrachteten Verteilungsfunktionen wird ggf.~eine Modellvorstellung, die Massen- oder Dichtefunktion, ggf.~die Verteilungsfunktion, der Erwartungswert und die Varianz abhängig von den Parametern angegeben.
-	%
-	%
+	
+%	\par\medskip
+%	
+%	For each distribution function considered, the model interpretation, the mass or density function, the distribution function (if applicable), and the expected value and variance as functions of the parameters are provided.
+	
 \end{frame}
+
 %
-%
-\subsection{Diskrete Verteilungen}
+\subsection{Discrete Distributions}
 %
 %\subsubsection{Gleichförmige Verteilung}\label{ch:11.1}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Gleichförmige Verteilung}
-	\begin{alertblock}{Modellvorstellung}
-		Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Gl}}$ hat $m$ verschiedene Ausprägungen $x_1, x_2, \ldots, x_m$, die alle gleich wahrscheinlich sind (Laplace-Experiment). \\
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Uniform Distribution}
+	\begin{alertblock}{Model}
+		The discrete random variable $\ZVX_{\mathrm{ U}}$ has $m$ different realizations $x_1, x_2, \ldots, x_m$, all of which have the same probability (\alert{\emph{Laplace experiment}}). \\
 		\vspace{0.1cm}
-		Die Abstände zwischen den einzelnen Ausprägungen brauchen nicht gleich zu sein, oft ist es jedoch so. 
+		The distances between individual realizations do not need to be equal, although this is often the case.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Gleichförmige Verteilung}
-		Sind die Ausprägungen einer gleichförmig verteilten Zufallsvariablen die natürlichen Zahlen von $1$ bis $m$, so gilt:
+	\begin{alertblock}{Uniform Distribution}
+		If the realizations of a uniformly distributed random variable are the natural numbers from $1$ to $m$, then:
 		\begin{eqnarray*}
-			f_{\mathrm{ Gl}}(x;m) &=& 
+			f_{\mathrm{ U}}(x;m) &=& 
 			\begin{cases}
-				\dfrac{1}{m} &\quad \text{für } x = 1,2,\ldots,m \\
-				0            &\quad \text{sonst}
+				\dfrac{1}{m} &\quad \text{for } x = 1,2,\ldots,m \\
+				0            &\quad \text{otherwise}
 			\end{cases} \label{eq:11-1} \\
 			%
-			\E(\ZVX_{\mathrm{ Gl}}) &=& \dfrac{m +1}{2}  \label{eq:11-2} \\
-			\Var(\ZVX_{\mathrm{ Gl}}) &=& \dfrac{m^2-1}{12} \label{eq:11-3}
+			\E(\ZVX_{\mathrm{ U}}) &=& \dfrac{m +1}{2}  \label{eq:11-2} \\
+			\Var(\ZVX_{\mathrm{ U}}) &=& \dfrac{m^2-1}{12} \label{eq:11-3}
 		\end{eqnarray*}
 	\end{alertblock}
 	%
+	\begin{alertblock}{Example}
+		For $m=6$, we can consider the classical \emph{\alert{Laplace experiment}} \glqq rolling a die\grqq\,for the random variable $\ZVX_{\mathrm{ U}}$: \glqq number of pips\grqq\,with the following probability mass function $f(x)$ and distribution function $F(x)$ [Schira, Statistische Methoden der VWL und BWL, 2021]:
+		\begin{center}
+			\includegraphics[scale=0.55]{Bilder/UniformDistrib.png}
+		\end{center}
+	\end{alertblock}
 \end{frame}
+
 %
 %\subsubsection{Bernoulli-Verteilung}\label{ch:11.2}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Bernoulli-Verteilung}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Bernoulli Distribution}
 	%
-	\begin{alertblock}{Modellvorstellung} 
-		Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Be}}$ hat die beiden Ausprägungen $0$ und $1$. Das Zufallsexperiment kennt nur die Ereignisse $A$ ("`Erfolg"', das interessierende Ereignis tritt ein) und $\overline{A}$ ("`Misserfolg"', das interessierende Ereignis tritt nicht ein). Die Wahrscheinlichkeit von $A$ ist $P(A) = p$.
+	\begin{alertblock}{Model} 
+		The discrete random variable $\ZVX_{\mathrm{ Be}}$ has the two realizations $0$ and $1$. The random experiment has only the events $A$ (``success'', the event of interest occurs) and $\overline{A}$ (``failure'', the event of interest does not occur). The probability of $A$ is $P(A) = p$.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Bernoulli-Verteilung} 
+	\begin{alertblock}{Bernoulli Distribution} 
 		\begin{align*}
 			f_{\mathrm{ Be}}(x;p) &= 
 			\begin{cases}
-				1-p &\quad \text{für } x = 0 \\
-				p &\quad \text{für } x = 1 \\
-				0            &\quad \text{sonst}
+				1-p &\quad \text{for } x = 0 \\
+				p &\quad \text{for } x = 1 \\
+				0            &\quad \text{otherwise}
 			\end{cases}  \\
 			\E(\ZVX_{\mathrm{ Be}}) &= p  \\
 			\Var(\ZVX_{\mathrm{ Be}}) &= p\cdot(1-p) 
 		\end{align*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Hinweis} 
-		Die Bernoulli-Verteilung kann als \sog Indikatorfunktion der Menge $A \subset E$ aufgefasst werden. Ihr Erwartungswert ist gleich der Wahrscheinlichkeit des Ereignisses $A$.
+	\begin{alertblock}{Note} 
+		The Bernoulli distribution can be interpreted as the so-called indicator function of the set $A \subset E$. Its expected value equals the probability of the event $A$.
 	\end{alertblock}
-	%
+	
+	\begin{alertblock}{Example}
+		\begin{enumerate}
+			\item To be able to leave the starting area in \emph{Ludo}, one must roll at least one six in three attempts (``success'').
+			
+			The probability of success is $p = \frac{91}{216} \approx 0.4213$. Thus, the expected value is $0.4213$, and the variance is $pq = 0.4213 \cdot 0.5787 = 0.2438$.
+			\item For a Bernoulli distrtibuted random variable $\ZVX_{\mathrm{ Be}}$ with $p=\frac 13$, we obtain the following probability mass function $f(x)$ and distribution function $F(x)$ [Schira, Statistische Methoden der VWL und BWL, 2021]:
+			\begin{center}
+				\includegraphics[scale=0.45]{Bilder/BernoulliDistrib.png}
+			\end{center}
+		\end{enumerate}
+	\end{alertblock}
 \end{frame}
-%
+
 %\subsubsection{Binomial-Verteilung}\label{ch:11.3}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Binomial-Verteilung}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Binomial Distribution}
 	%
-	\begin{alertblock}{Modellvorstellung} 
-		Urnenmodell \alert{mit} Zurücklegen: $N$ Kugeln, davon $0 \leq S\leq N$ schwarz. Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Bi}}$ gibt die Anzahl der schwarzen Kugeln an, die bei $n$-maligen Ziehen mit Zurücklegen der Kugel gezogen werden. Bei jedem Ziehen ist die Wahrscheinlichkeit für eine schwarze Kugel demzufolge stets gleich und beträgt $p=\frac{S}{N}$.
+	\begin{alertblock}{Model} 
+		Urn model \alert{with} replacement: $N$ balls, of which $0 \leq S\leq N$ are black. The discrete random variable $\ZVX_{\mathrm{ Bi}}$ gives the number of black balls drawn in $n$ draws with replacement. Therefore, in every draw the probability of drawing a black ball is constant and equals $p=\frac{S}{N}$.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Binomial-Verteilung} 
-		Mit dem Binomialkoeffizienten $\binom{n}{x} = \frac{n!}{x! \cdot (n-x)!}$ gilt
+	\begin{alertblock}{Binomial Distribution} 
+		With the binomial coefficient $\binom{n}{x} = \frac{n!}{x! \cdot (n-x)!}$, we have
 		\begin{align*}
 			f_{\mathrm{ Bi}}(x;p,n) &= 
 			\binom{n}{x} \cdot p^x \cdot (1-p)^{n-x} , \quad x=0,1,\ldots,n \\
@@ -1709,20 +1875,35 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{align*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Anmerkung} 
-		Man kann eine binomial-verteilte Zufallsvariable auch als Summe von  $n$ unabhängigen Bernoulli-verteilten Zufallsvariablen $\ZVX_{\mathrm{ Be},1}, \dots \ZVX_{\mathrm{ Be},n}$ auffassen, \dh $\ZVX_{\mathrm{ Bi}} = \sum_{i=1}^n \ZVX_{\mathrm{ Be},i}$
+	\begin{alertblock}{Remark} 
+		A binomially distributed random variable can also be interpreted as the sum of $n$ independent Bernoulli-distributed random variables $\ZVX_{\mathrm{ Be},1}, \dots, \ZVX_{\mathrm{ Be},n}$, i.e., $\ZVX_{\mathrm{ Bi}} = \sum_{i=1}^n \ZVX_{\mathrm{ Be},i}$.
 	\end{alertblock}
 	%
+	\begin{alertblock}{Example (continued)}
+		To be able to leave the starting area in \emph{Ludo}, one must roll at least one six in three attempts (``success'').
+		\par\bigskip
+		We have already stated that the probability of success is $p = \frac{91}{216} \approx 0.4213$. 
+		We want to verify this. 
+		\par\bigskip
+		To do so, we add the probabilities of the three disjoint events
+		$$P(\ZVX_{\mathrm{ Bi}} = 1) + P(\ZVX_{\mathrm{ Bi}} = 2) + P(\ZVX_{\mathrm{ Bi}} = 3)$$
+		with $p = \frac{1}{6}$. Rolling at least one six means rolling either one, two, or three sixes. 
+		\par\bigskip
+		We compute:
+		$$\binom{3}{1}\frac 16\left(\frac 56\right)^2 +
+		\binom{3}{2}\left(\frac 16\right)^2\frac 56 +
+		\binom{3}{3}\left(\frac 16\right)^3 = 
+		(3\cdot 25+3\cdot 5+1)\frac{1}{216} = \frac{91}{216}.$$
+	\end{alertblock}
 \end{frame}
-%%
-%\subsubsection{Poissonverteilung}\label{ch:11.1}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Poissonverteilung}
-	\begin{alertblock}{Modellvorstellung}
-		Grenzfall der diskreten Binomialverteilung für "`sehr viele"' Versuche ($n \to \infty$) bei gleichzeitig "`sehr kleiner"' Erfolgswahrscheinlichkeit ($p \to 0$), wobei $\lambda = n\cdot p = \text{const.} \in \MRn^{+}$
+
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Poisson Distribution}
+	\begin{alertblock}{Model}
+		Limit case of the discrete binomial distribution for a ``huge namber'' of trials ($n \to \infty$) together with a ``very small'' success probability ($p \to 0$), while $\lambda = n\cdot p = \text{const.} \in \MRn^{+}$.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Poissonverteilung}
+	\begin{alertblock}{Poisson Distribution}
 		\begin{eqnarray*}
 			f_{\mathrm{ Po}}(x;\lambda) &=& \dfrac{\lambda^x}{x!}\cdot \operatorname{e}^{-\lambda}, \quad x=0,1,\ldots,n  \label{eq:11-12} \\
 			\E(\ZVX_{\mathrm{ Po}}) &=& \lambda \label{eq:11-13a} \\
@@ -1730,22 +1911,73 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{eqnarray*}
 		%
 	\end{alertblock}
-	\begin{alertblock}{Anmerkung} 
-		Die Poissonverteilung ist für die Bedingungen $n$ "`groß"', $p$ "`klein"' mit $0 < \lambda = n \cdot p < \infty$ eine gute Näherung der exakten Binomialverteilung, und zwar um so mehr, je größer $n$ und je kleiner $p$ werden. Beispiele: Anzahl der Druckfehler je Seite, der Blitzeinschläge je Hektar und Jahr, der radioaktiven Zerfälle einer Substanz in einem gegebenen Zeitintervall (welches kleiner als die Halbwertzeit sein muss).
+	\begin{alertblock}{Remark} 
+		\begin{itemize}
+			\item Under the conditions $n$ ``large'' and $p$ ``small'' with $0 < \lambda = n \cdot p < \infty$, the Poisson distribution is a good approximation of the exact binomial distribution.
+			\item This approximation improves with increasing $n$ increases and decreasing $p$.
+		\end{itemize}
 	\end{alertblock}
 	%
+	\begin{alertblock}{Example}
+		\begin{itemize}
+			\item Number of typos per page, or lightning strikes per hectare per year, \ldots
+			
+			\item For a Poisson distrtibuted random variable $\ZVX_{\mathrm{ Po}}$ with $\lambda = 4$, we obtain the following probability mass function $f(x)$ [Schira, Statistische Methoden der VWL und BWL, 2021]:
+			\begin{center}
+				\includegraphics[scale=0.55]{Bilder/PoissonDistrib.png}
+			\end{center}
+		\end{itemize}
+	\end{alertblock}
 	
+	\begin{alertblock}{Example}
+	    \textbf{Problem:} \\
+				A player repeatedly bets on the number 17 in roulette. \\
+				What is the probability that he wins exactly 8 times in 200 games?
+				
+				\vspace{0.2cm}
+				
+				\textbf{Modeling:}
+				\begin{itemize}
+					\item Probability of success in one game: $p = \frac{1}{37}$
+					\item Number of trials: $n = 200$
+					\item Expected value: $\lambda = np = \frac{200}{37} \approx 5.4054$
+				\end{itemize}
+				
+				\vspace{0.2cm}
+				
+				\textbf{Poisson Approximation:}
+				\[
+				P(\ZVX_{\mathrm{ Po}} = 8) = f_{\mathrm{ Po}}(8;5.4054) = \frac{\lambda^8}{8!} e^{-\lambda}
+				= \frac{5.4054^8}{8!} e^{-5.4054}
+				\approx 0.0812
+				\]
+				
+				\vspace{0.2cm}
+				
+				\textbf{Comparison (Binomial):}
+				\[
+				P(\ZVX_{\mathrm{ Bi}} = 8) = f_{\mathrm{ Bi}}\left(8;\frac{1}{37};200\right)=\binom{200}{8}
+				\left(\frac{1}{37}\right)^8
+				\left(\frac{36}{37}\right)^{192}
+				\approx 0.0814
+				\]
+				
+				\vspace{0.2cm}
+				
+				\textbf{Conclusion:} \\
+				The Poisson approximation is very accurate for large $n$ and small $p$.
+	\end{alertblock}
 \end{frame}
-%
+
 %\subsubsection{Geometrische Verteilung}\label{ch:11.6}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Geometrische Verteilung}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Geometric Distribution}
 	%
-	\begin{alertblock}{Modellvorstellung} 
-		Ein Bernoulli-Experiment mit Erfolgswahrscheinlichkeit $p$ wird so oft unabhängig voneinander ausgeführt, bis zum ersten Mal Erfolg eintritt. Die diskrete Zufallsvariable $\ZVX \in \MNn_0$ gibt die Anzahl der \alert{vorausgegangenen Misserfolge} an.
+	\begin{alertblock}{Model} 
+		A Bernoulli experiment with success probability $p$ is repeated independently until the first success occurs. The discrete random variable $\ZVX_{\mathrm{ Geo}} \in \MNn_0$ gives the number of \alert{preceding failures}.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Geometrische Verteilung}
+	\begin{alertblock}{Geometric Distribution}
 		\begin{align*}
 			f_{\mathrm{ Geo}}(x;p) &= \left( 1-p \right)^x \cdot p, \quad x = 0,1,2,\dots  \\
 			F_{\mathrm{ Geo}}(x;p) &= 1-\left(1-p\right)^{x+1} \\
@@ -1754,48 +1986,62 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{align*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Hinweis} 
-		In der Literatur gibt es auch die Modellvorstellung, nach der die geometrisch verteilte Zufallsvariable $\ZVY_{\mathrm{ Geo}}$  die Anzahl der Versuche bis \alert{zum ersten Erfolg} angibt, \dh $\ZVY_{\mathrm{ Geo}} \in \MNn$. Trivialerweise gilt $\ZVY_{\mathrm{ Geo}} = \ZVX_{\mathrm{ Geo}} + 1$.
+	\begin{alertblock}{Note} 
+		In the literature, an alternative model is also used in which the geometrically distributed random variable $\ZVY_{\mathrm{ Geo}}$ gives the number of trials \alert{up to the first success}, i.e., $\ZVY_{\mathrm{ Geo}} \in \MNn$. Trivially, $\ZVY_{\mathrm{ Geo}} = \ZVX_{\mathrm{ Geo}} + 1$.
+	\end{alertblock}
+	
+	\begin{alertblock}{Example}
+		For Geometric distrtibuted random variables $\ZVX_{\mathrm{ Geo}}$ with $p = 0.2$ and $p = 0.3$, we obtain the following probability mass functions $f(x)$ [Schira, Statistische Methoden der VWL und BWL, 2021]:
+		\begin{center}
+			\includegraphics[scale=0.7]{Bilder/GeometricDistrib.png}
+		\end{center}
+	\end{alertblock}
+	
+	\begin{alertblock}{Example}
+		\begin{itemize}
+			\item In Tunis, hailing a taxi is not guaranteed; waiting time is acceptable due to many taxis.
+			\item Probability that a taxi arrives within the next minute: $p = 0.2$.
+			\item Let $\ZVX_{\mathrm{ Geo}}$ be the number of unsuccessful minutes waited (number of failures before the first success).
+		\end{itemize}
+	    \begin{center}
+	    	\includegraphics[scale=0.7]{Bilder/GeometricDistrib_Ex.png}
+	    \end{center}
+		
+		\vspace{0.2cm}
+		
+		The probability of having to wait no longer than three minutes is
+		\[
+		F_{\text{Geo}}(2;0.2) = 0.488.
+		\]
+		
+		The probability of having to wait at least five minutes is
+		\[
+		P(\ZVX_{\mathrm{ Geo}} > 5) = 1 - F_{\text{Geo}}(5;0.2) = 0.2622.
+		\]
+		
+		The random variable has expected value
+		$\E(\ZVX_{\mathrm{ Geo}}) = \frac{q}{p} = \frac{0.8}{0.2} = 4$,
+		which means that, on average, one has to wait four full minutes without success.
+		
+%		The standard deviation is
+%		\[
+%		\sigma = \sqrt{\frac{q}{p^2}} = \sqrt{\frac{0.8}{0.2^2}} = \sqrt{20} \approx 4.472.
+%		\]
 	\end{alertblock}
 \end{frame}
+
 %
-%\subsubsection{Hypergeometrische Verteilung}\label{ch:11.4}
-\begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Hypergeometrische Verteilung}
-	%
-	\begin{alertblock}{Modellvorstellung} 
-		Urnenmodell \alert{ohne} Zurücklegen: $N$ Kugeln, davon $0 \leq S \leq N$ schwarz. Die diskrete Zufallsvariable $\ZVX_{\mathrm{ Hy}}$ gibt die Anzahl der schwarzen Kugeln an, die bei $n$-maligen Ziehen ohne Zurücklegen der Kugel gezogen werden. Nur beim ersten Ziehen ist die Wahrscheinlichkeit für eine schwarze Kugel $p=\frac{S}{N}$.
-	\end{alertblock}
-	%
-	\begin{alertblock}{Hypergeometrische Verteilung}
-		\vspace{-0.2cm}
-		\begin{align*}
-			f_{\mathrm{ Hy}}(x;N,S,n) &= \frac{ \binom{S}{x} \cdot {\binom{N-S}{n-x} }}{\binom{N}{n}}, \quad x=0,1,\ldots,n,\;S<N,\;n\leq N  \\
-			f_{\mathrm{ Hy}}(x;N,p,n) &= \frac{{ \binom{p\cdot N}{x}} \cdot {\binom{N-p \cdot N}{n-x} }}{ \binom{N}{n}}, \quad x=0,1,\ldots,n,\; n\leq N  \\
-			\E(\ZVX_{\mathrm{ Hy}}) &= n \cdot p = n \cdot \frac{S}{N}  \\
-			\Var(\ZVX_{\mathrm{ Hy}}) &= n \cdot p\cdot(1-p) \cdot \frac{N-n}{N-1} = n \cdot \frac{S}{N}\cdot \left(1- \frac{S}{N} \right) \cdot \frac{N-n}{N-1} \\
-			&= \Var\left(\ZVX_{\mathrm{ Bi}}\right) \cdot \frac{N-n}{N-1} \\
-			&=  \Var\left(\ZVX_{\mathrm{ Bi}}\right) \cdot Kf \;\,\text{mit \emph{Korrekturfaktor }} Kf:=\frac{N-n}{N-1} \leq 1
-		\end{align*}
-	\end{alertblock}
-	%
-	%\begin{alertblock}{Anmerkung} 
-	%Es gilt $\Var\left(\ZVX_{\mathrm{ Hy}}\right) = \Var\left(\ZVX_{\mathrm{ Bi}}\right) \cdot \frac{N-n}{N-1}$
-	%\end{alertblock}
-	%
-\end{frame}
-%
-\subsection{Stetige Verteilungen}
+\subsection{Continuous Distributions}
 %\subsubsection{Exponentialverteilung}
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Exponentialverteilung}
-	\begin{alertblock}{Modellvorstellung}
-		Stetige Version der geometrischen Verteilung. Die Kurve der streng monoton fallenden Exponentialfunktion $e^{-x}$
-		schließt im ersten Quadranten mit $x$- und $y$-Achse eine Fläche mit Flächeninhalt $1\,\text{FE}$ ein und eignet sich 
-		daher als \emph{Dichtefunktion}. 
+	\frametitle<presentation>{Exponential Distribution}
+	\begin{alertblock}{Model}
+		Continuous version of the \emph{Geometric distribution}. The curve of the strictly monotonically decreasing exponential function $e^{-x}$
+		encloses, together with the $x$- and $y$-axes in the first quadrant, an area of size $1\,\text{area unit}$ and is therefore suitable 
+		as a \emph{density function}. 
 	\end{alertblock}
 	%
-	\begin{alertblock}{Exponentialverteilung}
+	\begin{alertblock}{Exponential Distribution}
 		\begin{eqnarray*}
 			f_{\mathrm{ Ex}}(x; \lambda) &=& \lambda \cdot \operatorname{e}^{-\lambda x}; \quad x \geq 0; \; \lambda > 0 \label{eq:11-18} \\
 			F_{\mathrm{ Ex}}(x) &=& 1 - \operatorname{e}^{-\lambda x} \\
@@ -1804,31 +2050,31 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		\end{eqnarray*}
 	\end{alertblock}
 	%
-	\begin{alertblock}{Hinweis} 
-		Die Exponentialverteilung ist eine \emph{Verteilung ohne Gedächtnis}: Sei $w$ eine schon verstrichene Wartezeit, so gilt:
+	\begin{alertblock}{Note} 
+		The exponential distribution is a \emph{memoryless distribution}: let $w$ be an already elapsed waiting time, then:
 		$$f_{\mathrm{ Ex}\mid w}(w+x\mid X>w; \lambda) = f_{\mathrm{ Ex}}(x; \lambda)$$
 	\end{alertblock}
 \end{frame}
 %
 %\subsubsection{Rechteckverteilung}
 \begin{frame}%[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Rechteckverteilung}
-	\begin{alertblock}{Modellvorstellung}
-		Eine stetige Zufallsvariable $\ZVX_{\mathrm{ R}}$, deren Ausprägungen aus einem Intervall $[a,b]$ stammen, hat die Eigenschaft, dass die Wahrscheinlichkeit, mit der das Ergebnis im Intervall $\Delta x \in [a,b]$ liegt, proportional der Länge dieses Intervalles ist, und zwar unabhängig von der Lage des Intervalles innerhalb $[a,b]$. Dies ist die stetige Version der gleichförmigen Verteilung.
+	\frametitle<presentation>{Rectangular Distribution}
+	\begin{alertblock}{Model}
+		A continuous random variable $\ZVX_{\mathrm{ R}}$ whose realizations come from an interval $[a,b]$. $\ZVX_{\mathrm{ R}}$ has the property that the probability of obtaining a result in an interval $\Delta x \subseteq [a,b]$ is proportional to the length of this interval, independent of the interval's position within $[a,b]$. This is the continuous version of the \emph{Uniform distribution}.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Rechteckverteilung}
+	\begin{alertblock}{Rectangular Distribution}
 		\begin{eqnarray*}
 			f_{\mathrm{ R}}(x) &=& 
 			\begin{cases} 
-				\dfrac{1}{b-a} & \quad \text{für } a \leq x \leq b \\
-				0              & \quad \text{sonst}
+				\dfrac{1}{b-a} & \quad \text{for } a \leq x \leq b \\
+				0              & \quad \text{otherwise}
 			\end{cases}\label{eq:11-16} \\
 			F_{\mathrm{ R}}(x) &=& 
 			\begin{cases} 
-				0 & \quad \text{für } -\infty \leq x <a \\
-				\dfrac{x-a}{b-a} & \quad \text{für } a \leq x \leq b \\
-				1              & \quad \text{für } b < x \leq +\infty
+				0 & \quad \text{for } -\infty \leq x <a \\
+				\dfrac{x-a}{b-a} & \quad \text{for } a \leq x \leq b \\
+				1              & \quad \text{for } b < x \leq +\infty
 			\end{cases} \\
 			\E(\ZVX_{\mathrm{ R}}) &=& \dfrac{a+b}{2} \label{eq:11-17a} \\
 			\Var(\ZVX_{\mathrm{ R}}) &=& \dfrac{(b-a)^2}{12} \label{eq:11-17b}
@@ -1840,80 +2086,82 @@ For the classical urn model, the numbers of possible arrangements can be determi
 %\subsubsection{Standardnormalverteilung}
 %
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Standardnormalverteilung}
-	\begin{alertblock}{Modellvorstellung}
-		Grenzfall der \alert{standardisierten} Binomialverteilung für $n \to \infty$. 
+	\frametitle<presentation>{Standard Normal Distribution}
+	\begin{alertblock}{Model}
+		Limit case of the \alert{standardized} \emph{Binomial Distribution} for $n \to \infty$. 
 	\end{alertblock}
 	%
-	\begin{alertblock}{Standardnormalverteilung}
-		Eine stetige Zufallsvariable $\ZVZ$ mit der Dichtefunktion
+	\par\smallskip
+	
+	\begin{alertblock}{Standard Normal Distribution}
+		A continuous random variable $\ZVZ$ with density function
 		\begin{equation*}
 			f_{\mathrm{ St}}(z) = \dfrac{1}{\sqrt{2\cdot \pi}}\operatorname{e}^{-\frac{1}{2}z^2} \label{eq:11-20}
 		\end{equation*}
-		heißt \textbf{standardnormalverteilt}.
+		is called \textbf{standard normally distributed}.
 	\end{alertblock}
 	%
-	\begin{alertblock}{Eigenschaften}
+	\par\smallskip
+	
+	\begin{alertblock}{Properties}
 		\begin{enumerate}
-			\item Maximum bei $z = 0$
-			\item Symmetrie bzgl.~$z = 0$
-			\item Wendepunkte bei $z = \pm 1$
-			\item Für $|z| < \infty$ gilt stets $f_{\mathrm{ St}}(z) > 0$ ($f_{\mathrm{ St}}(z)$ hat also keine Nullstellen)
-			\item Im Grenzübergang gilt: $\lim_{z \to \pm \infty}f_{\mathrm{ St}}(z) = 0$ 
+			\item Maximum at $z = 0$
+			\item Symmetry with respect to the axis $z \equiv 0$
+			\item Inflection points at $z = \pm 1$
+			\item We always have $f_{\mathrm{ St}}(z) > 0$ (i.e., $f_{\mathrm{ St}}(z)$ has no zeros)
+			\item In the limit: $\lim\limits_{z \to \pm \infty}f_{\mathrm{ St}}(z) = 0$ 
 		\end{enumerate}
 	\end{alertblock}
 	\framebreak
 	\begin{alertblock}{}
 		\begin{enumerate}
 			\setcounter{enumi}{4}
-			\item Die Verteilungsfunktion
+			\item The distribution function
 			\begin{equation*}
-				F_{\mathrm{ St}}(z) = \frac{1}{\sqrt{2\cdot \pi}}\int\limits_{-\infty}^{z}\operatorname{e}^{-\frac{1}{2}u^2} \operatorname{d}u 
+				F_{\mathrm{ St}}(z) = \frac{1}{\sqrt{2\cdot \pi}}\int\limits_{-\infty}^{z}\operatorname{e}^{-\frac{1}{2}u^2} \,du 
 			\end{equation*}
-			ist analytisch \textbf{nicht geschlossen lösbar}. Ihre Werte sind tabelliert \bzw können über Funktionsaufrufe ermittelt werden.
-			\item Flächen:
+			is \textbf{not available in closed form analytically}. Its values are tabulated and can also be computed via function calls.
+			\item Areas:
 			%\setcounter{equation}{21}
 			\begin{eqnarray*}
-				P(\ZVZ \leq z)      &=& \int_{-\infty}^{z} f_{\mathrm{ St}}(u) \operatorname{d}u  = F_{\mathrm{ St}}(z)                 \nonumber \\
-				P(a < \ZVZ \leq b)  &=& \int_{a}^{b} f_{\mathrm{ St}}(z) \operatorname{d}z  = F_{\mathrm{ St}}(b) - F_{\mathrm{ St}}(a) \nonumber \\
-				P(-a < \ZVZ \leq a) &=& \int_{-a}^{a} f_{\mathrm{ St}}(z) \operatorname{d}z  = 2 \cdot F_{\mathrm{ St}}(a) - 1 =: D(a) \label{eq:11-22} \\
+				P(\ZVZ \leq z)      &=& \int_{-\infty}^{z} f_{\mathrm{ St}}(u) \,du  = F_{\mathrm{ St}}(z)                 \nonumber \\
+				P(a < \ZVZ \leq b)  &=& \int_{a}^{b} f_{\mathrm{ St}}(z) \,dz  = F_{\mathrm{ St}}(b) - F_{\mathrm{ St}}(a) \nonumber \\
+				P(-a < \ZVZ \leq a) &=& \int_{-a}^{a} f_{\mathrm{ St}}(z) \,dz  = 2 \cdot F_{\mathrm{ St}}(a) - 1 =: D(a) \label{eq:11-22} \\
 			\end{eqnarray*}
-			\item Erwartungswert: $\E(\ZVZ) = 0$
-			\item Varianz: $\Var(\ZVZ) = 1$
+			\item Expected value: $\E(\ZVZ) = 0$
+			\item Variance: $\Var(\ZVZ) = 1$
 		\end{enumerate}
 	\end{alertblock}
-	%
-	%
-	%
 \end{frame}
-%
+
+
 %\subsubsection{Normalverteilung}
 %
 \begin{frame}[allowframebreaks,allowdisplaybreaks]
-	\frametitle<presentation>{Normalverteilung}
+	\frametitle<presentation>{Normal Distribution}
 	%
-	\begin{alertblock}{Modellvorstellung}
-		Entsteht durch lineare Transformation $\ZVX_{\mathrm{ N}} = \mu + \sigma \cdot \ZVZ$ ("`entstandardisieren"') aus der standardnormalverteilten Zufallsvariablen $\ZVZ$
+	\begin{alertblock}{Model}
+		Obtained from the standard normally distributed random variable $\ZVZ$ by the linear transformation $\ZVX_{\mathrm{ N}} = \mu + \sigma \cdot \ZVZ$ ("de-standardization").
 	\end{alertblock}
 	%
-	\begin{alertblock}{Normalverteilung}
-		Eine stetige Zufallsvariable $\ZVX_{\mathrm{ N}}$ mit der Dichtefunktion
+	\begin{alertblock}{Normal Distribution}
+		A continuous random variable $\ZVX_{\mathrm{ N}}$ with density function
 		\begin{equation*}
 			f_{\mathrm{ N}}(x) = \dfrac{1}{\sigma} f_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right) = \frac{1}{\sigma \cdot \sqrt{2\cdot \pi}}\mye^{-\frac{1}{2}\left( \frac{x-\mu}{\sigma} \right)^2} \label{eq:11-24} 
 		\end{equation*}
-		heißt \textbf{normalverteilt}.
+		is called \textbf{normally distributed}.
 	\end{alertblock}
 	%%
-	\begin{alertblock}{Eigenschaften}
+	\begin{alertblock}{Properties}
 		\begin{enumerate}
-			\item Erwartungswert und Varianz:
+			\item Expected value and variance:
 			\begin{eqnarray*}
 				\E(\ZVX_{\mathrm{ N}})  &=& \mu \\
 				\Var(\ZVX_{\mathrm{ N}}) &=& \sigma^2 
 			\end{eqnarray*}
-			\item Maximum bei $x = \mu$
-			\item Symmetrie bzgl.~$x = \mu$
-			\item Wendepunkte bei $x = \mu \pm \sigma$
+			\item Maximum at $x = \mu$
+			\item Symmetry w.r.t.~$x \equiv \mu$
+			\item Inflection points at $x = \mu \pm \sigma$
 		\end{enumerate}
 	\end{alertblock}
 	
@@ -1921,23 +2169,25 @@ For the classical urn model, the numbers of possible arrangements can be determi
 	\begin{alertblock}{}
 		\begin{enumerate}
 			\setcounter{enumi}{4}
-			\item Verläuft umso flacher, je größer $\sigma$ ist:
+			\item Becomes flatter as $\sigma$ increases:
 			\begin{equation*}
 				\label{eq:11-25}
 				f_{\mathrm{ N}}(x) = \dfrac{1}{\sigma} f_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right)
 			\end{equation*}
-			\item Die Verteilungsfunktion
+			\item The distribution function
 			\begin{equation*}
 				F_{\mathrm{ N}}(x) = \frac{1}{\sigma \cdot \sqrt{2\cdot \pi}}\int\limits_{-\infty}^{x}\mye^{-\frac{1}{2}\left( \frac{u-\mu}{\sigma} \right)^2} \operatorname{d}u = F_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right)
 			\end{equation*}
-			wird auf die Standardnormalverteilung $F_{\mathrm{ St}}(z)$ zurückgeführt.
-			\item Flächen:
+			can be reduced to the standard normal distribution $F_{\mathrm{ St}}(z)$.
+			\item Areas:
 			%\setcounter{equation}{21}
+			\begingroup\small
 			\begin{eqnarray*}
 				P(\ZVX_{\mathrm{ N}} \leq x)      &=& F_{\mathrm{ St}}\left(z_x = \dfrac{x-\mu}{\sigma} \right)                 \nonumber \\
 				P(a < \ZVX_{\mathrm{ N}} \leq b)  &=& F_{\mathrm{ St}}\left(z_b = \dfrac{b-\mu}{\sigma} \right) - F_{\mathrm{ St}}\left(z_a = \dfrac{a-\mu}{\sigma} \right) \nonumber \\
-				P(-a < \ZVX_{\mathrm{ N}} \leq a) &=& 2 \cdot F_{\mathrm{ St}}\left(z_a = \dfrac{a-\mu}{\sigma} \right) - 1 = D\left(z_a = \dfrac{a-\mu}{\sigma} \right) \label{eq:11-22} \\
+				P(-a < \ZVX_{\mathrm{ N}} \leq a) &=& 2 \cdot F_{\mathrm{ St}}\left(z_a = \dfrac{a-\mu}{\sigma} \right) - 1 \\
 			\end{eqnarray*}
+			\endgroup
 		\end{enumerate}
 	\end{alertblock}
 	%
@@ -1945,7 +2195,6 @@ For the classical urn model, the numbers of possible arrangements can be determi
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 
 
