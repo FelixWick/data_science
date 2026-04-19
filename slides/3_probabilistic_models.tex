@@ -1499,12 +1499,12 @@ For the classical urn model, the numbers of possible arrangements can be determi
 		Let the \alert{continuous} random variable $\ZVX$ have the following \alert{density function}:
 		$$f(x)=
 		\begin{cases}
-			\dfrac{3}{4}, & \text{for } 0 \le x \le 1,\\[4pt]
+			\dfrac{1}{4}x, & \text{for } 1 \le x \le 3,\\[4pt]
 			0, & \text{otherwise.}
 		\end{cases}$$
 		Then the expected value is:
 		\begin{align*}
-			\mu = \E(\ZVX) & =\int_{0}^{1} x\cdot f(x)\,dx
+			\mu = \E(\ZVX) & =\int_{-\infty}^{\infty} x\cdot f(x)\,dx
 			= \int_{-\infty}^1 0\,dx + \int_1^3 x\cdot \frac 14 x\,dx + \int_3^\infty 0\,dx \\
 			& = \int_1^3 \frac 14 x^2\,dx = \left[\frac{1}{12}x^3\right]_1^3 = \frac{27}{12}-\frac{1}{12} = \frac{26}{12} = 2.1667.
 		\end{align*}
