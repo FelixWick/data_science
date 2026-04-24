@@ -1,0 +1,711 @@
+ \documentclass[xcolor=dvipsnames,t,8pt,fleqn]{beamer}
+%\documentclass[aspectratio=1610,8pt]{beamer}
+
+%Empfehlungen aus der ct 9/2007
+%\usepackage{beamerthemesplit}
+%\usepackage[T1]{fontenc}
+%\usepackage{beamer}
+
+\usepackage{mathptmx}
+\usepackage{helvet}
+\usepackage{eurosym}
+
+% Layout-Vorschläge - auswählen!
+% Siehe hierzu das Handbuch beameruserguide.pdf
+% 1. Presentation Theme
+\usetheme{Goettingen}
+% 2. Color Theme
+\usecolortheme{sidebartab}
+%\usecolortheme{dove}
+%\usecolortheme{lily}  % Inner Color Theme
+% 3. Font Theme
+\usefonttheme{professionalfonts}
+% 4. Inner Theme
+\useinnertheme{circles}
+% 5. Outer Theme
+%\useoutertheme{sidebar}
+%
+%\usepackage{extsizes} % Da 8pt in der Präsentation
+
+\usepackage{graphicx}
+%amsthm wird für styles bei Satz- und Definitionsnumerierung benötigt
+%bbm wird für die Symbole für reelle bzw. nat. Zahlen benötigt
+\usepackage{fancyhdr, amssymb, amsmath, amsthm, bbm} 
+\usepackage[ngerman]{babel}
+%\usepackage{ifpdf}
+
+%Umlaute
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% evtl. für Code
+\usepackage{listings}
+% links to URLs
+\usepackage{hyperref}
+%
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{backgrounds}
+%\usetikzlibrary{intersections}
+%\usetikzlibrary{calc}
+%
+\usepackage{pgfplots}
+%
+\usepackage{venndiagram}
+%
+\pgfplotsset{compat=1.15}
+%
+%\usepackage{showframe}
+%
+\setbeamercovered{transparent}
+%bewirkt, dass schrittweise Einblendungen zuvor schon transparent angezeigt werden
+\setbeamertemplate{footline}[page number]
+
+\title[Data Science]{Data Science}
+%[Kurztitel] - erscheint auf allen Folien
+%{Titel} - erscheint auf der Titelseite (wird mit \titlepage dargestellt, s.u.)
+\subtitle{Chapter 7: Model Evaluation}
+%Untertitel - kommt auch auf die Titelseite
+\author{S.~Steidel \& F.~Wick}
+%Autor kommt auf den Titel und - je nach theme - auf die Übersichtsleiste
+\date{\today}
+%Datum kommt auf den Titel - hier das aktuelle Datum bei Erstellung der Folien
+
+%%%%%%%\DeclareMathOperator{\Arg}{Arg}
+%%%%%%%\DeclareMathOperator{\e}{e}
+%%%%%%%\DeclareMathOperator{\Inv}{Inv}
+%%%%%%%\DeclareMathOperator{\id}{id}
+%%%%%%%\DeclareMathOperator{\rot}{rot}
+%%%%%%%\DeclareMathOperator{\grad}{grad}
+%%%%%%%\DeclareMathOperator{\Div}{div}
+%%%%%%%\DeclareMathOperator{\Kern}{Kern}
+
+\usepackage{subfig}
+
+%\usepackage{amsmath}
+\usepackage[intlimits]{empheq}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+%\usepackage{latexsymb}
+\usepackage{pifont}
+%\usepackage[amsmath]{ntheorem}
+\usepackage{trsym}
+\usepackage{trfsigns}
+\usepackage{wasysym}
+%
+\usepackage[derivedinbase, derived, thinspace, thinqspace, squaren, binary]{SIunits} 
+\usepackage[intlimits]{empheq}
+%
+\input{Stochastik-Makros.tex}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+%
+%%%%%%%\newcommand{\R}{\mathbbm{R}}
+%%%%%%%\newcommand{\N}{\mathbbm{N}}
+%%%%%%%\newcommand{\Z}{\mathbbm{Z}}
+%%%%%%%\newcommand{\Q}{\mathbbm{Q}}
+%%%%%%%\newcommand{\C}{\mathbbm{C}}
+%%%%%%%\newcommand{\disp}{\displaystyle}
+%%%%%%%\newcommand{\bs}{\boldsymbol}
+%%%%%%%\let\oldhat\hat
+%%%%%%%\renewcommand{\vec}[1]{\boldsymbol{#1}}
+%%%%%%%\renewcommand{\hat}[1]{\oldhat{\boldsymbol{#1}}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label=Titelrahmen]
+	\titlepage
+\end{frame}
+%
+%%%\begin{frame}
+	%%%\frametitle{Standardsignale}
+%%%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}{7}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Hypothesis Testing / Parameter Testing}
+
+\subsection{Introduction}
+
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Introduction}
+	%
+	\begin{itemize}
+		\item[\ding{43}] So far: \alert{parameter} and \alert{interval estimation} for a parameter $\theta$ of a \alert{probabilistic model} or \alert{distribution} from an empirical sample
+		\item[\ding{45}] Now: Making a justified decision about the \emph{validity} or \emph{invalidity} of a \alert{hypothesis} about the parameters of a \alert{probabilistic model} or distribution based on available observations ($=$ sample(s)): \alert{parameter testing}
+	\end{itemize}
+	%
+	\par\smallskip
+	%
+	\begin{itemize}
+		\item Parameter tests are a subset of \alert{statistical tests}. Statistical testing means using the information gained (computed) from a sample to make a decision about a \alert{hypothesis}: \alert{hypothesis test} 
+		
+		\item A \alert{hypothesis} is an (unproven) assumption about:
+		\begin{itemize}
+			\item the distribution, or
+			\item specific parameters of a population.
+		\end{itemize}
+		
+		\item \alert{Hypotheses} may arise from:
+		\begin{itemize}
+			\item previous statistical observations,
+			\item theoretical considerations, or
+			\item informed conjectures.
+		\end{itemize}
+		
+		\item Hypothesis tests do \textit{not} decide or \textit{cannot} prove whether the hypothesis is \textit{false} or \textit{true}. As a result of the hypothesis test, the hypothesis is either \alert{retained} ("`accepted"') or \alert{rejected} ("`discarded"'). 
+		
+		\item Important: Control the probabilities of errors:
+		\begin{itemize}
+			\item Rejecting a true hypothesis,
+			\item Retaining a false hypothesis.
+		\end{itemize} 
+	\end{itemize}
+	%
+\end{frame}
+
+%\begin{frame}{Statistical Inference: Estimation and Hypothesis Testing}
+%	
+%	\begin{itemize}
+%		\item Estimation methods and hypothesis testing are key applications of sampling theory.
+%		
+%		\item In hypothesis testing, information obtained from a sample is used to make a decision about a hypothesis.
+%		
+%		\item A \textbf{hypothesis} is an assumption about:
+%		\begin{itemize}
+%			\item the distribution, or
+%			\item specific parameters of a population.
+%		\end{itemize}
+%		
+%		\item Hypotheses may arise from:
+%		\begin{itemize}
+%			\item previous statistical observations,
+%			\item theoretical considerations,
+%			\item the principle of insufficient reason, or
+%			\item informed conjectures.
+%		\end{itemize}
+%		
+%		\item Similar to estimation, hypothesis testing cannot provide certainty:
+%		\begin{itemize}
+%			\item A hypothesis cannot be proven true or false with absolute certainty.
+%			\item The outcome is to \textbf{retain} or \textbf{reject} the hypothesis.
+%		\end{itemize}
+%		
+%		\item Important: Control the probabilities of errors:
+%		\begin{itemize}
+%			\item Rejecting a true hypothesis,
+%			\item Retaining a false hypothesis.
+%		\end{itemize}
+%		
+%	\end{itemize}
+%	
+%\end{frame}
+
+
+\subsection{Basic principle}
+\subsubsection{Null and alternative hypothesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Null and alternative hypotheses}
+	%
+	The \alert{null hypothesis} or \alert{initial hypothesis} ${\mathrm{ H}}_0$ is an assumption about parameters $\theta$ of a distribution, shown here for a numerical value of a parameter, for example
+	%
+	\begin{equation*}
+		\label{eq:15-1}
+		{\mathrm{ H}}_0: \theta \leq \theta_0 \quad\text{oder}\quad {\mathrm{ H}}_0: \theta = \theta_0 \quad\text{oder}\quad {\mathrm{ H}}_0: \theta \geq \theta_0
+	\end{equation*}
+	%
+	The null hypothesis is regarded as correct until \emph{sufficient evidence} to the contrary has been provided.
+	\par\bigskip
+	%
+	The \alert{alternative hypothesis} ${\mathrm{ H}}_1$ is a complementary assumption to ${\mathrm{ H}}_0$: 
+	\begin{equation*}
+		{\mathrm{ H}}_1 = {\overline{\mathrm{ H}}}_0
+	\end{equation*}
+	%
+	\alert{Two-sided questions} test whether the parameter of interest $\theta$ does not have the value $\theta_0$. The hypotheses are
+	%
+	\begin{equation*}
+		\label{eq:15-1a}
+		{\mathrm{ H}}_0: \theta = \theta_0 \quad\text{against}\quad {\mathrm{ H}}_1: \theta \neq \theta_0 \quad\text{"`two-sided test"'}
+	\end{equation*}
+	%
+	\alert{One-sided questions} test whether the parameter of interest $\theta$ is smaller or larger than the value $\theta_0$, and the possible hypotheses are
+	\begin{eqnarray*}
+		\label{eq:15-1b}
+		{\mathrm{ H}}_0: \theta \leq \theta_0 &\quad\text{against}\quad& {\mathrm{ H}}_1: \theta > \theta_0 \quad\text{"`upper-tailed test"'}\\
+		\label{eq:15-1c}
+		{\mathrm{ H}}_0: \theta \geq \theta_0 &\quad\text{against}\quad& {\mathrm{ H}}_1: \theta < \theta_0 \quad\text{"`lower-tailed test"'}
+	\end{eqnarray*} 
+	%
+	\newpage
+	%
+	When formulating hypotheses, the following must be strictly observed:
+	\begin{itemize}
+		\item The \alert{null hypothesis} and all other logically possible statements must be mutually exclusive, i.e.\,the \alert{null hypothesis} must be formulated so that there is only one other statement: the \alert{alternative hypothesis}.
+		\item The \alert{null hypothesis} should \textbf{not} be the statement that is to be \textbf{confirmed} by the test procedure and the sample result, but rather the \textbf{logical opposite statement}. 
+		\par\medskip
+		\emph{Example: A political scientist might begin an empirical study with the null hypothesis that voter support for a chancellor candidate is the same among men and women.}
+		\par\medskip
+		This is due to the \alert{falsification principle}:
+		\begin{itemize}
+			\item \textbf{Refuting a statement generally yields more valuable information than confirming it}.
+			\item If a statement is confirmed by the sample result, this does not mean that it is correct, but only that the observed data are not sufficient to refute it.
+		\end{itemize}  
+		\par\smallskip
+		Therefore, instead of speaking of accepting the \alert{null hypothesis}, it is better to speak of "`retaining"' or even "`not rejecting"' it.
+	\end{itemize}
+\end{frame}
+%
+
+\subsubsection{Type 1 and type 2 errors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Type 1 and type 2 errors}
+	%
+	When testing hypotheses, two errors can occur:
+	\par\bigskip
+	\begin{center}
+		\begin{tabular}{r|c|c} %\firsthline
+			& ${\mathrm{ H}}_0$ \textbf{accept} & ${\mathrm{ H}}_0$ \textbf{reject} \\ \hline
+			${\mathrm{ H}}_0$ is \textbf{true} & correct decision               & \alert{type 1 error}         \\ \hline
+			${\mathrm{ H}}_0$ is \textbf{false}  & \alert{type 2 error}               & correct decision \\ \hline
+		\end{tabular}
+	\end{center}
+	\par\bigskip
+	\begin{enumerate}
+		\item \alert{type 1 error}: The null hypothesis is rejected even though ${\mathrm{ H}}_0$ is true. The probability of type 1 error is
+		\begin{equation*}
+			\nonumber
+			P\left( {\mathrm{ H}}_0\text{ reject} \mid {\mathrm{ H}}_0\text{ is true} \right) = \alpha 
+		\end{equation*}
+		\item \alert{type 2 error}: The null hypothesis is not rejected even though ${\mathrm{ H}}_0$ is false. The probability of type 2 error is
+		\begin{equation*}
+			\nonumber
+			P\left( {\mathrm{ H}}_0\text{ accept} \mid {\mathrm{ H}}_0\text{ is false} \right) = \beta 
+		\end{equation*}
+	\end{enumerate}
+	%
+	\par\bigskip
+	Usually, the type 1 error is specified, because one fears the risk of type 1 error more; typical values are $\alpha = 5\%$ and $\alpha = 1\%$. 
+	\par\smallskip
+	The type 2 error must then be computed from this specification (usually very complicated), because $\beta = 1 - \alpha$ does \textit{not} hold!
+	%
+\end{frame}
+
+%
+\subsubsection{Decision}
+
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Decision}
+	%
+	After the hypotheses ${\mathrm{ H}}_0$ and ${\mathrm{ H}}_1$ have been formulated, the distribution $F_{\Xi}(\xi)$ of a suitable \alert{test statistic $\Xi$} is derived under the \alert{condition that the null hypothesis is true}.
+	\par\medskip
+	Then \alert{disjoint acceptance and rejection regions} (usually intervals) are defined so that the \alert{type 1 error is at most $\alpha$}:
+	\begin{equation*}
+		\nonumber
+		P\left( \xi\in\text{reject region} \mid {\mathrm{ H}}_0\text{ is true} \right) = \alpha 
+	\end{equation*} 
+	The probability of a type 1 error, $\alpha$, is also called the \alert{significance level} of the test.
+	\par\medskip
+	Next, the \alert{concrete test statistic $\xi$} (as a realization of $\Xi$) is computed from the sample and checked to see whether it falls into the acceptance or rejection region. \alert{If it falls into the acceptance region, the null hypothesis ${\mathrm{ H}}_0$ is retained; otherwise, it is rejected in favor of ${\mathrm{ H}}_1$.} 
+	\par\bigskip
+	Even though the theoretical background of hypothesis tests is anything but trivial, their practical application is comparatively simple \smiley.
+	
+	\framebreak
+	
+	Acceptance and Rejection region for two-sided and one-sided hypothesis tests [Schira, Statistische Methoden der VWL und BWL, 2021]:
+	\par%\smallskip
+	\begin{center}
+		\includegraphics[height=0.65\textwidth]{Bilder/AcceptRejectRegion.png}
+	\end{center}
+	\footnotesize{\textbf{Legend:} two-sided test = zweiseitiger Test; upper-sided test = oberseitiger Test; lower-sided test = unterseitiger Test, acceptance region = Annahmebereich; rejection region = Verwerfungsbereich}
+	
+\end{frame}
+
+
+\subsection{Specific variants}
+
+\subsubsection{Two-sided test}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Two-sided test}
+	%
+	\begin{align*}
+		\text{\alert{Hypotheses:} }          & {\mathrm{ H}}_0: \theta = \theta_0 \quad\text{against}\quad {\mathrm{ H}}_1: \theta \neq \theta_0 \\
+		\text{\alert{Acceptance region:} }      & W_0 = [\xi_{\mathrm{ c,u}}, \xi_{\mathrm{ c,o}}] \\
+		\text{\alert{Rejection regions:} } & W_1 = (-\infty,\xi_{\mathrm{ c,u}}) \cup (\xi_{\mathrm{ c,o}}, \infty)
+	\end{align*}
+	The corresponding probabilities are
+	{\usebeamerfont{Gr07_00}
+		\begin{align*}
+			P\left(\Xi \in W_1 \right) &= \underbrace{P\left( \Xi < \xi_{\mathrm{ c,u}} \right)}_{\stackrel{!}{=} \alpha/2} + \underbrace{P\left( \Xi > \xi_{\mathrm{ c,o}} \right)}_{\stackrel{!}{=} \alpha/2} = \underbrace{F_{\Xi}(\xi_{\mathrm{ c,u}})}_{= \alpha/2} +  \underbrace{1 -F_{\Xi}(\xi_{\mathrm{ c,o}})}_{= \alpha/2} = \alpha \\
+			P\left(\Xi \in W_0 \right) &= P\left( \xi_{\mathrm{ c,u}} \leq \Xi \leq \xi_{\mathrm{ c,o}}  \right)  = F_{\Xi}(\xi_{\mathrm{ c,o}})  - F_{\Xi}(\xi_{\mathrm{ c,u}}) =1-\alpha
+		\end{align*}
+	}where the \alert{significance level $\alpha$} is split symmetrically. The values $\xi_{\mathrm{ c,u}}$ and $\xi_{\mathrm{ c,o}}$ are called the "`critical lower"' and "`critical upper"' values, respectively, and they follow from the \alert{$\alpha/2$ and $(1-\alpha/2)$ quantiles} of the distribution $F_{\Xi}(\xi)$ as
+	\begin{equation*}
+		\xi_{\mathrm{ c,u}} = \xi_{[\alpha/2]} \text{ and } \xi_{\mathrm{ c,o}} = \xi_{[1-\alpha/2]}
+	\end{equation*}
+	Decision rule:
+	\begin{equation*}
+		\xi < \xi_{[\alpha/2]} \text{ or } \xi > \xi_{[1-\alpha/2]} \quad \Longrightarrow\quad\text{reject ${\mathrm{ H}}_0$!}
+	\end{equation*}
+	Decision rule (\textit{symmetric} distribution $F_{\Xi}(\xi)$):
+	\begin{equation*}
+		\left| \xi \right|  > \xi_{[1-\alpha/2]} \quad \Longrightarrow\quad\text{reject ${\mathrm{ H}}_0$!}
+	\end{equation*}
+	
+\end{frame}
+
+\begin{frame}{Example: two-sided test}
+	
+	\textbf{Problem:} \\
+	In a student pub, beer glasses are supposed to contain $0.4\,l$. \\
+	A sample of size $n=50$ yields:
+	\begin{itemize}
+		\item Sample mean: $\bar{x} = 0.38\,l$
+		\item Sample variance: $s^2 = 0.0064\,l^2$
+	\end{itemize}
+%	$$\text{Sample mean:} \; \bar{x} = 0.38\,l;
+%	\quad \text{Sample variance:} \; s^2 = 0.0064\,l^2$$
+	
+	\vspace{0.5em}
+	
+	\textbf{Step 1: Hypotheses}
+	\[
+	{\mathrm{ H}}_0: \mu = 0.4\,l \quad \text{vs.} \quad {\mathrm{ H}}_1: \mu \neq 0.4\,l
+	\]
+	
+	\textbf{Step 2: Standard Deviation}
+	\[
+	\hat{\sigma}_{\bar{X}} = \sqrt{\tfrac{s^2}{n}} = \sqrt{\tfrac{0.0064\,l^2}{50}} \approx 0.01143\,l
+	\]
+	
+	\textbf{Step 3: Test Statistic}
+	\[
+	z = \frac{\bar{x} - \mu_0}{\hat{\sigma}_{\bar{X}}}
+	= \frac{0.38 - 0.4}{0.01143} \approx -1.75
+	\]
+	
+	\textbf{Step 4: Significance Level} ($\alpha = 0.05$) \textbf{\& Critical Value}
+	\[
+	z_{[1-0.025]} = z_{[0.975]} = 1.96
+	\]
+	
+	\textbf{Step 5: Decision}
+	\[
+	|z| = 1.75 < 1.96 \quad \Longrightarrow \quad \text{retain or do not reject } {\mathrm{ H}}_0
+	\]
+	
+	\vspace{0.5em}
+	\textbf{Conclusion:} \\
+	There is no significant evidence that the mean filling amount differs from $0.4\,l$.
+	
+\end{frame}
+
+
+\subsubsection{Upper-sided test}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Upper-sided test}
+	\begin{align*}
+		\text{\alert{Hypotheses:} }         & {\mathrm{ H}}_0: \theta \leq \theta_0 \quad\text{against}\quad {\mathrm{ H}}_1: \theta > \theta_0 \\
+		\text{\alert{Acceptance region:} }     & W_0 = (-\infty, \xi_{\mathrm{ c}}] \\
+		\text{\alert{Rejection region:} } & W_1 = (\xi_{\mathrm{ c}}, \infty) 
+	\end{align*}
+	The corresponding probabilities are
+	\begin{align*}
+		P\left(\Xi \in W_1 \right) &= \underbrace{P\left( \Xi > \xi_{\mathrm{ c}} \right)}_{\stackrel{!}{=} \alpha} = \underbrace{1 -F_{\Xi}(\xi_{\mathrm{ c}})}_{= \alpha} = \alpha \\
+		P\left(\Xi \in W_0 \right) &= P\left( \Xi \leq \xi_{\mathrm{ c}}  \right) =  F_{\Xi}(\xi_{\mathrm{ c}})  =1-\alpha
+	\end{align*}
+	where the \alert{significance level $\alpha$} is placed on the \textit{right} (= upper) side. The value $\xi_{\mathrm{ c}}$ is called the "`critical"' value, and it follows from the \alert{$(1-\alpha)$ quantile} of the distribution $F_{\Xi}(\xi)$ as
+	\begin{equation*}
+		\xi_{\mathrm{ c}} = \xi_{[1-\alpha]}
+	\end{equation*}
+	Decision rule:
+	\begin{equation*}
+		\xi > \xi_{[1-\alpha]} \quad \Longrightarrow\quad\text{reject ${\mathrm{ H}}_0$!}
+	\end{equation*}
+\end{frame}
+
+\begin{frame}{Example: upper-sided test}
+	
+	\textbf{Problem:} \\
+	A large trucking company pays the traffic fines its $5360$ drivers on German highways and has allocated a budget of $1000$\,\euro\,per driver/year. A random sample of $n=50$ drivers reveals that the average cost per driver last year was $\bar{x} = 1020$\,\euro. Based on many years of experience, the standard deviation has remained fairly constant at $\sigma = 60$\,\euro.
+	
+	\vspace{0.5em}
+	
+	\textbf{Step 1: Hypotheses}
+	\[
+	{\mathrm{ H}}_0: \mu \leq 1000\,\text{\euro} \quad \text{vs.} \quad {\mathrm{ H}}_1: \mu > 1000\,\text{\euro}
+	\]
+	
+	\textbf{Step 2: Standard Deviation}
+	\[
+	\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \frac{60\,\text{\euro}}{\sqrt{50}} \approx 8.485\,\text{\euro}
+	\]
+	
+	\textbf{Step 3: Test Statistic}
+	\[
+	z = \frac{\bar{x} - \mu_0}{\sigma_{\bar{X}}}
+	= \frac{1020\,\text{\euro} - 1000\,\text{\euro}}{8.49\,\text{\euro}} \approx 2.3571
+	\]
+	
+	\textbf{Step 4: Significance Level} ($\alpha = 0.05$) \textbf{\& Critical Value}
+	\[
+	z_{[1-0.05]} = z_{[0.95]} = 1.645
+	\]
+	
+	\textbf{Step 5: Decision}
+	\[
+	z = 2.3571 > 1.645 \quad\Longrightarrow\quad \text{reject } {\mathrm{ H}}_0
+	\]
+	
+	\vspace{0.5em}
+	
+	\textbf{Conclusion:} \\
+	The average cost per driver is significantly above $1000\,\text{\euro}$.
+	
+\end{frame}
+
+
+\subsubsection{Lower-sided test}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Lower-sided test}
+	\begin{align*}
+		\text{\alert{Hypotheses:} }         & {\mathrm{ H}}_0: \theta \geq \theta_0 \quad\text{against}\quad {\mathrm{ H}}_1: \theta < \theta_0 \\
+		\text{\alert{Acceptance region:} }     & W_0 = [\xi_{\mathrm{ c}}, \infty) \\
+		\text{\alert{Rejection region:} } & W_1 = (-\infty, \xi_{\mathrm{ c}})
+	\end{align*}
+	The corresponding probabilities are
+	\begin{align*}
+		P\left(\Xi \in W_1 \right) &= \underbrace{P\left( \Xi \leq \xi_{\mathrm{ c}} \right)}_{\stackrel{!}{=} \alpha} = \underbrace{F_{\Xi}(\xi_{\mathrm{ c}})}_{= \alpha} = \alpha \\
+		\nonumber
+		P\left(\Xi \in W_0 \right) &= P\left( \Xi > \xi_{\mathrm{ c}}  \right)  =  1-F_{\Xi}(\xi_{\mathrm{ c}})  =1-\alpha
+	\end{align*}
+	where the \alert{significance level $\alpha$} is placed on the \textit{left} (= lower) side. The value $\xi_{\mathrm{ c}}$ is called the "`critical"' value, and it follows from the \alert{$\alpha$ quantile} of the distribution $F_{\Xi}(\xi)$ as
+	\begin{equation*}
+		\xi_{\mathrm{ c}} = \xi_{[\alpha]}
+	\end{equation*}
+	Decision rule:
+	\begin{equation*}
+		\xi < \xi_{[\alpha]} \quad \Longrightarrow\quad\text{reject ${\mathrm{ H}}_0$!}
+	\end{equation*}
+\end{frame}
+
+\begin{frame}{Example: lower-sided test}
+	
+	\textbf{Problem:} \\
+	In the previous example w.r.t.\,beer glasses, a \emph{one-sided test} would be more appropriate, since no one is going to complain if there is too much beer in the glass. 
+	The	null hypothesis would therefore need to be modified.
+	
+	\vspace{0.5em}
+	
+	\textbf{Step 1: Hypotheses}
+	\[
+	{\mathrm{ H}}_0: \mu \geq 0.4\,l \quad \text{vs.} \quad {\mathrm{ H}}_1: \mu < 0.4\,l
+	\]
+	
+	\textbf{Step 2: Standard Deviation}
+	\[
+	\hat{\sigma}_{\bar{X}} = \sqrt{\tfrac{s^2}{n}} = \sqrt{\tfrac{0.0064\,l^2}{50}} \approx 0.01143\,l
+	\]
+	
+	\textbf{Step 3: Test Statistic}
+	\[
+	z = \frac{0.38 - 0.4}{0.01143} \approx -1.75
+	\]
+	
+	\textbf{Step 4: Significance Level} ($\alpha = 0.05$) \textbf{\& Critical Value}
+	\[
+	z_{[0.05]} = -1.645
+	\]
+	
+	\textbf{Step 5: Decision}
+	\[
+	z < -1.645 \quad\Longrightarrow\quad\text{reject } {\mathrm{ H}}_0
+	\]
+	
+	\vspace{0.5em}
+	
+	\textbf{Conclusion:} \\
+	Evidence that the mean filling is \textbf{below} $0.4\,l$.
+	
+\end{frame}
+
+
+\subsubsection{Test for equality}
+%
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Test for equality}
+	The known principle for two-sided and one-sided testing a parameter $\theta$ can directly be transferred:
+	\par\bigskip
+	Two different, independently drawn samples with sizes $n_1$ and $n_2$ are considered. The \textbf{test for equality} checks whether the two populations have the same numerical value of a certain distribution parameter.
+	\par\bigskip
+	\alert{Two-sided questions} test whether the two parameters in question, $\theta_1$ and $\theta_2$, are equal:
+	%
+	\begin{equation*}
+		\label{eq:15-1a}
+		{\mathrm{ H}}_0: \theta_1 = \theta_2 \qquad\text{against}\qquad {\mathrm{ H}}_1: \theta_1 \neq \theta_2 \quad\text{"`two-sided test"'}
+	\end{equation*}
+	%
+	\alert{One-sided questions} test whether the parameter in question $\theta_1$ is smaller or greater than $\theta_2$. The possible hypotheses are
+	\begin{eqnarray*}
+		\label{eq:15-1b}
+		{\mathrm{ H}}_0: \theta_1 \leq \theta_2 &\quad\text{against}\quad& {\mathrm{ H}}_1: \theta_1 > \theta_2 \quad\text{"`upper-tailed test"'}\\
+		\label{eq:15-1c}
+		{\mathrm{ H}}_0: \theta_1 \geq \theta_2 &\quad\text{against}\quad& {\mathrm{ H}}_1: \theta_1 < \theta_2 \quad\text{"`lower-tailed test"'}
+	\end{eqnarray*} 
+	%\par\smallskip
+	Strictly speaking, ${\mathrm{ H}}_0: \theta_1 = \theta_2$, since $\theta_1 = \theta_2$ is assumed for the test distribution; therefore, $\alpha$ may also be smaller (conservative estimate).
+	\par\bigskip
+	The procedure for making the decision is analogous to the known principle for testing a parameter $\theta$.
+	%
+\end{frame}
+
+\begin{frame}{Example: test for equality}
+	
+	\textbf{Problem:} \\
+	Lamps from two companies $X$ and $Y$ are being tested for their lifetime.\\
+	Samples are drawn with $n_X = 64$, $\bar{x} = 1512\,\text{h}$, $s_X = 12\,\text{h}$ and $n_Y = 58$, $\bar{y} = 1504\,\text{h}$, $s_Y = 15\,\text{h}$.
+%	\[
+%	n_X = 64,\; \bar{x} = 1512\,\text{h},\; s_X = 12\,\text{h} 
+%	\quad \text{and} \quad
+%	n_Y = 58,\; \bar{y} = 1504\,\text{h},\; s_Y = 15\,\text{h}
+%	\]	
+	May one conclude that company $X$ supplies lamps with a longer lifetime?
+	
+	\vspace{0.5em}
+	
+	\textbf{Step 1: Hypotheses}
+	\[
+	{\mathrm{ H}}_0: \mu_X \leq \mu_Y \quad \text{vs.} \quad {\mathrm{ H}}_1: \mu_X > \mu_Y
+	\]
+	
+	\textbf{Step 2: Standard Deviation}
+	\[
+	\hat{\sigma}_{\Delta} = \sqrt{
+		\frac{n_X\cdot s_X^2 + n_Y\cdot s_Y^2}{n_X+n_Y-2}}
+		\cdot \sqrt{\frac{n_X+n_Y}{n_X \cdot n_Y}
+	}
+	\approx 2.47
+	\]
+	
+	\textbf{Step 3: Test Statistic}
+	\[
+	t = \frac{\bar{x} - \bar{y}}{\hat{\sigma}_{\Delta}}
+	= \frac{1512 - 1504}{2.47} \approx 3.24
+	\]
+	
+	\textbf{Step 4: Significance Level} ($\alpha=0.025$) \textbf{\& Critical Value}
+	\[
+	t_{n_X+n_Y-2,[1-\alpha]} = t_{120,\,0.975} \approx 1.98 \quad\text{(\emph{Student-t-distribution})}
+	\]
+	
+	\textbf{Step 5: Decision}
+	\[
+	t = 3.24 > 1.98 \quad\Longrightarrow\quad \text{reject } {\mathrm{ H}}_0
+	\]
+	
+	\vspace{0.5em}
+	
+	\textbf{Conclusion:} \\
+	Company $X$ produces lamps with significantly longer lifetimes.
+	
+\end{frame}
+
+
+\subsection{Summary}
+\begin{frame}%[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{Summary \& illustration}
+	%
+	\begin{figure}% trim=left bottom right top, clip
+		\includegraphics[trim=1.2cm 0cm 0cm 0cm, keepaspectratio, width=1.0\linewidth]{Bilder/Hypothesen_cm_embed.pdf}%
+	\end{figure}
+	%
+	\par\smallskip
+	The formal procedure for carrying out a hypothesis test always consists of the following steps:
+	\begin{enumerate}
+		\item Formulate the hypotheses ${\mathrm{ H}}_0$ and ${\mathrm{ H}}_1$
+		\item From the sample: compute
+		\begin{enumerate}
+			\item[a)] required values (based on point estimates)
+			\item[b)] test statistic $\xi$
+		\end{enumerate}
+		\item Specify $\alpha$ and determine the critical value(s) (quantile(s) of the test distribution $F_{\Xi}(\xi)$)
+		\item Make the test decision by comparing the critical value(s) and the test statistic $\xi$
+	\end{enumerate}
+\end{frame}
+
+
+\subsection{$P$-value \& significance}
+\begin{frame}[allowframebreaks,allowdisplaybreaks]
+	\frametitle<presentation>{$P$-value \& significance}
+	%
+	\begin{itemize}
+		\item[\ding{43}] So far: Specification of $\alpha$ and no consideration of the distance between the computed test statistic $\xi$ and the critical value relevant for the test decision, which is defined by $\alpha$.
+		\item[\ding{45}] Now: Specification of the probability \alert{$\tilde{\alpha}$} with which the computed test statistic $\xi$, under a true null hypothesis, would lie exactly on the boundary(ies) between acceptance and rejection region(s): \alert{$P$-value}. The smaller this value, the more \alert{significant} the rejection of the null hypothesis is, i.e. the more willing one is to accept the alternative hypothesis.
+	\end{itemize}
+	%
+	\par\bigskip
+	\begin{alertblock}{Definition of $\tilde{\alpha}$ ($P$-value)}
+		\begin{itemize}
+			\item Upper-sided test:
+			\begin{equation*}
+				\tilde{\alpha} = P(\Xi \geq \xi) = 1-F_{\Xi}(\xi)
+			\end{equation*}
+			\item Lower-sided test:
+			\begin{equation*}
+				\tilde{\alpha} = P(\Xi \leq \xi)  = F_{\Xi}(\xi) 
+			\end{equation*}
+			\item Two-sided test:
+			\begin{equation*}
+				\tilde{\alpha} = 2 \cdot \min \left\{ P(\Xi \leq \xi), P(\Xi \geq \xi)\right\}
+			\end{equation*}
+		\end{itemize}
+	\end{alertblock}
+	%
+	\newpage
+	Examples:
+	%
+	\begin{table}%
+		\begin{tabular}{l||c|c|c|c||c|c} \hline
+			Type & $F_{\Xi}(\xi)$ & $\alpha$ & $\xi_{\mathrm{c,u}}$ & $\xi_{\mathrm{c,o}}$ & $\xi$ & $\tilde{\alpha} = P$-value\\ \hline
+			\hline
+			two-sided & SND & $0{,}05$ & $-1{,}960$ & $1{,}96$ & $0{,}00$ & $1{,}000$ \\ \hline
+			two-sided & SND & $0{,}05$ & $-1{,}960$ & $1{,}96$ & $0{,}05$ & $0{,}960$ \\ \hline
+			two-sided & SND & $0{,}05$ & $-1{,}960$ & $1{,}96$ & $1{,}00$ & $0{,}317$ \\ \hline
+			two-sided & SND & $0{,}05$ & $-1{,}960$ & $1{,}96$ & $1{,}96$ & $0{,}050$ \\ \hline
+			two-sided & SND & $0{,}05$ & $-1{,}960$ & $1{,}96$ & $3{,}00$ & $0{,}003$ \\ \hline
+			\hline
+			lower-sided & SND & $0{,}05$ & $-1{,}645$ & --- & $3{,}00$ & $0{,}999$ \\ \hline
+			lower-sided & SND & $0{,}05$ & $-1{,}645$ & --- & $0{,}00$ & $0{,}500$ \\ \hline
+			lower-sided & SND & $0{,}05$ & $-1{,}645$ & --- & $-1{,}00$ & $0{,}159$ \\ \hline
+			lower-sided & SND & $0{,}05$ & $-1{,}645$ & --- & $-1{,}64$ & $0{,}050$ \\ \hline
+			lower-sided & SND & $0{,}05$ & $-1{,}645$ & --- & $-3{,}00$ & $0{,}001$ \\ \hline
+			\hline
+			upper-sided & $\chi^2_{29}$ & $0{,}10$ & --- & $39{,}1$ & $5{,}00$ & $0{,}999$ \\ \hline
+			upper-sided & $\chi^2_{29}$ & $0{,}10$ & --- & $39{,}1$ & $30{,}00$ & $0{,}414$ \\ \hline
+			upper-sided & $\chi^2_{29}$ & $0{,}10$ & --- & $39{,}1$ & $39{,}00$ & $0{,}102$ \\ \hline
+			upper-sided & $\chi^2_{29}$ & $0{,}10$ & --- & $39{,}1$ & $39{,}10$ & $0{,}100$ \\ \hline
+			upper-sided & $\chi^2_{29}$ & $0{,}10$ & --- & $39{,}1$ & $50{,}00$ & $0{,}009$ \\ \hline
+		\end{tabular}
+	\end{table}
+	\par\smallskip
+	Usually, $\alpha$ is specified before the test, and the null hypothesis is then rejected if $\tilde{\alpha}$ is less than or equal to $\alpha$. The smaller $\tilde{\alpha}$ is compared to $\alpha$, the more \alert{significant} the rejection of ${\mathrm{ H}}_0$ is!
+	%
+\end{frame}
+
+\end{document}
+
+
+
